@@ -1,3 +1,67 @@
+<script setup lang="ts">
+import { Form, Field } from 'vee-validate';
+import * as Yup from 'yup';
+
+import { useAuthStore } from '@/stores/Auth.store.js';
+
+const schema = Yup.object().shape({
+    username: Yup.string().required('Username is required'),
+    password: Yup.string().required('Password is required'),
+    retypePassword: Yup.string()
+        .required('Please retype your password.')
+        .oneOf([Yup.ref('password')], 'Your passwords do not match.'),
+});
+
+async function onSubmit(values: any) {
+    const authStore = useAuthStore();
+    const { username, password } = values;
+    await authStore.login(username, password);
+}
+</script>
+
 <template>
-    <div class="">register</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="card">
+                    <h4 class="card-header">Register</h4>
+                    <div class="card-body">
+                        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <Field name="username" type="text" class="form-control"
+                                    :class="{ 'is-invalid': errors.username }" />
+                                <div class="invalid-feedback">{{ errors.username }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <Field name="password" type="password" class="form-control"
+                                    :class="{ 'is-invalid': errors.password }" />
+                                <div class="invalid-feedback">{{ errors.password }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Retype password</label>
+                                <Field name="retypePassword" type="password" class="form-control"
+                                    :class="{ 'is-invalid': errors.retypePassword }" />
+                                <div class="invalid-feedback">{{ errors.retypePassword }}</div>
+                            </div>
+                            <div class="form-group my-3 d-flex flex-column align-items-center">
+                                <button class="btn btn-primary" :disabled="isSubmitting">
+                                    <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+                                    Register
+                                </button>
+                                <router-link to="login" class="btn btn-link">Login</router-link>
+                            </div>
+                        </Form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
+
+<style scoped lang="scss">
+.btn{
+    width: 100%;
+}
+</style>
