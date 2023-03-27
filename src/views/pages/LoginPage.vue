@@ -5,14 +5,14 @@ import * as Yup from 'yup';
 import { useAuthStore } from '@/stores/Auth.store.js';
 
 const schema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
+    email: Yup.string().required('Email is required'),
     password: Yup.string().required('Password is required')
 });
 
 async function onSubmit(values: any) {
     const authStore = useAuthStore();
-    const { username, password } = values;
-    await authStore.login(username, password);
+    const { email, password } = values;
+    await authStore.login(email, password);
 }
 </script>
 
@@ -25,10 +25,10 @@ async function onSubmit(values: any) {
                     <div class="card-body">
                         <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
                             <div class="form-group">
-                                <label>Username</label>
-                                <Field name="username" type="text" class="form-control"
-                                    :class="{ 'is-invalid': errors.username }" />
-                                <div class="invalid-feedback">{{ errors.username }}</div>
+                                <label>Email</label>
+                                <Field name="email" type="text" class="form-control"
+                                    :class="{ 'is-invalid': errors.email }" />
+                                <div class="invalid-feedback">{{ errors.email }}</div>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>

@@ -2,29 +2,30 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useAlertStore } from "./Alert.store";
 import router from "@/router";
+import httpService from "@/services/http.service";
 
-export const useAuthStore = defineStore('auth', ()=> {
+export const useAuthStore = defineStore('auth', () => {
     const user = ref<object | null>();
     const returnUrl = ref<string | null>();
-    user.value = null;
+    // user.value = JSON.parse(localStorage.getItem('user'));
+    user.value = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user') as string) : null;
     returnUrl.value = null;
 
-    function login(username: string, password: string){
+    async function login(email: string, password: string) {
         try {
-            if(username == 'admin' && password == 'admin'){
-                user.value = {
-                    username,
-                    accesstoken: 'accesstoken-phungnhuy'
-                };
+            const response = await httpService.post('/auth/login', { email, password });
+            const responseData = response.data;
+            const {data, status} = responseData;
+            const currentUser = data.user;
+            console.log(currentUser);
+            
+            // update pinia state
+            user.value = currentUser;
 
-                // store user details and jwt in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
+            // store user details and jwt in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(currentUser));
 
-                // redirect to previous url or default to home page
-                router.push(returnUrl.value || '/');
-            }else{
-                throw new Error('Username or password is incorrect')
-            }
+            router.push(returnUrl.value || '/');
         } catch (error) {
             const alertStore = useAlertStore();
             alertStore.error(error);
@@ -34,10 +35,10 @@ export const useAuthStore = defineStore('auth', ()=> {
     function logout() {
         user.value = null;
         localStorage.removeItem('user');
-        router.push('/account/login');
+        router.push('/');
     }
 
-    return{
+    return {
         user,
         returnUrl,
         login,
