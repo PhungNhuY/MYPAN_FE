@@ -27,6 +27,8 @@ export const useAuthStore = defineStore('auth', () => {
 
             router.push(returnUrl.value || '/');
         } catch (error) {
+            console.log(error);
+            
             const alertStore = useAlertStore();
             alertStore.error(error);
         }
@@ -39,7 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
     function logout() {
         user.value = null;
         localStorage.removeItem('user');
-        router.push('/');
+        router.push('/auth/login');
     }
 
     return {
