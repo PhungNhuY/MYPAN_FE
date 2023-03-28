@@ -5,9 +5,11 @@ export const useAlertStore = defineStore('alert', () => {
     alert.value = null;
     function success(message: any){
         alert.value = {message, type: 'alert-success'};
+        setTimeout(clear, 5000);
     }
     function error(message: any){
         alert.value = {message, type: 'alert-danger'};
+        setTimeout(clear, 5000);
     }
     function clear(){
         alert.value = null;

@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', () => {
             console.log(error);
             
             const alertStore = useAlertStore();
-            alertStore.error(error);
+            alertStore.error('login fail: '+ error.response.data.message[0]);
         }
     }
 
