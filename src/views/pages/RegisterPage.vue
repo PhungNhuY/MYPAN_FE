@@ -3,19 +3,20 @@ import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
 
 import { useAuthStore } from '@/stores/Auth.store.js';
+import { useAlertStore } from '@/stores/Alert.store';
 
 const schema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required'),
-    retypePassword: Yup.string()
+    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+    password: Yup.string().max(255).required('Password is required'),
+    retypePassword: Yup.string().max(255)
         .required('Please retype your password.')
         .oneOf([Yup.ref('password')], 'Your passwords do not match.'),
 });
 
-async function onSubmit(values: any) {
+async function callRegister(values: any) {
     const authStore = useAuthStore();
-    const { username, password } = values;
-    await authStore.login(username, password);
+    const { email, password } = values;
+    await authStore.register(email, password);
 }
 </script>
 
@@ -26,12 +27,12 @@ async function onSubmit(values: any) {
                 <div class="card">
                     <h4 class="card-header">Register</h4>
                     <div class="card-body">
-                        <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+                        <Form @submit="callRegister" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
                             <div class="form-group">
-                                <label>Username</label>
-                                <Field name="username" type="text" class="form-control"
-                                    :class="{ 'is-invalid': errors.username }" />
-                                <div class="invalid-feedback">{{ errors.username }}</div>
+                                <label>email</label>
+                                <Field name="email" type="text" class="form-control"
+                                    :class="{ 'is-invalid': errors.email }" />
+                                <div class="invalid-feedback">{{ errors.email }}</div>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>

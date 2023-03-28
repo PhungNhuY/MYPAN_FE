@@ -32,6 +32,10 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    async function register(email: string, password: string){
+
+    }
+
     function logout() {
         user.value = null;
         localStorage.removeItem('user');
@@ -42,6 +46,7 @@ export const useAuthStore = defineStore('auth', () => {
         user,
         returnUrl,
         login,
+        register,
         logout
     }
 });
