@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useAlertStore } from "./Alert.store";
 import router from "@/router";
 import httpService from "@/services/http.service";
+import { showErrorNotificationFunction } from "@/common/helper";
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<object | null>();
@@ -31,6 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
             
             const alertStore = useAlertStore();
             alertStore.error('login fail: '+ error.response.data.message[0]);
+            showErrorNotificationFunction('login fail: ');
         }
     }
 

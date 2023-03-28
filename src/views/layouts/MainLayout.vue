@@ -7,7 +7,7 @@ import HeaderCpn from '@/components/HeaderCpn.vue';
 
 <template>
     <HeaderCpn/>
-    <AlertCpn />
+    <!-- <AlertCpn /> -->
     <RouterView />
     <FooterCpn/>
 </template>
