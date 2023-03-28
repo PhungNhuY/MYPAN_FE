@@ -46,7 +46,7 @@ const close = () => {
         :style="`--toast-duration: ${duration}s`"
         @click.prevent="close"
     >
-        <v-alert :type="type || 'info'" density="compact" icon="mdi-firework">
+        <v-alert :type="type || 'info'" density="compact">
             <v-alert-title>{{ title || '' }}</v-alert-title>
             {{ message }}
         </v-alert>
