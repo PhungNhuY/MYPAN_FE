@@ -1,5 +1,5 @@
 import type { IUser } from '@/common/interfaces';
-import { storage } from './storage.service';
+import { storage } from './localStorage.service';
 import { isStringify } from '@/common/helper';
 
 export const enum AUTH_SERVICE_KEY {

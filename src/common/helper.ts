@@ -1,4 +1,4 @@
-import { ToastType, useToasts } from '@/components/toast/store';
+import { ToastType, useToasts } from '@/stores/toast.store';
 
 export function showErrorNotificationFunction(message: string, title?: string): void {
     if (!message) return;

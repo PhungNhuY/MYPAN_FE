@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ToastItem from './ToastItem.vue';
-import { useToasts } from './store';
+import { useToasts } from '@/stores/toast.store';
 
 const { toasts, removeToast } = useToasts();
 </script>

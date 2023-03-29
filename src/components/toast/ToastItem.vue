@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { ToastType } from './store';
+import { ToastType } from '@/stores/toast.store';
 
 interface Props {
     id: string;

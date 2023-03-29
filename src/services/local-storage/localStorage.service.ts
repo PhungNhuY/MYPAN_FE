@@ -10,7 +10,7 @@ export class LocalStorageService{
 
     setToLocalStorage(key: string, value: string): void {
         if(!localStorage){
-            console.error('local storage service: local storage not exist!');
+            console.error("don't have localStorage");
             return;
         }
         localStorage.setItem(key, value);
