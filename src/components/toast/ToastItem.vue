@@ -30,7 +30,7 @@ const delay = ref<number>(0);
 onMounted(() => {
     if (props.isAutoClose) {
         startedAt.value = Date.now();
-        delay.value = props.duration * 100000;
+        delay.value = props.duration * 1000;
         timer.value = window.setTimeout(close, delay.value);
     }
 });
