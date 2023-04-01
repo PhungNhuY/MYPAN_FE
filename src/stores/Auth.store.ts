@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import router from "@/router";
-import httpService from "@/services/http.service";
+import httpService from "@/services/http/http.service";
 import { showErrorNotificationFunction, showSuccessNotificationFunction } from "@/common/helper";
 import authStorageService from "@/services/local-storage/authStorage.service";
 import type { IUser } from "@/common/interfaces";
