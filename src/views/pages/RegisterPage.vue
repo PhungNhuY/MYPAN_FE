@@ -3,11 +3,10 @@ import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
 
 import { useAuthStore } from '@/stores/Auth.store.js';
-import { useAlertStore } from '@/stores/Alert.store';
 
 const schema = Yup.object().shape({
     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-    password: Yup.string().max(255).required('Password is required'),
+    password: Yup.string().min(8).max(255).required('Password is required'),
     retypePassword: Yup.string().max(255)
         .required('Please retype your password.')
         .oneOf([Yup.ref('password')], 'Your passwords do not match.'),
