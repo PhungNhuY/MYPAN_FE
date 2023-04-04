@@ -6,6 +6,8 @@ import HeaderCpn from '@/components/layout/HeaderCpn.vue';
 
 <template>
     <HeaderCpn/>
-    <RouterView />
+    <Suspense>
+        <RouterView />
+    </Suspense>
     <FooterCpn/>
 </template>
