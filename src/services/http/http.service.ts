@@ -1,4 +1,5 @@
 import { showErrorNotificationFunction } from '@/common/helper';
+import router from '@/router';
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 
 export default axios.create({
@@ -22,9 +23,14 @@ export async function callApi(callback: Promise<AxiosResponse<any, any>>){
         response = buildSuccessResponse(theResponse.data.data);
     } catch (error) {
         const err = error as AxiosError
+        console.log(error);
         if(err.code == 'ERR_NETWORK'){
             response = buildNetErrorResponse();
             showErrorNotificationFunction('Network error, try again!');
+        }else if(err.response?.status == 401 || err.response?.status == 403){
+            console.log('here');
+            router.push('/auth/login');
+            response = buildErrorResponse(err.response?.data)
         }else{
             response = buildErrorResponse(err.response?.data)
         }

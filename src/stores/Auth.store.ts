@@ -19,11 +19,17 @@ export const useAuthStore = defineStore('auth', () => {
             // save user to local storage
             authStorageService.setLoginUser(currentUser as IUser);
 
+            // save token
+            authStorageService.setAccessToken(response.data?.accesstoken);
+            authStorageService.setRefreshToken(response.data?.refreshtoken);
+
             // update pinia state
             user.value = authStorageService.getLoginUser();
 
             router.push(returnUrl.value || '/');
             showSuccessNotificationFunction('Hi: ' + currentUser.email);
+            // reset return url
+            returnUrl.value = '/';
         } else if (response.status == 'error') {
             showErrorNotificationFunction('login fail: ' + response.message[0]);
         }
