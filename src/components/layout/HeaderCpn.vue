@@ -15,7 +15,7 @@ function searchAction() {
     <nav class="navbar navbar-expand-md navbar-light bg-light">
         <div class="container-fluid">
             <router-link to="/" class="navbar-brand">
-                <img class="logo" src="@/assets/images/cooking.png" alt="" srcset="" width="30" height="30">
+                <img class="logo" src="@/assets/images/logo_256.png" alt="" srcset="" width="45" height="45">
             </router-link>
 
             <form class="d-flex" @submit.prevent="searchAction">
@@ -49,6 +49,10 @@ function searchAction() {
 .logo {
     // width: 30px;
     // height: 30px;
+}
+
+.navbar{
+    padding: 0px;
 }
 
 .navbar-collapse{
