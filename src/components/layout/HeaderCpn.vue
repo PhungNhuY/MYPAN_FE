@@ -12,50 +12,17 @@ function searchAction() {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <div class="container-fluid">
-            <router-link to="/" class="navbar-brand">
-                <img class="logo" src="@/assets/images/logo_256.png" alt="" srcset="" width="45" height="45">
-            </router-link>
-
-            <form class="d-flex" @submit.prevent="searchAction">
-                <input v-model="searchData" class="form-control me-2" type="search" placeholder="Search"
-                    aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item" v-show="authStore.user?.email">
-                        <router-link to="/getMe" class="nav-item nav-link">GetMe</router-link>
-                    </li>
-                    <li class="nav-item" v-show="authStore.user?.email">
-                        <button @click="authStore.logout()" class="btn btn-link nav-item nav-link">Logout</button>
-                    </li>
-                    <li class="nav-item" v-show="!authStore.user?.email">
-                        <router-link to="/auth/login" class="nav-link" href="#">Login</router-link>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <ul class="">
+        <li class="" v-show="authStore.user?.email">
+            <router-link to="/getMe" class="">GetMe</router-link>
+        </li>
+        <li class="" v-show="authStore.user?.email">
+            <button @click="authStore.logout()" class="">Logout</button>
+        </li>
+        <li class="" v-show="!authStore.user?.email">
+            <router-link to="/auth/login" class="" href="#">Login</router-link>
+        </li>
+    </ul>
 </template>
 
-<style lang="scss" scoped>
-.logo {
-    // width: 30px;
-    // height: 30px;
-}
-
-.navbar{
-    padding: 0px;
-}
-
-.navbar-collapse{
-    flex-grow: unset;
-}
-</style>
+<style lang="scss" scoped></style>
