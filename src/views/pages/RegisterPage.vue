@@ -20,7 +20,7 @@ async function callRegister(values: any) {
 </script>
 
 <template>
-    <div class="container">
+    <div class="container wrapper">
         <div class="row">
             <div class="col-6 offset-3">
                 <div class="card">

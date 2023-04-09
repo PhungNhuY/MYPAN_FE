@@ -46,7 +46,7 @@ onClickOutside(target, () => isShowMenu.value = false);
             </ul>
         </div>
     </div>
-    
+    <div class="the-block"></div>
 </template>
 
 <style lang="scss" scoped>
@@ -60,6 +60,9 @@ p {
     padding-top: 8px;
     padding-bottom: 8px;
     border-bottom: 1px solid #DCDCDC;
+    position: fixed;
+    z-index: 2;
+    background-color: #ffffff;
 }
 
 .logo {
@@ -158,5 +161,9 @@ p {
             }
         }
     }   
+}
+
+.the-block{
+    height: 80px;
 }
 </style>
