@@ -30,8 +30,7 @@ onClickOutside(target, () => isShowMenu.value = false);
         <div class="menu" @click="isShowMenu = !isShowMenu">
             <img src="@/assets/icons/burger-bar.png" alt="" srcset="" class="menu-icon">
             <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'" ref="target">
-                <!-- <li class="profile" v-show="authStore.user?.email"> -->
-                <li class="profile">
+                <li class="profile" v-show="authStore.user?.email">
                     <img src="@/assets/images/default-avatar.jpg" alt="" srcset="">
                     <router-link class="username" to="/getMe">user name</router-link>
                 </li>
