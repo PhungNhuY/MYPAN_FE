@@ -4,6 +4,28 @@ import ToastProvider from '@/components/toast/ToastProvider.vue';
 </script>
 
 <template>
-  <ToastProvider />
-  <RouterView />
+  <div class="wrapper">
+    <ToastProvider />
+    <RouterView />
+  </div>
 </template>
+
+<style scoped>
+.wrapper{
+  min-height: 100vh;
+  position: relative;
+}
+.wrapper:after{
+  content : "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('./assets/images/background.jpg'); 
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    opacity : 0.1;
+    z-index: -1;
+}
+</style>

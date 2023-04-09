@@ -20,8 +20,8 @@ async function callLogin(values: any) {
     <div class="container wrapper">
         <div class="row">
             <div class="col-6 offset-3">
+                <h4 class="header">Đăng nhập</h4>
                 <div class="card">
-                    <h4 class="card-header">Login</h4>
                     <div class="card-body">
                         <Form @submit="callLogin" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
                             <div class="form-group">
@@ -30,18 +30,18 @@ async function callLogin(values: any) {
                                     :class="{ 'is-invalid': errors.email }" />
                                 <div class="invalid-feedback">{{ errors.email }}</div>
                             </div>
-                            <div class="form-group">
-                                <label>Password</label>
+                            <div class="form-group py-4">
+                                <label>Mật khẩu</label>
                                 <Field name="password" type="password" class="form-control"
                                     :class="{ 'is-invalid': errors.password }" />
                                 <div class="invalid-feedback">{{ errors.password }}</div>
                             </div>
-                            <div class="form-group my-3 d-flex flex-column align-items-center">
-                                <button class="btn btn-primary" :disabled="isSubmitting">
+                            <div class="form-group my-2 d-flex flex-column align-items-center">
+                                <button class="btn btn-login" :disabled="isSubmitting">
                                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-                                    Login
+                                    Đăng nhập
                                 </button>
-                                <router-link to="register" class="btn btn-link">Register</router-link>
+                                <router-link to="register" class="btn btn-register">Đăng ký</router-link>
                             </div>
                         </Form>
                     </div>
@@ -54,5 +54,23 @@ async function callLogin(values: any) {
 <style scoped lang="scss">
 .btn{
     width: 100%;
+}
+
+.header{
+    text-align: center;
+    font-size: 40px;
+}
+
+.form-control:focus{
+    box-shadow: none;
+}
+
+.btn-login{
+    background-color: #ff9933;
+    color: white;
+    font-size: 20px;
+}
+.btn-register{
+    color: #9933ff;
 }
 </style>

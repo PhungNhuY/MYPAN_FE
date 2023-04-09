@@ -23,18 +23,18 @@ async function callRegister(values: any) {
     <div class="container wrapper">
         <div class="row">
             <div class="col-6 offset-3">
+                <h4 class="header">Đăng ký</h4>
                 <div class="card">
-                    <h4 class="card-header">Register</h4>
                     <div class="card-body">
                         <Form @submit="callRegister" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
                             <div class="form-group">
-                                <label>email</label>
+                                <label>Email</label>
                                 <Field name="email" type="text" class="form-control"
                                     :class="{ 'is-invalid': errors.email }" />
                                 <div class="invalid-feedback">{{ errors.email }}</div>
                             </div>
-                            <div class="form-group">
-                                <label>Password</label>
+                            <div class="form-group py-4">
+                                <label>Mật khẩu</label>
                                 <Field name="password" type="password" class="form-control"
                                     :class="{ 'is-invalid': errors.password }" />
                                 <div class="invalid-feedback">{{ errors.password }}</div>
@@ -46,11 +46,11 @@ async function callRegister(values: any) {
                                 <div class="invalid-feedback">{{ errors.retypePassword }}</div>
                             </div>
                             <div class="form-group my-3 d-flex flex-column align-items-center">
-                                <button class="btn btn-primary" :disabled="isSubmitting">
+                                <button class="btn btn-register" :disabled="isSubmitting">
                                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
                                     Register
                                 </button>
-                                <router-link to="login" class="btn btn-link">Login</router-link>
+                                <router-link to="login" class="btn btn-login">Login</router-link>
                             </div>
                         </Form>
                     </div>
@@ -63,5 +63,23 @@ async function callRegister(values: any) {
 <style scoped lang="scss">
 .btn{
     width: 100%;
+}
+
+.header{
+    text-align: center;
+    font-size: 40px;
+}
+
+.form-control:focus{
+    box-shadow: none;
+}
+
+.btn-register{
+    background-color: #ff9933;
+    color: white;
+    font-size: 20px;
+}
+.btn-login{
+    color: #9933ff;
 }
 </style>
