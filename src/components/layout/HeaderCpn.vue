@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/Auth.store';
 import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core'
 
 const authStore = useAuthStore();
 
@@ -11,6 +12,8 @@ function searchAction() {
 }
 
 const isShowMenu = ref(false);
+const target = ref(null);
+onClickOutside(target, () => isShowMenu.value = false);
 </script>
 
 <template>
@@ -26,19 +29,11 @@ const isShowMenu = ref(false);
         </form>
         <div class="menu" @click="isShowMenu = !isShowMenu">
             <img src="@/assets/icons/burger-bar.png" alt="" srcset="" class="menu-icon">
-            <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'">
+            <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'" ref="target">
                 <!-- <li class="profile" v-show="authStore.user?.email"> -->
                 <li class="profile">
                     <img src="@/assets/images/default-avatar.jpg" alt="" srcset="">
                     <router-link class="username" to="/getMe">user name</router-link>
-                </li>
-                <li class="sub-li">
-                    <button>sdjfasjf</button>
-                    <p>&#8250;</p>
-                </li>
-                <li class="sub-li">
-                    <button>sfbaslhyf</button>
-                    <p>&#8250;</p>
                 </li>
                 <li class="sub-li" v-show="authStore.user?.email">
                     <button @click="authStore.logout()" class="">Logout</button>
@@ -124,6 +119,7 @@ p {
         width: 300px;
         color: black;
         text-decoration: none;
+        z-index: 2;
         li{
             border-bottom: 1px solid #DCDCDC;
             height: 30px;
