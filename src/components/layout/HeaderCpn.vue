@@ -21,8 +21,8 @@ onClickOutside(target, () => isShowMenu.value = false);
         <router-link to="/">
             <img src="@/assets/images/logo_100_text.png" alt="" srcset="" class="logo">
         </router-link>
-        <form class="search-form" action="" method="post">
-            <input type="text" class="search-form-input" name="search" placeholder="Gõ vào tên các nguyên liệu...">
+        <form class="search-form" @submit.prevent="searchAction">
+            <input type="text" class="search-form-input" name="search" placeholder="Gõ vào tên các nguyên liệu..." v-model="searchData">
             <button type="submit" class="search-form-submit">
                 <img src="@/assets/icons/search-interface-symbol.png" alt="" srcset="">
             </button>
