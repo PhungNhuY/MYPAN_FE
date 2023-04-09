@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/Auth.store';
 import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core'
 
 const authStore = useAuthStore();
 
@@ -11,6 +12,8 @@ function searchAction() {
 }
 
 const isShowMenu = ref(false);
+const target = ref(null);
+onClickOutside(target, () => isShowMenu.value = false);
 </script>
 
 <template>
@@ -18,27 +21,18 @@ const isShowMenu = ref(false);
         <router-link to="/">
             <img src="@/assets/images/logo_100_text.png" alt="" srcset="" class="logo">
         </router-link>
-        <form class="search-form" action="" method="post">
-            <input type="text" class="search-form-input" name="search" placeholder="Gõ vào tên các nguyên liệu...">
+        <form class="search-form" @submit.prevent="searchAction">
+            <input type="text" class="search-form-input" name="search" placeholder="Gõ vào tên các nguyên liệu..." v-model="searchData">
             <button type="submit" class="search-form-submit">
                 <img src="@/assets/icons/search-interface-symbol.png" alt="" srcset="">
             </button>
         </form>
         <div class="menu" @click="isShowMenu = !isShowMenu">
             <img src="@/assets/icons/burger-bar.png" alt="" srcset="" class="menu-icon">
-            <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'">
-                <!-- <li class="profile" v-show="authStore.user?.email"> -->
-                <li class="profile">
+            <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'" ref="target">
+                <li class="profile" v-show="authStore.user?.email">
                     <img src="@/assets/images/default-avatar.jpg" alt="" srcset="">
                     <router-link class="username" to="/getMe">user name</router-link>
-                </li>
-                <li class="sub-li">
-                    <button>sdjfasjf</button>
-                    <p>&#8250;</p>
-                </li>
-                <li class="sub-li">
-                    <button>sfbaslhyf</button>
-                    <p>&#8250;</p>
                 </li>
                 <li class="sub-li" v-show="authStore.user?.email">
                     <button @click="authStore.logout()" class="">Logout</button>
@@ -51,7 +45,7 @@ const isShowMenu = ref(false);
             </ul>
         </div>
     </div>
-    
+    <div class="the-block"></div>
 </template>
 
 <style lang="scss" scoped>
@@ -65,6 +59,9 @@ p {
     padding-top: 8px;
     padding-bottom: 8px;
     border-bottom: 1px solid #DCDCDC;
+    position: fixed;
+    z-index: 2;
+    background-color: #ffffff;
 }
 
 .logo {
@@ -124,6 +121,7 @@ p {
         width: 300px;
         color: black;
         text-decoration: none;
+        z-index: 2;
         li{
             border-bottom: 1px solid #DCDCDC;
             height: 30px;
@@ -162,5 +160,9 @@ p {
             }
         }
     }   
+}
+
+.the-block{
+    height: 80px;
 }
 </style>
