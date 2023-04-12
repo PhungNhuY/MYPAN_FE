@@ -8,5 +8,25 @@ const {user} = storeToRefs(authStore);
 
 <template>
     <h1>Home Page</h1>
-    <p>user: {{ user?.email }}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-7 offset-1 main-col">
+                sbf
+            </div>
+            <div class="col-3 feature-col">
+                adbe
+            </div>
+        </div>
+    </div>
 </template>
+
+<style scoped lang="scss">
+.main-col{
+    background-color: aqua;
+    margin-right: 10px;
+}
+
+.feature-col{
+    background-color: black;
+}
+</style>
