@@ -18,8 +18,8 @@ async function callLogin(values: any) {
 
 <template>
     <div class="container wrapper">
-        <div class="row">
-            <div class="col-6 offset-3">
+        <div class="row justify-content-center">
+            <div class="col-12 my-col">
                 <h4 class="header">Đăng nhập</h4>
                 <div class="card">
                     <div class="card-body">
@@ -72,5 +72,9 @@ async function callLogin(values: any) {
 }
 .btn-register{
     color: #9933ff;
+}
+
+.my-col{
+    max-width: 450px;
 }
 </style>
