@@ -2,14 +2,9 @@
 import { useAuthStore } from '@/stores/Auth.store';
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core'
+import SearchForm from '../SearchForm.vue';
 
 const authStore = useAuthStore();
-
-const searchData = ref('');
-
-function searchAction() {
-    console.log(searchData.value);
-}
 
 const isShowMenu = ref(false);
 const target = ref(null);
@@ -21,15 +16,12 @@ onClickOutside(target, () => isShowMenu.value = false);
         <router-link to="/">
             <img src="@/assets/images/logo_100_text.png" alt="" srcset="" class="logo">
         </router-link>
-        <form class="search-form" @submit.prevent="searchAction">
-            <input type="text" class="search-form-input" name="search" placeholder="Gõ vào tên các nguyên liệu..." v-model="searchData">
-            <button type="submit" class="search-form-submit">
-                <img src="@/assets/icons/search-interface-symbol.png" alt="" srcset="">
-            </button>
-        </form>
-        <div class="menu" @click="isShowMenu = !isShowMenu">
+
+        <SearchForm />
+
+        <div class="menu" @click="isShowMenu = !isShowMenu" ref="target">
             <img src="@/assets/icons/burger-bar.png" alt="" srcset="" class="menu-icon">
-            <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'" ref="target">
+            <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'">
                 <li class="profile" v-show="authStore.user?.email">
                     <img src="@/assets/images/default-avatar.jpg" alt="" srcset="">
                     <router-link class="username" to="/getMe">user name</router-link>
@@ -67,38 +59,6 @@ p {
 .logo {
     height: 40px;
     width: auto;
-}
-
-.search-form {
-    width: 100%;
-    padding: 0px 8px;
-    position: relative;
-    margin-right: 10px;
-    .search-form-input {
-        width: 100%;
-        height: 36px;
-        border-radius: 99px;
-        border: 1px solid #DCDCDC;
-        padding: 0px 12px;
-        &:focus{
-            outline: none;
-        }
-    }
-    
-    .search-form-submit{
-        position: absolute;
-        height: 36px;
-        width: 50px;
-        top: 0px;
-        right: 0px;
-        background-color: #ffaa55;
-        border-radius: 0px 99px 99px 0px;
-    }
-    
-    .search-form-submit img{
-        width: 20px;
-        height: 20px;
-    }
 }
 
 .menu{
