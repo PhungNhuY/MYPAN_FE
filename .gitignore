@@ -29,3 +29,5 @@ coverage
 
 .env
 package-lock.json
+
+/public/slider-temp
