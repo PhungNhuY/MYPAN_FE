@@ -23,7 +23,6 @@ const {user} = storeToRefs(authStore);
 
 <style scoped lang="scss">
 .main-col{
-    background-color: aqua;
     margin-right: 10px;
 }
 

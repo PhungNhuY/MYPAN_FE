@@ -22,14 +22,15 @@ function searchAction() {
     width: 100%;
     padding: 0px 8px;
     position: relative;
-    background-color: #ffffff;
-
+    
     .search-form-input {
         width: 100%;
         height: 36px;
         border-radius: 99px;
         border: 1px solid #DCDCDC;
         padding: 0px 12px;
+        padding-right: 50px;
+        background-color: #ffffff;
 
         &:focus {
             outline: none;
