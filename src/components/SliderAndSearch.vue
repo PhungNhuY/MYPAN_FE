@@ -2,6 +2,50 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 import SearchForm from './SearchForm.vue';
+import { ref } from 'vue';
+import router from '@/router';
+
+const link = ref('#');
+const name = ref('');
+const username = ref('');
+
+function update(splide: any){
+    link.value = `/post/${data[splide.index].id}`;
+    name.value = data[splide.index].name;
+    username.value = data[splide.index].username;
+}
+const data = [
+    {
+        name: 'Bánh Tráng trộng',
+        username: 'Phùng Như Ý',
+        image: '/slider-temp/1.webp',
+        id: '1231'
+    },
+    {
+        name: 'kem',
+        username: 'Phùng',
+        image: '/slider-temp/2.webp',
+        id: '1231'
+    },
+    {
+        name: 'mixue',
+        username: 'Như',
+        image: '/slider-temp/3.webp',
+        id: '1231'
+    },
+    {
+        name: 'Phương',
+        username: 'Ham ăn',
+        image: '/slider-temp/4.webp',
+        id: '1231'
+    },
+    {
+        name: 'Trương Lợn',
+        username: 'Ăn Lắm',
+        image: '/slider-temp/5.webp',
+        id: '1231'
+    },
+]
 </script>
 
 <template>
@@ -16,24 +60,30 @@ import SearchForm from './SearchForm.vue';
             autoplay: true,
             interval: 3000,
             pauseOnHover: false,
-            pauseOnFocus: false
+            pauseOnFocus: false,
         }" 
         class="carousel" 
         aria-label="my-calrousel"
+        @click="router.push(link);"
+        @splide:active="update"
     >
-        <SplideSlide v-for="index in 5" class="single-slide" :key="index">
-            <div class="slide-content" :style="{ backgroundImage: `url(slider-temp/${index}.webp` }"></div>
+        <SplideSlide 
+            v-for="post in data" 
+            class="single-slide" 
+            :key="post.id"
+        >
+            <div class="slide-content" :style="{ backgroundImage: `url(${post.image}` }"></div>
         </SplideSlide>
-        <div class="front-content text-center">
+        <div class="front-content text-center" @click.stop="">
             <p class="title">Nấu gì giờ ta?</p>
             <SearchForm />
             <p class="content">Món ngon mỗi ngày từ hàng triệu đầu bếp.</p>
         </div>
         <div class="info d-flex justify-content-between align-items-center">
             <div class="left">
-                <p class="name d-inline">Bánh tráng trộn</p>
+                <p class="name d-inline">{{ name }}</p>
                 <div class="dot d-inline-block"></div>
-                <p class="onwer  d-inline">Phùng Như Ý</p>
+                <p class="onwer  d-inline">của {{ username }}</p>
             </div>
             <img src="@/assets/icons/right-arrow.png" alt="" srcset="" class="right">
         </div>
