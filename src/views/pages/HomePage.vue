@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/Auth.store';
 import { storeToRefs } from 'pinia';
+import SliderAndSearch from '@/components/SliderAndSearch.vue';
 
 const authStore = useAuthStore();
 const {user} = storeToRefs(authStore);
@@ -11,7 +12,7 @@ const {user} = storeToRefs(authStore);
     <div class="container">
         <div class="row">
             <div class="col-7 offset-1 main-col">
-                sbf
+                <SliderAndSearch/>
             </div>
             <div class="col-3 feature-col">
                 adbe
@@ -22,7 +23,6 @@ const {user} = storeToRefs(authStore);
 
 <style scoped lang="scss">
 .main-col{
-    background-color: aqua;
     margin-right: 10px;
 }
 
