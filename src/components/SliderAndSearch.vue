@@ -72,7 +72,15 @@ const data = [
             class="single-slide" 
             :key="post.id"
         >
-            <div class="slide-content" :style="{ backgroundImage: `url(${post.image}` }"></div>
+            <div 
+                class="slide-content" 
+                :style="{ 
+                    backgroundImage: `linear-gradient(
+                        rgba(0, 0, 0, 0.25), 
+                        rgba(0, 0, 0, 0.25)
+                    ),url(${post.image}` 
+                }"
+            ></div>
         </SplideSlide>
         <div class="front-content text-center" @click.stop="">
             <p class="title">Nấu gì giờ ta?</p>
@@ -98,7 +106,6 @@ p{
 .carousel {
     width: 100%;
     height: 380px;
-    background-color: black;
     position: relative;
     border-radius: 15px;
     overflow: hidden;
@@ -111,7 +118,6 @@ p{
             height: 380px;
             background-size: cover;
             background-position: center;
-            opacity: 0.75;
         }
     }
 

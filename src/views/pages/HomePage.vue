@@ -2,6 +2,7 @@
 import { useAuthStore } from '@/stores/Auth.store';
 import { storeToRefs } from 'pinia';
 import SliderAndSearch from '@/components/SliderAndSearch.vue';
+import PostCard from '@/components/PostCard.vue';
 
 const authStore = useAuthStore();
 const {user} = storeToRefs(authStore);
@@ -13,6 +14,7 @@ const {user} = storeToRefs(authStore);
         <div class="row">
             <div class="col-7 offset-1 main-col">
                 <SliderAndSearch/>
+                <PostCard />
             </div>
             <div class="col-3 feature-col">
                 adbe
