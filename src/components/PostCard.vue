@@ -1,5 +1,16 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+const numOfLike = ref(100);
+const isLike = ref(false);
+function toggleLike(){
+    isLike.value = !isLike.value;
+    numOfLike.value += isLike.value ? 1 : -1;
+}
 
+const isFavorite = ref(false);
+function toggleFavorite(){
+    isFavorite.value = !isFavorite.value;
+}
 </script>
 
 <template>
@@ -18,16 +29,16 @@
             </div>
         </div>
         <div class="function d-flex justify-content-between">
-            <div class="left">
-                <div class="heart d-flex justify-content-center align-items-center">
+            <div class="left" @click="toggleLike">
+                <div class="heart d-flex justify-content-center align-items-center" :class="{ 'active': isLike }">
                     <img src="@/assets/icons/love.png" class="icon" />
-                    <p class="number">100</p>
+                    <p class="number">{{ numOfLike }}</p>
                 </div>
             </div>
-            <div class="right">
-                <div class="save d-flex justify-content-center align-items-center">
+            <div class="right" @click="toggleFavorite">
+                <div class="save d-flex justify-content-center align-items-center" :class="{'active': isFavorite}">
                     <img src="@/assets/icons/bookmark.png" class="icon" />
-                    <p class="text">Lưu</p>
+                    <p class="text">{{ isFavorite ? 'Đã lưu' : 'Lưu' }}</p>
                 </div>
             </div>
         </div>
@@ -103,9 +114,15 @@ p {
             color: white;
             background-color: #424242;
             img{
+                margin-top: -3px;
                 height: 20px;
                 width: auto;
             }
+        }
+        .active{
+            // color: rgb(190, 91, 91);
+            color: #29245A;
+            background-color: #ffaa55;
         }
     }
 
@@ -118,9 +135,14 @@ p {
             color: white;
             background-color: #424242;
             img{
+                margin-top: -3px;
                 height: 15px;
                 width: auto;
             }
+        }
+        .active{
+            color: #29245A;
+            background-color: #ffaa55
         }
     }
 }
