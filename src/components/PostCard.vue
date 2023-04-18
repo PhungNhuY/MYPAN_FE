@@ -1,16 +1,24 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-const numOfLike = ref(100);
-const isLike = ref(false);
+import type { IPostCard } from '@/common/interfaces';
+
+interface props {
+    postCard: IPostCard;
+}
+const Props = defineProps<props>();
+
+const numOfLike = ref(Props.postCard.like);
+const isLike = ref(Props.postCard.isLike);
 function toggleLike(){
     isLike.value = !isLike.value;
     numOfLike.value += isLike.value ? 1 : -1;
 }
 
-const isFavorite = ref(false);
+const isFavorite = ref(Props.postCard.isFavotire);
 function toggleFavorite(){
     isFavorite.value = !isFavorite.value;
 }
+
 </script>
 
 <template>
@@ -19,13 +27,13 @@ function toggleFavorite(){
             backgroundImage: `linear-gradient(
                             rgba(0, 0, 0, 0.25), 
                             rgba(0, 0, 0, 0.25)
-                        ),url(/slider-temp/1.webp)` }">
+                        ),url(${postCard.imageCover})` }">
             <div class="info">
                 <div class="user d-flex align-items-center">
-                    <img src="@/assets/images/default-avatar.jpg" alt="" srcset="" class="avatar">
-                    <p class="name">Phung Nhu Y</p>
+                    <img :src="postCard.userAvatar || '/src/assets/images/default-avatar.jpg'" alt="" srcset="" class="avatar">
+                    <p class="name">{{ postCard.username }}</p>
                 </div>
-                <p class="post-name">Sườn non ram tỏi(Khẩu vị Ngọt)</p>
+                <p class="post-name">{{ postCard.postName }}</p>
             </div>
         </div>
         <div class="function d-flex justify-content-between">
