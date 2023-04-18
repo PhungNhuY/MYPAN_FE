@@ -17,7 +17,7 @@ const {user} = storeToRefs(authStore);
             <div class="col-7 offset-1 main-col">
                 <SliderAndSearch/>
                 <PostTopic/>
-                <PostCard :post-card="{
+                <!-- <PostCard :post-card="{
                     id: '1234',
                     imageCover: '/slider-temp/1.webp',
                     postName: 'Sườn non hảo hạng',
@@ -26,7 +26,7 @@ const {user} = storeToRefs(authStore);
                     like: 100,
                     isLike: false,
                     isFavotire: false,
-                }"/>
+                }"/> -->
             </div>
             <div class="col-3 feature-col">
                 adbe
