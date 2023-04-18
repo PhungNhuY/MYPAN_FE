@@ -25,8 +25,8 @@ function toggleFavorite(){
     <div class="wrapper">
         <div class="main-title" :style="{
             backgroundImage: `linear-gradient(
-                            rgba(0, 0, 0, 0.25), 
-                            rgba(0, 0, 0, 0.25)
+                            rgba(0, 0, 0, 0.0), 
+                            rgba(0, 0, 0, 0.0)
                         ),url(${postCard.imageCover})` }">
             <div class="info">
                 <div class="user d-flex align-items-center">
@@ -89,6 +89,7 @@ p {
             font-size: 16px;
             font-weight: 500;
             margin-left: 5px;
+            text-shadow: 1px 1px #444444;
         }
 
         .post-name {
@@ -97,6 +98,7 @@ p {
             font-weight: 600;
             margin-top: 5px;
             padding-right: 15px;
+            text-shadow: 1px 1px #444444;
 
             // this will show max three line in post name
             // max numer of line = -webkit-line-clamp 
@@ -112,7 +114,7 @@ p {
 }
 .function{
     height: 40px;
-    background-color: #242424;
+    background-color: #343434;
     padding: 6px 10px;
     .left{
         .heart{

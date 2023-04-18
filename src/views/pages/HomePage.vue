@@ -17,6 +17,7 @@ const {user} = storeToRefs(authStore);
             <div class="col-7 offset-1 main-col">
                 <SliderAndSearch/>
                 <PostTopic/>
+                <PostTopic/>
                 <!-- <PostCard :post-card="{
                     id: '1234',
                     imageCover: '/slider-temp/1.webp',

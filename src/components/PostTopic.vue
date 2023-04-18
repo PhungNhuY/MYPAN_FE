@@ -10,9 +10,10 @@ import PostCard from './PostCard.vue';
         <p class="description">Xoài là trái có thể ăn từ sống tới chín. Xòa xanh trộn gỏi, xoài chín làm salsa, bánh, chè... Bạn đã thử xoài hườm xào cay chưa?</p>
         <Splide
             :options="{
+                type:'loop',
                 rewind: true,
-                perPage: 2.5,
-                perMove: 1,
+                // perPage: 2.5,
+                // perMove: 1,
                 arrows: true,
                 pagination: false,
                 drag: true,
@@ -50,8 +51,9 @@ p{
     padding: 15px 16px;
     border-radius: 16px;
     width: 100%;
-    border: 1px solid #E7E7EC;
+    border: 2px solid #d6d6d6;
     background-color: #FFFFFF;
+    box-shadow: 0px 5px 5px 0px #c6c6c6;
 }
 .title{
     font-size: 25px;
@@ -64,13 +66,13 @@ p{
         left: -1em;
         width: 2.5em;
         height: 2.5em;
-        background: #ffaa55;
+        // background: #ffaa55;
     }
     :deep(.splide__arrow--next){
         right: -1em;
         width: 2.5em;
         height: 2.5em;
-        background: #ffaa55;
+        // background: #ffaa55;
     }
 }
 .single-slide{
