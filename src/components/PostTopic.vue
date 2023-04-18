@@ -47,7 +47,7 @@ p{
     padding: 0px;
 }
 .topic-wrapper{
-    margin-top: 15px;
+    margin-top: 30px;
     padding: 15px 16px;
     border-radius: 16px;
     width: 100%;

@@ -11,7 +11,6 @@ const {user} = storeToRefs(authStore);
 </script>
 
 <template>
-    <h1>Home Page</h1>
     <div class="container">
         <div class="row">
             <div class="col-7 offset-1 main-col">
