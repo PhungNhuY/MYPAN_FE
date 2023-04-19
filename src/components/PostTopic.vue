@@ -2,12 +2,20 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 import PostCard from './PostCard.vue';
+import type { IPostCard } from '@/common/interfaces';
+
+interface props{
+    title: string;
+    description: string;
+    postCards: IPostCard[];
+}
+const Props = defineProps<props>();
 </script>
 
 <template>
     <div class="topic-wrapper">
-        <p class="title">Xoài vào mùa siêu rẻ, thử ngay các món ngon mới lạ này.</p>
-        <p class="description">Xoài là trái có thể ăn từ sống tới chín. Xòa xanh trộn gỏi, xoài chín làm salsa, bánh, chè... Bạn đã thử xoài hườm xào cay chưa?</p>
+        <p class="title">{{ title }}</p>
+        <p class="description">{{ description }}</p>
         <Splide
             :options="{
                 type:'loop',
@@ -22,20 +30,11 @@ import PostCard from './PostCard.vue';
             aria-label="my-calrousel"
         >
             <SplideSlide
-                v-for="index in 10" 
+                v-for="post in postCards" 
                 class="single-slide" 
-                :key="index"
+                :key="post.id"
             >
-                <PostCard :post-card="{
-                    id: '1234',
-                    imageCover: '/slider-temp/1.webp',
-                    postName: 'Sườn non hảo hạng',
-                    username: 'Phung Nhu Y',
-                    userAvatar: null,
-                    like: 100,
-                    isLike: false,
-                    isFavotire: false,
-                }"/>
+                <PostCard :post-card="post"/>
             </SplideSlide>
         </Splide>
     </div>
