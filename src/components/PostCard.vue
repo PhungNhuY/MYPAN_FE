@@ -25,8 +25,8 @@ function toggleFavorite(){
     <div class="wrapper">
         <div class="main-title" :style="{
             backgroundImage: `linear-gradient(
-                            rgba(0, 0, 0, 0.25), 
-                            rgba(0, 0, 0, 0.25)
+                            rgba(0, 0, 0, 0.0), 
+                            rgba(0, 0, 0, 0.0)
                         ),url(${postCard.imageCover})` }">
             <div class="info">
                 <div class="user d-flex align-items-center">
@@ -53,7 +53,7 @@ function toggleFavorite(){
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 p {
     margin: 0px;
     padding: 0px;
@@ -78,24 +78,27 @@ p {
         position: absolute;
         bottom: 10px;
         img {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
             border-radius: 99px;
+            margin-top: -2px;
         }
 
         .name {
             color: #ffffff;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 500;
-            margin-left: 10px;
+            margin-left: 5px;
+            text-shadow: 1px 1px #444444;
         }
 
         .post-name {
             color: #ffffff;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
             margin-top: 5px;
             padding-right: 15px;
+            text-shadow: 1px 1px #444444;
 
             // this will show max three line in post name
             // max numer of line = -webkit-line-clamp 
@@ -111,8 +114,8 @@ p {
 }
 .function{
     height: 40px;
-    background-color: #242424;
-    padding: 6px 15px;
+    background-color: #343434;
+    padding: 6px 10px;
     .left{
         .heart{
             padding-top: 3px;
