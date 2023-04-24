@@ -35,8 +35,8 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    async function register(email: string, password: string){
-        const response = await callApi(httpService.post('/auth/register', { email, password }));
+    async function register(email: string, fullname: string, username: string, password: string){
+        const response = await callApi(httpService.post('/auth/register', { email, fullname, username, password }));
         if (response.status == 'success') {
             router.push('/auth/login');
             showSuccessNotificationFunction('Đăng ký thành công! Hãy xác nhận email của bạn.');

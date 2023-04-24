@@ -6,6 +6,11 @@ import { useAuthStore } from '@/stores/Auth.store.js';
 
 const schema = Yup.object().shape({
     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+    username: Yup.string().min(8).max(255).matches(
+        /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+        'username is invalid'
+    ).required('username is required'),
+    fullname: Yup.string().min(3).max(50).required('Fullname is required'),
     password: Yup.string().min(8).max(255).required('Password is required'),
     retypePassword: Yup.string().max(255)
         .required('Please retype your password.')
@@ -32,6 +37,18 @@ async function callRegister(values: any) {
                                 <Field name="email" type="text" class="form-control"
                                     :class="{ 'is-invalid': errors.email }" />
                                 <div class="invalid-feedback">{{ errors.email }}</div>
+                            </div>
+                            <div class="form-group py-4">
+                                <label>Họ và tên</label>
+                                <Field name="fullname" type="text" class="form-control"
+                                    :class="{ 'is-invalid': errors.fullname }" />
+                                <div class="invalid-feedback">{{ errors.fullname }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Tên tài khoản</label>
+                                <Field name="username" type="text" class="form-control"
+                                    :class="{ 'is-invalid': errors.username }" />
+                                <div class="invalid-feedback">{{ errors.username }}</div>
                             </div>
                             <div class="form-group py-4">
                                 <label>Mật khẩu</label>
