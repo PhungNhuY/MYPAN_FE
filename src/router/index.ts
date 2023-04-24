@@ -12,9 +12,18 @@ const router = createRouter({
       name: 'MainLayout',
       component: MainLayoutVue,
       children: [
-        { path: '', component: HomePage, },
-        { path: 'getMe', component: () => import('@/views/pages/ProfilePage.vue')},
-        
+        { 
+          path: '', 
+          component: HomePage, 
+          meta: {
+            public: true,
+          },
+        },
+        { 
+          path: 'getMe', 
+          component: () => import('@/views/pages/ProfilePage.vue'),
+        },
+
         ...authRouter,
 
         // catch not found
