@@ -66,7 +66,10 @@ const authStore = useAuthStore();
                             isFavotire: false,
                         }
                     ]" />
-                <!-- <PostCard :post-card="{
+                <PostTopic title="Xoài vào mùa siêu rẻ, thử ngay các món ngon mới lạ này."
+                description="Xoài là trái có thể ăn từ sống tới chín. Xòa xanh trộn gỏi, xoài chín làm salsa, bánh, chè... Bạn đã thử xoài hườm xào cay chưa?"
+                :post-cards="[
+                    {
                         id: '1234',
                         imageCover: '/slider-temp/1.webp',
                         postName: 'Sườn non hảo hạng',
@@ -75,10 +78,105 @@ const authStore = useAuthStore();
                         like: 100,
                         isLike: false,
                         isFavotire: false,
-                    }"/> -->
+                    },
+                    {
+                        id: '1231',
+                        imageCover: '/slider-temp/2.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    },
+                    {
+                        id: '1232',
+                        imageCover: '/slider-temp/3.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    },
+                    {
+                        id: '1233',
+                        imageCover: '/slider-temp/4.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    },
+                    {
+                        id: '1235',
+                        imageCover: '/slider-temp/5.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    }
+                ]" />
+                <PostTopic title="Xoài vào mùa siêu rẻ, thử ngay các món ngon mới lạ này."
+                description="Xoài là trái có thể ăn từ sống tới chín. Xòa xanh trộn gỏi, xoài chín làm salsa, bánh, chè... Bạn đã thử xoài hườm xào cay chưa?"
+                :post-cards="[
+                    {
+                        id: '1234',
+                        imageCover: '/slider-temp/1.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    },
+                    {
+                        id: '1231',
+                        imageCover: '/slider-temp/2.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    },
+                    {
+                        id: '1232',
+                        imageCover: '/slider-temp/3.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    },
+                    {
+                        id: '1233',
+                        imageCover: '/slider-temp/4.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    },
+                    {
+                        id: '1235',
+                        imageCover: '/slider-temp/5.webp',
+                        postName: 'Sườn non hảo hạng',
+                        username: 'Phung Nhu Y',
+                        userAvatar: null,
+                        like: 100,
+                        isLike: false,
+                        isFavotire: false,
+                    }
+                ]" />
             </div>
             <div class="col-3 feature-col">
-                adbe
+                <div class="the-card"></div>
             </div>
         </div>
     </div>
@@ -90,6 +188,11 @@ const authStore = useAuthStore();
 }
 
 .feature-col {
-    background-color: black;
+    .the-card{
+        position: fixed;
+        width: inherit;
+        background-color: black;
+        height: 85vh;
+    }
 }
 </style>

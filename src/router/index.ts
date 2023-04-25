@@ -1,8 +1,9 @@
-import MainLayoutVue from '@/views/layouts/MainLayout.vue'
-import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '@/views/pages/HomePage.vue'
-import authRouter from './auth.router'
-import authMiddleware from './authMiddleware'
+import MainLayoutVue from '@/views/layouts/MainLayout.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import HomePage from '@/views/pages/HomePage.vue';
+import authRouter from './auth.router';
+import postRouters from './post.router';
+import authMiddleware from './authMiddleware';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +17,6 @@ const router = createRouter({
           path: '', 
           component: HomePage, 
           meta: {
-            public: true,
           },
         },
         { 
@@ -25,6 +25,7 @@ const router = createRouter({
         },
 
         ...authRouter,
+        ...postRouters,
 
         // catch not found
         {

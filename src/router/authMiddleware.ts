@@ -6,7 +6,7 @@ export default async (
     from: RouteLocationNormalized,
     next: NavigationGuardNext,
 ): Promise<void> => {
-    const isPublic = to?.meta?.public || false;
+    const isPublic = to?.meta?.private || true;
     const onlyWhenLoggedOut = to?.meta?.onlyWhenLoggedOut || false;
     const loggedIn = !!authStorageService.getAccessToken();
     // const refreshToken = localStorageAuthService.getRefreshToken();
