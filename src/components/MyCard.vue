@@ -1,5 +1,9 @@
+<script setup lang="ts">
+
+const Props = defineProps<{active?: Boolean}>();
+</script>
 <template>
-    <div class="wrapper">
+    <div class="wrapper" :class="{'active' : active}">
         <slot></slot>
     </div>
 </template>
@@ -12,5 +16,10 @@
     box-shadow: 0px 5px 5px 0px #c6c6c6;
     margin-top: 10px;
     padding: 16px;
+}
+.active{
+    background-color: #ffaa55;
+    color: #FFFFFF;
+    font-weight: 600;
 }
 </style>
