@@ -12,3 +12,20 @@ export interface IPostCard {
     isLike: boolean;
     isFavotire: boolean;
 }
+
+export interface IStep{
+    content: string;
+    imageLink?: string[];
+}
+
+export interface IPost{
+    author?: IUser;
+    id: string;
+    name: string;
+    description: string;
+    imageCoverLink: string;
+    ration: number;
+    time: number;
+    ingredients: string[],
+    steps: IStep;
+}

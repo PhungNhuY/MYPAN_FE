@@ -8,9 +8,9 @@ const authStore = useAuthStore();
 </script>
 
 <template>
-    <div class="container">
+    <div class="container wrapper">
         <div class="row">
-            <div class="col-7 offset-1 main-col">
+            <div class="col-8 main-col">
                 <SliderAndSearch />
                 <PostTopic title="Xoài vào mùa siêu rẻ, thử ngay các món ngon mới lạ này."
                     description="Xoài là trái có thể ăn từ sống tới chín. Xòa xanh trộn gỏi, xoài chín làm salsa, bánh, chè... Bạn đã thử xoài hườm xào cay chưa?"
@@ -175,7 +175,7 @@ const authStore = useAuthStore();
                     }
                 ]" />
             </div>
-            <div class="col-3 feature-col">
+            <div class="col-4 feature-col">
                 <div class="the-card"></div>
             </div>
         </div>
@@ -183,14 +183,16 @@ const authStore = useAuthStore();
 </template>
 
 <style scoped lang="scss">
+.wrapper{
+    max-width: 968px;
+}
 .main-col {
-    margin-right: 10px;
 }
 
 .feature-col {
     .the-card{
-        position: fixed;
-        width: inherit;
+        // position: fixed;
+        // width: inherit;
         background-color: black;
         height: 85vh;
     }
