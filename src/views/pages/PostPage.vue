@@ -40,6 +40,30 @@ import MyCard from '@/components/MyCard.vue';
                         </tr>
                     </table>
                 </MyCard>
+                <MyCard class="steps">
+                    <p class="title">Cách làm</p>
+                    <div 
+                        class="single-step"
+                        v-for="i in 3"
+                        :key="i"
+                    >
+                        <div class="d-flex">
+                            <div class="left">
+                                <p class="order">{{ i }}</p>
+                            </div>
+                            <div class="right">
+                                <p>Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.<br>
+                                Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.<br>
+                                Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.</p>
+                            </div>
+                        </div>
+                        <div class="images d-flex justify-content-around">
+                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
+                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
+                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
+                        </div>
+                    </div>
+                </MyCard>
             </div>
             <div class="col-4 feature-col">
                 <div class="the-card"></div>
@@ -119,7 +143,46 @@ p{
         }
     }
     .highlight{
-        background-color: #fff1e3;
+        background-color: #e4e4e5;
+    }
+}
+
+.steps{
+    .title{
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+    .single-step{
+        margin-bottom: 15px;
+        .left{
+            padding-right: 5px;
+            .order{
+                text-align: center;
+                font-size: 18px;
+                font-weight: 600;
+                color: white;
+                background-color: #ffaa55;
+                width: 24px;
+                height: 24px;
+                border-radius: 99px;
+            }
+        }
+        .images{
+            .image{
+                border-radius: 10px;
+                max-height: 300px;
+            }
+            .contain-1{
+                max-width: 100%;
+            }
+            .contain-2{
+                max-width: 49%;
+            }
+            .contain-3{
+                max-width: 32%;
+            }
+        }
     }
 }
 </style>
