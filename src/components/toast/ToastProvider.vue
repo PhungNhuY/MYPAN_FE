@@ -31,7 +31,8 @@ const { toasts, removeToast } = useToasts();
 <style lang="scss">
 .toasts {
     z-index: 100;
-    position: absolute;
+    // position: absolute;
+    position: fixed;
     top: 0.5rem;
     right: 0.5rem;
     display: flex;
