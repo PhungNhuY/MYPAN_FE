@@ -20,7 +20,7 @@ export interface IStep{
 
 export interface IPost{
     author?: IUser;
-    id: string;
+    _id: string;
     name: string;
     description: string;
     imageCoverLink: string;

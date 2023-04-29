@@ -11,9 +11,9 @@ export default axios.create({
 
 export interface httpResponse{
     status: 'success' | 'error' | 'netError';
-    data?: object;
-    error?: string;
-    message?: string[];
+    data?: any | object;
+    error?: any | string;
+    message?: any | string[];
 }
 
 export async function callApi(callback: Promise<AxiosResponse<any, any>>){

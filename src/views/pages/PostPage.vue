@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import MyCard from '@/components/MyCard.vue';
+import { usePostStore } from '@/stores/post.store';
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import {useRoute} from 'vue-router';
 
 const numOfLike = ref(100);
 const isLike = ref(false);
@@ -13,6 +16,16 @@ const isFavorite = ref(false);
 function toggleFavorite() {
     isFavorite.value = !isFavorite.value;
 }
+
+// get post id from route
+const route = useRoute();
+const postId = route.params.id as string;
+console.log(postId);
+
+
+const postStore = usePostStore();
+const {post} = storeToRefs(postStore);
+postStore.getPost(postId);
 </script>
 
 <template>
@@ -21,17 +34,17 @@ function toggleFavorite() {
             <div class="col-8 main-col">
                 <img src="/slider-temp/1.webp" alt="" srcset="" class="image-cover">
                 <MyCard :active="true" class="name-and-title">
-                    <p class="name">Bắp Su xào tép</p>
-                    <p class="title">Đà Nẵng vào mùa tép tươi, tép xào bắp su vừa ngon vừa ngọt.</p>
+                    <p class="name">{{ post?.name }}</p>
+                    <p class="title">{{ post?.description }}</p>
                     <hr />
                     <div class="d-flex justify-content-around">
-                        <div class="ration">
+                        <div v-if="post?.ration" class="ration">
                             <img src="@/assets/icons/person.png" alt="" class="icon">
-                            <p class="content">3 người</p>
+                            <p class="content">{{ post?.ration }} người</p>
                         </div>
-                        <div class="time">
+                        <div v-if="post?.time" class="time">
                             <img src="@/assets/icons/clock.png" alt="" class="icon">
-                            <p class="content">30 phút</p>
+                            <p class="content">{{ post?.time }} phút</p>
                         </div>
                     </div>
                 </MyCard>
@@ -42,9 +55,9 @@ function toggleFavorite() {
                             <th class="pl-2">Nguyên liệu</th>
                             <th>Định lượng</th>
                         </tr>
-                        <tr class="single-ingre" v-for="i in 10" :key="i" :class="{ 'highlight': (i % 2 == 0) }">
-                            <td class="pl-2">Nguyên liệu {{ i }}</td>
-                            <td>{{ i }} gram</td>
+                        <tr class="single-ingre" v-for="(ingre, index) in post?.ingredients" :key="index" :class="{ 'highlight': (i % 2 == 0) }">
+                            <td class="pl-2">{{ ingre }}</td>
+                            <td>gram</td>
                         </tr>
                     </table>
                 </MyCard>
