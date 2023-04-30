@@ -32,7 +32,7 @@ postStore.getPost(postId);
     <div class="container wrapper">
         <div class="row">
             <div class="col-8 main-col">
-                <img src="/slider-temp/1.webp" alt="" srcset="" class="image-cover">
+                <img :src="post?.imageCoverLink" alt="" srcset="" class="image-cover">
                 <MyCard :active="true" class="name-and-title">
                     <p class="name">{{ post?.name }}</p>
                     <p class="title">{{ post?.description }}</p>
@@ -55,32 +55,40 @@ postStore.getPost(postId);
                             <th class="pl-2">Nguyên liệu</th>
                             <th>Định lượng</th>
                         </tr>
-                        <tr class="single-ingre" v-for="(ingre, index) in post?.ingredients" :key="index" :class="{ 'highlight': (i % 2 == 0) }">
-                            <td class="pl-2">{{ ingre }}</td>
-                            <td>gram</td>
+                        <tr class="single-ingre" 
+                            v-for="(ingre, index) in post?.ingredients" 
+                            :key="index" 
+                            :class="{ 'highlight': (index % 2 == 0) }"
+                        >
+                            <td class="pl-2">{{ ingre.name }}</td>
+                            <td>{{ ingre.quantity }}</td>
                         </tr>
                     </table>
                 </MyCard>
                 <MyCard class="steps">
                     <p class="title">Cách làm</p>
-                    <div class="single-step" v-for="i in 3" :key="i">
+                    <div class="single-step"
+                        v-for="(step, index) in post?.steps" 
+                        :key="index"
+                    >
                         <div class="d-flex">
                             <div class="left">
-                                <p class="order">{{ i }}</p>
+                                <p class="order">{{ index }}</p>
                             </div>
                             <div class="right">
-                                <p>Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín
-                                    -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.<br>
-                                    Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín
-                                    -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.<br>
-                                    Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín
-                                    -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.</p>
+                                <p>{{ step.content }}</p>
+                                <div class="images d-flex justify-content-around">
+                                    <img 
+                                        v-for="(imageLink, index) in step.imageLink"
+                                        :key="index"
+                                        :src="imageLink"
+                                        alt=""
+                                        srcset=""
+                                        class="image"
+                                        :class="`contain-${step.imageLink?.length}`"
+                                    >
+                                </div>
                             </div>
-                        </div>
-                        <div class="images d-flex justify-content-around">
-                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
-                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
-                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
                         </div>
                     </div>
                 </MyCard>
@@ -100,10 +108,6 @@ postStore.getPost(postId);
                         </div>
                     </div>
                     <div class="box box-2">
-                        <!-- <button class="like" :class="{'like-active': isLike}" @click="toggleLike">
-                                <img src="@/assets/icons/love.png" class="icon" />
-                                {{ numOfLike }}
-                            </button> -->
                         <button class="button save" :class="{ 'save-active': isFavorite }" @click="toggleFavorite">
                             <img v-if="!isFavorite" src="@/assets/icons/bookmark-orange.png" class="icon" />
                             <img v-else src="@/assets/icons/bookmark.png" class="icon" />
@@ -335,6 +339,8 @@ p {
         }
 
         .images {
+            margin-top: 5px;
+            margin-bottom: 20px;
             .image {
                 border-radius: 10px;
                 max-height: 300px;
