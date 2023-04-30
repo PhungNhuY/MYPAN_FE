@@ -18,14 +18,19 @@ export interface IStep{
     imageLink?: string[];
 }
 
+export interface IIngre{
+    name: string;
+    quantity: string;
+}
+
 export interface IPost{
     author?: IUser;
-    id: string;
+    _id: string;
     name: string;
     description: string;
     imageCoverLink: string;
     ration: number;
     time: number;
-    ingredients: string[],
-    steps: IStep;
+    ingredients: IIngre[],
+    steps: IStep[];
 }

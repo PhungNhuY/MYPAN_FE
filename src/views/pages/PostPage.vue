@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import MyCard from '@/components/MyCard.vue';
+import { usePostStore } from '@/stores/post.store';
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import {useRoute} from 'vue-router';
 
 const numOfLike = ref(100);
 const isLike = ref(false);
@@ -13,25 +16,35 @@ const isFavorite = ref(false);
 function toggleFavorite() {
     isFavorite.value = !isFavorite.value;
 }
+
+// get post id from route
+const route = useRoute();
+const postId = route.params.id as string;
+console.log(postId);
+
+
+const postStore = usePostStore();
+const {post} = storeToRefs(postStore);
+postStore.getPost(postId);
 </script>
 
 <template>
     <div class="container wrapper">
         <div class="row">
             <div class="col-8 main-col">
-                <img src="/slider-temp/1.webp" alt="" srcset="" class="image-cover">
+                <img :src="post?.imageCoverLink" alt="" srcset="" class="image-cover">
                 <MyCard :active="true" class="name-and-title">
-                    <p class="name">Bắp Su xào tép</p>
-                    <p class="title">Đà Nẵng vào mùa tép tươi, tép xào bắp su vừa ngon vừa ngọt.</p>
+                    <p class="name">{{ post?.name }}</p>
+                    <p class="title">{{ post?.description }}</p>
                     <hr />
                     <div class="d-flex justify-content-around">
-                        <div class="ration">
+                        <div v-if="post?.ration" class="ration">
                             <img src="@/assets/icons/person.png" alt="" class="icon">
-                            <p class="content">3 người</p>
+                            <p class="content">{{ post?.ration }} người</p>
                         </div>
-                        <div class="time">
+                        <div v-if="post?.time" class="time">
                             <img src="@/assets/icons/clock.png" alt="" class="icon">
-                            <p class="content">30 phút</p>
+                            <p class="content">{{ post?.time }} phút</p>
                         </div>
                     </div>
                 </MyCard>
@@ -42,32 +55,40 @@ function toggleFavorite() {
                             <th class="pl-2">Nguyên liệu</th>
                             <th>Định lượng</th>
                         </tr>
-                        <tr class="single-ingre" v-for="i in 10" :key="i" :class="{ 'highlight': (i % 2 == 0) }">
-                            <td class="pl-2">Nguyên liệu {{ i }}</td>
-                            <td>{{ i }} gram</td>
+                        <tr class="single-ingre" 
+                            v-for="(ingre, index) in post?.ingredients" 
+                            :key="index" 
+                            :class="{ 'highlight': (index % 2 == 0) }"
+                        >
+                            <td class="pl-2">{{ ingre.name }}</td>
+                            <td>{{ ingre.quantity }}</td>
                         </tr>
                     </table>
                 </MyCard>
                 <MyCard class="steps">
                     <p class="title">Cách làm</p>
-                    <div class="single-step" v-for="i in 3" :key="i">
+                    <div class="single-step"
+                        v-for="(step, index) in post?.steps" 
+                        :key="index"
+                    >
                         <div class="d-flex">
                             <div class="left">
-                                <p class="order">{{ i }}</p>
+                                <p class="order">{{ index }}</p>
                             </div>
                             <div class="right">
-                                <p>Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín
-                                    -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.<br>
-                                    Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín
-                                    -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.<br>
-                                    Gân bò rửa sạch, cắt khúc vừa ăn. Hầm với nước lọc, ít gừng giã cho tới khi gân bò chín
-                                    -> nêm nếm gia vị vừa ăn -> cho bò viên, ớt sừng vào.</p>
+                                <p>{{ step.content }}</p>
+                                <div class="images d-flex justify-content-around">
+                                    <img 
+                                        v-for="(imageLink, index) in step.imageLink"
+                                        :key="index"
+                                        :src="imageLink"
+                                        alt=""
+                                        srcset=""
+                                        class="image"
+                                        :class="`contain-${step.imageLink?.length}`"
+                                    >
+                                </div>
                             </div>
-                        </div>
-                        <div class="images d-flex justify-content-around">
-                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
-                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
-                            <img src="/slider-temp/1.webp" alt="" srcset="" class="image contain-3">
                         </div>
                     </div>
                 </MyCard>
@@ -87,10 +108,6 @@ function toggleFavorite() {
                         </div>
                     </div>
                     <div class="box box-2">
-                        <!-- <button class="like" :class="{'like-active': isLike}" @click="toggleLike">
-                                <img src="@/assets/icons/love.png" class="icon" />
-                                {{ numOfLike }}
-                            </button> -->
                         <button class="button save" :class="{ 'save-active': isFavorite }" @click="toggleFavorite">
                             <img v-if="!isFavorite" src="@/assets/icons/bookmark-orange.png" class="icon" />
                             <img v-else src="@/assets/icons/bookmark.png" class="icon" />
@@ -322,6 +339,8 @@ p {
         }
 
         .images {
+            margin-top: 5px;
+            margin-bottom: 20px;
             .image {
                 border-radius: 10px;
                 max-height: 300px;
