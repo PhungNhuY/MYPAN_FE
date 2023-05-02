@@ -8,7 +8,7 @@ import type { IUser } from "@/common/interfaces";
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<IUser>();
-    const returnUrl = ref('/');
+    const returnUrl = ref<string>('/');
     // khi ko login => user.value = {}
     user.value = authStorageService.getLoginUser();
 

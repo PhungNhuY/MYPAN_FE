@@ -1,16 +1,25 @@
 <script setup lang="ts">
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
+import { useRoute } from 'vue-router'
 
 import { useAuthStore } from '@/stores/Auth.store.js';
+const route = useRoute();
 
 const schema = Yup.object().shape({
     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
     password: Yup.string().max(255).required('Password is required')
 });
 
+
 async function callLogin(values: any) {
     const authStore = useAuthStore();
+
+    // get redirect url
+    if(route.query.redirect){
+        authStore.returnUrl = route.query.redirect as string;
+    }
+
     const { email, password } = values;
     await authStore.login(email, password);
 }
