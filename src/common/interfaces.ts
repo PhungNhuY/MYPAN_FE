@@ -15,12 +15,12 @@ export interface IPostCard {
 
 export interface IStep{
     content: string;
-    imageLink?: string[];
+    imageLink?: Array<string|null>;
 }
 
 export interface IIngre{
     name: string;
-    quantity: string;
+    quantity?: string;
 }
 
 export interface IPost{
@@ -31,6 +31,16 @@ export interface IPost{
     imageCoverLink: string;
     ration: number;
     time: number;
+    ingredients: IIngre[],
+    steps: IStep[];
+}
+
+export interface ICreatePost{
+    name: string;
+    description?: string | null | undefined;
+    imageCoverLink?: string | null | undefined;
+    ration?: number | null | undefined;
+    time?: number | null | undefined;
     ingredients: IIngre[],
     steps: IStep[];
 }
