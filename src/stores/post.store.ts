@@ -1,7 +1,8 @@
 import { showErrorNotificationFunction } from "@/common/helper";
-import type { IPost } from "@/common/interfaces";
+import type { ICreatePost, IPost } from "@/common/interfaces";
 import router from "@/router";
 import httpService, { callApi } from "@/services/http/http.service";
+import authStorageService from "@/services/local-storage/authStorage.service";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -25,8 +26,29 @@ export const usePostStore = defineStore('post', () => {
         }
     }
 
+    async function createPost(data: ICreatePost) {
+        // console.log(data);
+        const response = await callApi(httpService.post(
+            `/post`,
+            {...data},
+            {
+                headers:{
+                    accesstoken: authStorageService.getAccessToken(),
+                }
+            }
+        ));
+        console.log(response);
+        if(response.status == 'success'){
+            router.push(`/post/${response.data.post._id}`)
+        } else if (response.status == 'error') {
+            // showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
+            showErrorNotificationFunction(response.message[0]);
+        }
+    }
+
     return {
         post,
         getPost,
+        createPost
     };
 })

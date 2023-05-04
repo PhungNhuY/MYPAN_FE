@@ -10,6 +10,13 @@ const postRouters: Array<RouteRecordRaw> = [
                 meta: {
                 },
             },
+            {
+                path: 'create',
+                component: () => import('@/views/pages/CreatePost.vue'),
+                meta: {
+                    private: true
+                },
+            },
         ],
     }
 ];
