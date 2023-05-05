@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { IIngre, IStep } from '@/common/interfaces';
+import type { ICreatePost, IIngre, IStep } from '@/common/interfaces';
 import MyCard from '@/components/MyCard.vue';
 import { usePostStore } from '@/stores/post.store';
 import { computed, ref } from 'vue';
 import {useRoute} from 'vue-router';
 import * as Yup from 'yup';
 import { Field, Form } from 'vee-validate';
+import { uploadImage } from '@/services/image.service';
 
 // get post id from route
 const route = useRoute();
@@ -93,39 +94,49 @@ function selectImageStep(stepIndex: number, imageIndex: number) {
 }
 function removeCurrentImage(stepIndex: number, imageIndex: number) {
     steps.value[stepIndex].imageLink[imageIndex] = null;
+
+    // sort image list
+    if(!steps.value[stepIndex].imageLink[0] && steps.value[stepIndex].imageLink[1]){
+        steps.value[stepIndex].imageLink[0] = steps.value[stepIndex].imageLink[1];
+        steps.value[stepIndex].imageLink[1] = null;
+    }
+    if(!steps.value[stepIndex].imageLink[1] && steps.value[stepIndex].imageLink[2]){
+        steps.value[stepIndex].imageLink[1] = steps.value[stepIndex].imageLink[2];
+        steps.value[stepIndex].imageLink[2] = null;
+    }
 }
 
 function create() {
-    // const data: ICreatePost = {
-    //     name: name.value as string,
-    //     description: des.value,
-    //     imageCoverLink: imageCoverLink.value,
-    //     ration: ration.value,
-    //     time: time.value,
-    //     ingredients: ingres.value as Array<IIngre>,
-    //     steps: steps.value as Array<IStep>
-    // };
+    const data: ICreatePost = {
+        name: name.value as string,
+        description: des.value,
+        imageCoverLink: imageCoverLink.value,
+        ration: ration.value,
+        time: time.value,
+        ingredients: ingres.value as Array<IIngre>,
+        steps: steps.value as Array<IStep>
+    };
 
-    // // clean data
-    // if (!data.description) delete data.description;
-    // if (!data.imageCoverLink) delete data.imageCoverLink;
-    // if (!data.ration) delete data.ration;
-    // if (!data.time) delete data.time;
-    // data.ingredients.forEach(i => {
-    //     if (!i.quantity) delete i.quantity;
-    // });
-    // data.steps.forEach(i => {
-    //     if (i.imageLink) {
-    //         while (i.imageLink.length > 0 && !i.imageLink[0]) {
-    //             i.imageLink.shift();
-    //         }
-    //         while (i.imageLink.length > 0 && !i.imageLink[i.imageLink.length - 1]) {
-    //             i.imageLink.pop();
-    //         }
-    //     }
-    // });
-    // postStore.createPost(data);
-    // // console.log(data);
+    // clean data
+    if (!data.description) delete data.description;
+    if (!data.imageCoverLink) delete data.imageCoverLink;
+    if (!data.ration) delete data.ration;
+    if (!data.time) delete data.time;
+    data.ingredients.forEach(i => {
+        if (!i.quantity) delete i.quantity;
+    });
+    data.steps.forEach(i => {
+        if (i.imageLink) {
+            while (i.imageLink.length > 0 && !i.imageLink[0]) {
+                i.imageLink.shift();
+            }
+            while (i.imageLink.length > 0 && !i.imageLink[i.imageLink.length - 1]) {
+                i.imageLink.pop();
+            }
+        }
+    });
+    postStore.updatePost(postId, data);
+    // console.log(data);
 }
 
 const schema = Yup.object().shape({
@@ -138,7 +149,7 @@ const schema = Yup.object().shape({
 <template>
     <Form @submit="create" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
         <div class="container wrapper">
-            <h2 class="head-title">Tạo bài viết mới</h2>
+            <h2 class="head-title">Cập nhật bài viết</h2>
             <MyCard class="base-info">
                 <div class="image-cover d-flex justify-content-center my-5">
                     <div class="d-flex flex-column justify-content-center align-items-center"
@@ -250,7 +261,7 @@ const schema = Yup.object().shape({
                 <!-- <button class="base-button create-button" @click="create">Đăng</button> -->
                 <button class="base-button create-button" :disabled="isSubmitting">
                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-                    Đăng
+                    Cập nhật
                 </button>
             </div>
         </div>

@@ -47,9 +47,30 @@ export const usePostStore = defineStore('post', () => {
         }
     }
 
+    async function updatePost(id: string, data: ICreatePost) {
+        // console.log(data);
+        const response = await callApi(httpService.patch(
+            `/post/${id}`,
+            {...data},
+            {
+                headers:{
+                    accesstoken: authStorageService.getAccessToken(),
+                }
+            }
+        ));
+        console.log(response);
+        if(response.status == 'success'){
+            router.push(`/post/${response.data.post._id}`)
+        } else if (response.status == 'error') {
+            // showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
+            showErrorNotificationFunction(response.message[0]);
+        }
+    }
+
     return {
         post,
         getPost,
-        createPost
+        createPost,
+        updatePost,
     };
 })
