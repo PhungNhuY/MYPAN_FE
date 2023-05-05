@@ -116,10 +116,10 @@ function create() {
     };
 
     // clean data
-    if (!data.description) delete data.description;
-    if (!data.imageCoverLink) delete data.imageCoverLink;
-    if (!data.ration) delete data.ration;
-    if (!data.time) delete data.time;
+    // if (!data.description) delete data.description;
+    // if (!data.imageCoverLink) delete data.imageCoverLink;
+    // if (!data.ration) delete data.ration;
+    // if (!data.time) delete data.time;
     data.ingredients.forEach(i => {
         if (!i.quantity) delete i.quantity;
     });
