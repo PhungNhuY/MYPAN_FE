@@ -11,9 +11,10 @@ export const usePostStore = defineStore('post', () => {
 
     async function getPost(id: string){
         const response = await callApi(httpService.get(`/post/${id}`));
-        console.log(response);
+        // console.log(response);
         if(response.status == 'success'){
             post.value = response.data.post;
+            return post.value;
             // console.log(response.data.post);
         } else if (response.status == 'error') {
             if(response.message == 'Not Found' || response.message == 'Bad Request'){
