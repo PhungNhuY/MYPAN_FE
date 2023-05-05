@@ -28,7 +28,6 @@ export async function callApi(callback: Promise<AxiosResponse<any, any>>){
             response = buildNetErrorResponse();
             showErrorNotificationFunction('Network error, try again!');
         }else if(err.response?.status == 401 || err.response?.status == 403){
-            console.log('here');
             router.push('/auth/login');
             response = buildErrorResponse(err.response?.data)
         }else{
