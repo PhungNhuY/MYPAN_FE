@@ -17,6 +17,13 @@ const postRouters: Array<RouteRecordRaw> = [
                     private: true
                 },
             },
+            {
+                path: 'update/:id',
+                component: () => import('@/views/pages/UpdatePost.vue'),
+                meta: {
+                    private: true,
+                },
+            },
         ],
     }
 ];
