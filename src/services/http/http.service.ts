@@ -1,13 +1,20 @@
 import { showErrorNotificationFunction } from '@/common/helper';
 import router from '@/router';
 import axios, { AxiosError, type AxiosResponse } from 'axios';
+import authStorageService from '../local-storage/authStorage.service';
+import { useAuthStore } from '@/stores/Auth.store';
 
-export default axios.create({
+const httpService = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     headers: {
         'Content-Type': 'application/json',
     }
 });
+httpService.interceptors.request.use(function (config) {
+    config.headers.accesstoken =  authStorageService.getAccessToken();
+    return config;
+});
+export default httpService;
 
 export interface httpResponse{
     status: 'success' | 'error' | 'netError';
@@ -17,7 +24,7 @@ export interface httpResponse{
 }
 
 export async function callApi(callback: Promise<AxiosResponse<any, any>>){
-    let response:httpResponse;
+    let response:httpResponse | null = null;
     try {
         const theResponse = await callback;
         response = buildSuccessResponse(theResponse.data.data);
@@ -27,9 +34,23 @@ export async function callApi(callback: Promise<AxiosResponse<any, any>>){
         if(err.code == 'ERR_NETWORK'){
             response = buildNetErrorResponse();
             showErrorNotificationFunction('Network error, try again!');
-        }else if(err.response?.status == 401 || err.response?.status == 403){
-            router.push('/auth/login');
-            response = buildErrorResponse(err.response?.data)
+        }else if(err.response?.status == 401){
+            // try to refresh token
+            try {
+                const authResponse = await httpService.get('/auth/refresh', 
+                    {
+                        headers:{
+                            refreshtoken: authStorageService.getRefreshToken(),
+                        }
+                    }
+                );
+                await authStorageService.setAccessToken(authResponse.data.data.accesstoken);
+            } catch (error) {
+                // if error -> logout
+                useAuthStore().logout();
+            }
+        }else if(err.response?.status == 403){
+            useAuthStore().logout();
         }else{
             response = buildErrorResponse(err.response?.data)
         }

@@ -32,11 +32,6 @@ export const usePostStore = defineStore('post', () => {
         const response = await callApi(httpService.post(
             `/post`,
             {...data},
-            {
-                headers:{
-                    accesstoken: authStorageService.getAccessToken(),
-                }
-            }
         ));
         console.log(response);
         if(response.status == 'success'){
@@ -52,11 +47,6 @@ export const usePostStore = defineStore('post', () => {
         const response = await callApi(httpService.patch(
             `/post/${id}`,
             {...data},
-            {
-                headers:{
-                    accesstoken: authStorageService.getAccessToken(),
-                }
-            }
         ));
         console.log(response);
         if(response.status == 'success'){

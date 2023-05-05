@@ -243,7 +243,7 @@ function create() {
         </MyCard>
         <div class="buttons d-flex justify-content-center">
             <button class="base-button cancel-button">Hủy</button>
-            <button class="base-button create-button" @click="create">Đăng</button>
+            <button class="base-button create-button" @click="create">Cập nhật</button>
         </div>
     </div>
 </template>
