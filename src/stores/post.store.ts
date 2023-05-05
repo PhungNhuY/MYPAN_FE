@@ -1,4 +1,4 @@
-import { showErrorNotificationFunction } from "@/common/helper";
+import { showErrorNotificationFunction, showSuccessNotificationFunction } from "@/common/helper";
 import type { ICreatePost, IPost } from "@/common/interfaces";
 import router from "@/router";
 import httpService, { callApi } from "@/services/http/http.service";
@@ -60,6 +60,7 @@ export const usePostStore = defineStore('post', () => {
         ));
         console.log(response);
         if(response.status == 'success'){
+            showSuccessNotificationFunction('Cập nhật thành công');
             router.push(`/post/${response.data.post._id}`)
         } else if (response.status == 'error') {
             // showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
