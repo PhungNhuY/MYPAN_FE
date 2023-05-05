@@ -4,7 +4,7 @@ import MyCard from '@/components/MyCard.vue';
 import { computed, ref } from 'vue';
 import { uploadImage } from '@/services/image.service';
 import { usePostStore } from '@/stores/post.store';
-import { Field, Form, ErrorMessage } from 'vee-validate';
+import { Field, Form } from 'vee-validate';
 import * as Yup from 'yup';
 
 const postStore = usePostStore();
@@ -208,7 +208,7 @@ const schema = Yup.object().shape({
                         <div class="right row">
                             <div class="col-7">
                                 <!-- <textarea class="base-textarea" rows="4" v-model="step.content"></textarea> -->
-                                <Field name="step" type="text" class="base-textarea form-control" :class="{ 'is-invalid': errors.step }" v-model="step.content"/>
+                                <Field as="textarea" rows="3" name="step" class="base-textarea form-control" :class="{ 'is-invalid': errors.step }" v-model="step.content"/>
                                 <div class="invalid-feedback">{{ errors.step }}</div>
                             </div>
                             <div class="col-5 d-flex">
