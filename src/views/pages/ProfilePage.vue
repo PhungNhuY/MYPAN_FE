@@ -3,14 +3,33 @@ import { useAuthStore } from '@/stores/Auth.store';
 import { usePostStore } from '@/stores/post.store';
 import PostProfile from '@/components/PostProfile.vue';
 import MyCard from '@/components/MyCard.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 const { user } = useAuthStore();
+// use for switch beetween 2 tab
 const currentTab = ref(1);
 
 const postStore = usePostStore();
-const {listOfPost, numOfPage} = storeToRefs(postStore);
-await postStore.getListOfPost();
+const {listOfPost, numOfPage, currentPage, isLoading} = storeToRefs(postStore);
+currentPage.value = 1;
+await postStore.getListOfPost(undefined, currentPage.value);
+function getNextPosts() {
+    window.onscroll = async () => {
+        window.onscroll = async () => {
+            if ( (window.scrollY + window.innerHeight+200 >= document.body.scrollHeight)  ) {
+                console.log('fired');
+                if(currentPage.value<numOfPage.value){
+                    currentPage.value++;
+                    isLoading.value = true;
+                    await postStore.getListOfPost(undefined, currentPage.value);
+                }
+            }
+        }
+    }
+}
+onMounted(() => {
+    getNextPosts();
+})
 </script>
 
 <template>

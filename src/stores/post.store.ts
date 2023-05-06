@@ -8,8 +8,10 @@ import { ref } from "vue";
 
 export const usePostStore = defineStore('post', () => {
     const post = ref<IPost>();
-    const listOfPost = ref<IPost[]>();
+    const listOfPost = ref<IPost[]>([]);
     const numOfPage = ref(1);
+    const currentPage = ref(1);
+    const isLoading = ref(false);
 
     async function getPost(id: string){
         const response = await callApi(httpService.get(`/post/${id}`));
@@ -60,16 +62,16 @@ export const usePostStore = defineStore('post', () => {
         }
     }
 
-    async function getListOfPost(id?: string, page = 1, perPage = 10){
+    async function getListOfPost(id?: string, page = 1, perPage = 5){
         let response;
         if(!id){
             response = await callApi(httpService.get(`/post/list?page=${page}&perPage=${perPage}`));
         }else{
             response = await callApi(httpService.get(`/post/list/${id}?page=${page}&perPage=${perPage}`));
         }
-
+        isLoading.value = false;
         if(response.status == 'success'){
-            listOfPost.value = response.data.posts;
+            listOfPost.value = listOfPost.value.concat(response.data.posts);
             numOfPage.value = Math.ceil(response?.data.total/perPage);
         } else if (response.status == 'error') {
         }
@@ -95,5 +97,7 @@ export const usePostStore = defineStore('post', () => {
         getListOfPost,
         numOfPage,
         deletePost,
+        currentPage,
+        isLoading,
     };
 })
