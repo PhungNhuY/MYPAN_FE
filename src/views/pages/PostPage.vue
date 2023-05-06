@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import MyCard from '@/components/MyCard.vue';
 import { usePostStore } from '@/stores/post.store';
+import { useAuthStore } from '@/stores/Auth.store';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import {useRoute} from 'vue-router';
+import { useRoute } from 'vue-router';
 
 const numOfLike = ref(100);
 const isLike = ref(false);
@@ -25,14 +26,35 @@ console.log(postId);
 
 const postStore = usePostStore();
 await postStore.getPost(postId);
-const {post} = storeToRefs(postStore);
+const { post } = storeToRefs(postStore);
+
+const currentUser = useAuthStore().user;
 </script>
 
 <template>
+    <!-- Modal box - show when cofirm delete post -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="">Bạn có muốn xóa vĩnh viễn bài viết này?</p>
+            <p class="">Lưu ý: Bài viết không thể khôi phục sau khi đã xóa.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="postStore.deletePost(post?._id)">Xóa</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container wrapper">
         <div class="row">
             <div class="col-8 main-col">
-                <img :src="post?.imageCoverLink" alt="" srcset="" class="image-cover">
+                <img v-if="post?.imageCoverLink" :src="post?.imageCoverLink" alt="" srcset="" class="image-cover">
                 <MyCard :active="true" class="name-and-title">
                     <p class="name">{{ post?.name }}</p>
                     <p class="title">{{ post?.description }}</p>
@@ -55,11 +77,8 @@ const {post} = storeToRefs(postStore);
                             <th class="pl-2">Nguyên liệu</th>
                             <th>Định lượng</th>
                         </tr>
-                        <tr class="single-ingre" 
-                            v-for="(ingre, index) in post?.ingredients" 
-                            :key="index" 
-                            :class="{ 'highlight': (index % 2 == 0) }"
-                        >
+                        <tr class="single-ingre" v-for="(ingre, index) in post?.ingredients" :key="index"
+                            :class="{ 'highlight': (index % 2 == 0) }">
                             <td class="pl-2">{{ ingre.name }}</td>
                             <td>{{ ingre.quantity }}</td>
                         </tr>
@@ -67,26 +86,16 @@ const {post} = storeToRefs(postStore);
                 </MyCard>
                 <MyCard class="steps">
                     <p class="title">Cách làm</p>
-                    <div class="single-step"
-                        v-for="(step, index) in post?.steps" 
-                        :key="index"
-                    >
+                    <div class="single-step" v-for="(step, index) in post?.steps" :key="index">
                         <div class="d-flex">
                             <div class="left">
                                 <p class="order">{{ index }}</p>
                             </div>
                             <div class="right">
-                                <p>{{ step.content }}</p>
+                                <p class="enable-endline">{{ step.content }}</p>
                                 <div class="images d-flex justify-content-around">
-                                    <img 
-                                        v-for="(imageLink, index) in step.imageLink"
-                                        :key="index"
-                                        :src="imageLink"
-                                        alt=""
-                                        srcset=""
-                                        class="image"
-                                        :class="`contain-${step.imageLink?.length}`"
-                                    >
+                                    <img v-for="(imageLink, index) in step.imageLink" :key="index" :src="imageLink" alt=""
+                                        srcset="" class="image" :class="`contain-${step.imageLink?.length}`">
                                 </div>
                             </div>
                         </div>
@@ -96,19 +105,20 @@ const {post} = storeToRefs(postStore);
             <div class="col-4 feature-col">
                 <div class="feature-box">
                     <div class="box box-1">
-                        <img src="/slider-temp/1.webp" alt="" srcset="" class="background">
+                        <img :src="post?.author?.imageCoverLink" alt="" srcset="" class="background">
                         <div class="avatar-and-name d-flex align-items-end">
-                            <img src="/slider-temp/1.webp" alt="" srcset="" class="avatar">
+                            <img :src="post?.author?.avatar_link" alt="" srcset="" class="avatar">
                             <div class="pl-1">
                                 <p class="name">
-                                    Phung Nhu Y
+                                    {{ post?.author?.fullname }}
                                 </p>
-                                <p class="username">@PhungNhuY</p>
+                                <p class="username">@{{ post?.author?.username }}</p>
                             </div>
                         </div>
                     </div>
                     <div class="box box-2">
-                        <button class="button save" :class="{ 'save-active': isFavorite }" @click="toggleFavorite">
+                        <button v-if="post?.author._id != currentUser?.id" class="button save"
+                            :class="{ 'save-active': isFavorite }" @click="toggleFavorite">
                             <img v-if="!isFavorite" src="@/assets/icons/bookmark-orange.png" class="icon" />
                             <img v-else src="@/assets/icons/bookmark.png" class="icon" />
                             {{ isFavorite ? 'Đã lưu' : 'Lưu' }}
@@ -117,9 +127,19 @@ const {post} = storeToRefs(postStore);
                             <img src="@/assets/icons/share.png" class="icon" />
                             Chia sẻ
                         </button>
-                        <button class="button report">
+                        <button v-if="post?.author._id != currentUser?.id" class="button report">
                             <img src="@/assets/icons/report.png" class="icon" />
                             Báo cáo món này
+                        </button>
+                        <router-link class="link" :to="`/post/update/${post?._id}`">
+                            <button v-if="post?.author._id == currentUser?.id" class="button share">
+                                <img src="@/assets/icons/writing-black.png" class="icon" />
+                                Cập nhật bài viết
+                            </button>
+                        </router-link>
+                        <button v-if="post?.author._id == currentUser?.id" class="button delete" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <img src="@/assets/icons/delete-red.png" class="icon" />
+                            Xóa bài viết
                         </button>
                     </div>
                 </div>
@@ -132,6 +152,15 @@ const {post} = storeToRefs(postStore);
 p {
     margin: 0px;
     padding: 0px;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.enable-endline{
+    white-space: pre-line;
 }
 
 .wrapper {
@@ -185,12 +214,14 @@ p {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+
                     &:hover {
                         overflow: visible;
                         white-space: pre-line;
                     }
                 }
-                .username{
+
+                .username {
                     font-size: 12px;
                     color: #909090;
                     margin-bottom: 10px;
@@ -214,6 +245,7 @@ p {
                     height: 20px;
                 }
             }
+
             .save {
                 width: 100%;
                 color: #ffaa55;
@@ -224,12 +256,19 @@ p {
                 background-color: #ffaa55;
                 color: white;
             }
-            
-            .share{
+
+            .share {
                 width: 100%;
             }
-            .report{
+
+            .report {
                 width: 100%;
+            }
+
+            .delete {
+                width: 100%;
+                color: #bb2e2e;
+                border: 1px solid #bb2e2e;
             }
 
             // .like {
@@ -341,6 +380,7 @@ p {
         .images {
             margin-top: 5px;
             margin-bottom: 20px;
+
             .image {
                 border-radius: 10px;
                 max-height: 300px;

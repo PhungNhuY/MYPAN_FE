@@ -25,7 +25,11 @@ await postStore.getListOfPost();
                     <div class="p-3">
                         <v-window v-model="currentTab" class="windows">
                             <v-window-item value="one" class="window-one">
+                                <div v-if="listOfPost?.length == 0" class="w-100 d-flex justify-content-center">
+                                    <img src="@/assets/images/not-found-1024.png" alt="" class="w-50 opacity-25">
+                                </div>
                                 <PostProfile
+                                    v-else
                                     v-for="post in listOfPost"
                                     :key="post._id"
                                     :data="post"
@@ -53,7 +57,9 @@ await postStore.getListOfPost();
                         </div>
                     </div>
                     <div class="box box-2">
-                        <button class="button btn-active" @click="">Tạo món ăn mới</button>
+                        <router-link class="link" to="/post/create">
+                            <button class="button btn-active">Tạo món ăn mới</button>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -69,6 +75,10 @@ p {
 
 .wrapper {
     max-width: 968px;
+}
+.link{
+    text-decoration: none;
+    color: black;
 }
 
 .main-col {}

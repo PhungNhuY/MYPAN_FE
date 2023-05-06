@@ -75,6 +75,17 @@ export const usePostStore = defineStore('post', () => {
         }
     }
 
+    async function deletePost(id: string) {
+        const response = await callApi(httpService.delete(`/post/${id}`));
+        if(response.status == 'success'){
+            showSuccessNotificationFunction('Xóa bài viết thành công');
+            router.push('/');
+        } else if (response.status == 'error') {
+            showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
+            // showErrorNotificationFunction(response.message[0]);
+        }
+    }
+
     return {
         post,
         getPost,
@@ -83,5 +94,6 @@ export const usePostStore = defineStore('post', () => {
         listOfPost,
         getListOfPost,
         numOfPage,
+        deletePost,
     };
 })

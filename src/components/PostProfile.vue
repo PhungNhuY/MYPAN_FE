@@ -29,7 +29,8 @@ const Props = defineProps<props>();
                 </div>
                 <div class="col-4">
                     <div class="right">
-                        <img :src="data.imageCoverLink" alt="" srcset="" class="image-cover">
+                        <img v-if="data.imageCoverLink" :src="data.imageCoverLink" alt="" srcset="" class="image-cover">
+                        <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="image-cover opacity-25">
                     </div>
                 </div>
             </div>
