@@ -24,8 +24,8 @@ console.log(postId);
 
 
 const postStore = usePostStore();
+await postStore.getPost(postId);
 const {post} = storeToRefs(postStore);
-postStore.getPost(postId);
 </script>
 
 <template>

@@ -6,8 +6,16 @@ import HeaderCpn from '@/components/layout/HeaderCpn.vue';
 
 <template>
     <HeaderCpn/>
-    <Suspense>
-        <RouterView />
-    </Suspense>
+    <div class="wrapper">
+        <Suspense>
+            <RouterView />
+        </Suspense>
+    </div>
     <FooterCpn/>
 </template>
+
+<style scoped lang="scss">
+.wrapper{
+    min-height: 90vh;
+}
+</style>

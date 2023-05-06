@@ -4,6 +4,7 @@ import HomePage from '@/views/pages/HomePage.vue';
 import authRouter from './auth.router';
 import postRouters from './post.router';
 import authMiddleware from './authMiddleware';
+import profileRouter from './profile.router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,13 +20,10 @@ const router = createRouter({
           meta: {
           },
         },
-        { 
-          path: 'getMe', 
-          component: () => import('@/views/pages/ProfilePage.vue'),
-        },
 
         ...authRouter,
         ...postRouters,
+        ...profileRouter,
 
         // catch not found
         {
