@@ -30,11 +30,11 @@ onClickOutside(target, () => isShowMenu.value = false);
                     <router-link class="username" to="/profile">{{ user?.fullname }}</router-link>
                 </li>
                 <li class="sub-li" v-show="authStore.user?.email">
-                    <button @click="authStore.logout()" class="">Logout</button>
+                    <button @click="authStore.logout()" class="">Đăng xuất</button>
                     <p>&#8250;</p>
                 </li>
                 <li class="sub-li" v-show="!authStore.user?.email">
-                    <router-link to="/auth/login" class="" href="#">Login</router-link>
+                    <router-link to="/auth/login" class="">Đặng Nhập</router-link>
                     <p>&#8250;</p>
                 </li>
             </ul>
