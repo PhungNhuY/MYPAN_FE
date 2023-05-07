@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { IPostCard } from '@/common/interfaces';
+import type { IPost, IPostCard } from '@/common/interfaces';
 
 interface props {
-    postCard: IPostCard;
+    postCard: IPost;
 }
 const Props = defineProps<props>();
 
-const numOfLike = ref(Props.postCard.like);
-const isLike = ref(Props.postCard.isLike);
-function toggleLike(){
-    isLike.value = !isLike.value;
-    numOfLike.value += isLike.value ? 1 : -1;
-}
+// const numOfLike = ref(Props.postCard.like);
+// const isLike = ref(Props.postCard.isLike);
+// function toggleLike(){
+//     isLike.value = !isLike.value;
+//     numOfLike.value += isLike.value ? 1 : -1;
+// }
 
-const isFavorite = ref(Props.postCard.isFavotire);
-function toggleFavorite(){
-    isFavorite.value = !isFavorite.value;
-}
+// const isFavorite = ref(Props.postCard.isFavotire);
+// function toggleFavorite(){
+//     isFavorite.value = !isFavorite.value;
+// }
 
 </script>
 
@@ -27,16 +27,17 @@ function toggleFavorite(){
             backgroundImage: `linear-gradient(
                             rgba(0, 0, 0, 0.0), 
                             rgba(0, 0, 0, 0.0)
-                        ),url(${postCard.imageCover})` }">
+                        ),url(${postCard.imageCoverLink}),url(/src/assets/images/not-found-1024-opa25.png)` }">
             <div class="info">
                 <div class="user d-flex align-items-center">
-                    <img :src="postCard.userAvatar || '/src/assets/images/default-avatar.jpg'" alt="" srcset="" class="avatar">
-                    <p class="name">{{ postCard.username }}</p>
+                    <img :src="postCard.author?.avatar_link || '/src/assets/images/default-avatar.jpg'" alt="" srcset="" class="avatar">
+                    <p class="name">{{ postCard.author?.fullname }}</p>
                 </div>
-                <p class="post-name">{{ postCard.postName }}</p>
+                <p class="post-name">{{ postCard.name }}</p>
+                <p class="post-description">{{ postCard.description }}</p>
             </div>
         </div>
-        <div class="function d-flex justify-content-between">
+        <!-- <div class="function d-flex justify-content-between">
             <div class="left" @click="toggleLike">
                 <div class="heart d-flex justify-content-center align-items-center" :class="{ 'active': isLike }">
                     <img src="@/assets/icons/love.png" class="icon" />
@@ -49,7 +50,7 @@ function toggleFavorite(){
                     <p class="text">{{ isFavorite ? 'Đã lưu' : 'Lưu' }}</p>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -68,7 +69,8 @@ p {
 
 .main-title {
     width: 100%;
-    height: calc(100% - 40px);
+    // height: calc(100% - 40px);
+    height: calc(100%);
     background-size: cover;
     background-position: center;
     padding: 0px 15px;
@@ -78,15 +80,15 @@ p {
         position: absolute;
         bottom: 10px;
         img {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border-radius: 99px;
             margin-top: -2px;
         }
 
         .name {
             color: #ffffff;
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 500;
             margin-left: 5px;
             text-shadow: 1px 1px #444444;
@@ -109,6 +111,21 @@ p {
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             max-height: 72px;
+        }
+        .post-description{
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 5px;
+            padding-right: 15px;
+            text-shadow: 1px 1px #444444;
+
+            line-height: 16px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            max-height: 32px;
         }
     }
 }

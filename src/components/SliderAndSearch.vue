@@ -4,46 +4,57 @@ import '@splidejs/vue-splide/css';
 import SearchForm from './SearchForm.vue';
 import { ref } from 'vue';
 import router from '@/router';
+import type { IPost } from '@/common/interfaces';
 
 const link = ref('#');
 const name = ref('');
-const username = ref('');
+const fullname = ref('');
 
 function update(splide: any){
-    link.value = `/post/${data[splide.index].id}`;
-    name.value = data[splide.index].name;
-    username.value = data[splide.index].username;
+    link.value = `/post/${data[splide.index]._id}`;
+    name.value = data[splide.index].name as string;
+    fullname.value = data[splide.index].author?.fullname as string;
 }
-const data = [
+const data: IPost[] = [
     {
         name: 'Bánh Tráng trộng',
-        username: 'Phùng Như Ý',
-        image: '/slider-temp/1.webp',
-        id: '1231'
+        author:{
+            fullname: 'Phùng Như Ý',
+        },
+        imageCoverLink: '/slider-temp/1.webp',
+        _id: '1231'
     },
     {
         name: 'kem',
-        username: 'Phùng',
-        image: '/slider-temp/2.webp',
-        id: '1231'
+        author:{
+            fullname: 'Phùng',
+        },
+        imageCoverLink: '/slider-temp/2.webp',
+        _id: '1231'
     },
     {
         name: 'mixue',
-        username: 'Như',
-        image: '/slider-temp/3.webp',
-        id: '1231'
+        author:{
+            fullname: 'Như',
+        },
+        imageCoverLink: '/slider-temp/3.webp',
+        _id: '1231'
     },
     {
         name: 'Phương',
-        username: 'Ham ăn',
-        image: '/slider-temp/4.webp',
-        id: '1231'
+        author:{
+            fullname: 'Ham ăn',
+        },
+        imageCoverLink: '/slider-temp/4.webp',
+        _id: '1231'
     },
     {
         name: 'Trương Lợn',
-        username: 'Ăn Lắm',
-        image: '/slider-temp/5.webp',
-        id: '1231'
+        author:{
+            fullname: 'Ăn Lắm',
+        },
+        imageCoverLink: '/slider-temp/5.webp',
+        _id: '1231'
     },
 ]
 </script>
@@ -70,7 +81,7 @@ const data = [
         <SplideSlide 
             v-for="post in data" 
             class="single-slide" 
-            :key="post.id"
+            :key="post._id"
         >
             <div 
                 class="slide-content" 
@@ -78,7 +89,7 @@ const data = [
                     backgroundImage: `linear-gradient(
                         rgba(0, 0, 0, 0.25), 
                         rgba(0, 0, 0, 0.25)
-                    ),url(${post.image}` 
+                    ),url(${post.imageCoverLink}` 
                 }"
             ></div>
         </SplideSlide>
@@ -91,7 +102,7 @@ const data = [
             <div class="left">
                 <p class="name d-inline">{{ name }}</p>
                 <div class="dot d-inline-block"></div>
-                <p class="onwer  d-inline">của {{ username }}</p>
+                <p class="onwer  d-inline">của {{ fullname }}</p>
             </div>
             <img src="@/assets/icons/right-arrow.png" alt="" srcset="" class="right">
         </div>

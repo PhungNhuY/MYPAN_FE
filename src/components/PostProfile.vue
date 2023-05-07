@@ -110,7 +110,7 @@ hr {
         line-height: 16px;
         overflow: hidden;
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         max-height: 32px;
     }

@@ -5,6 +5,7 @@ import authRouter from './auth.router';
 import postRouters from './post.router';
 import authMiddleware from './authMiddleware';
 import profileRouter from './profile.router';
+import adminRouter from './admin.router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,11 +25,13 @@ const router = createRouter({
         ...authRouter,
         ...postRouters,
         ...profileRouter,
+        ...adminRouter,
 
         // catch not found
         {
           path: '/:pathMatch(.*)*',
-          component: () => import('@/views/pages/NotFound.vue'),
+          // component: () => import('@/views/pages/NotFound.vue'),
+          redirect: '/',
         }
       ]
     },

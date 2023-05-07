@@ -18,53 +18,57 @@ const authStore = useAuthStore();
                     :post-cards="[
                         {
                             id: '1234',
-                            imageCover: '/slider-temp/1.webp',
-                            postName: 'Sườn non hảo hạng',
-                            username: 'Phung Nhu Y',
+                            imageCoverLink: '/slider-temp/1.webp',
+                            name: 'Sườn non hảo hạng',
+                            description: 'Mô tả dài một dòng sông sông sông',
                             userAvatar: null,
-                            like: 100,
-                            isLike: false,
-                            isFavotire: false,
+                            author:{
+                                fullname: 'Phung Nhu Y',
+                            }
                         },
                         {
                             id: '1231',
-                            imageCover: '/slider-temp/2.webp',
-                            postName: 'Sườn non hảo hạng',
+                            imageCoverLink: '/slider-temp/2.webp',
+                            name: 'Sườn non hảo hạng',
+                            description: 'Mô tả dài một dòng sông sông sông',
                             username: 'Phung Nhu Y',
                             userAvatar: null,
-                            like: 100,
-                            isLike: false,
-                            isFavotire: false,
+                            author:{
+                                fullname: 'Phung Nhu Y',
+                            }
                         },
                         {
                             id: '1232',
-                            imageCover: '/slider-temp/3.webp',
-                            postName: 'Sườn non hảo hạng',
+                            imageCoverLink: '/slider-temp/3.webp',
+                            name: 'Sườn non hảo hạng',
+                            description: 'Mô tả dài một dòng sông sông sông',
                             username: 'Phung Nhu Y',
                             userAvatar: null,
-                            like: 100,
-                            isLike: false,
-                            isFavotire: false,
+                            author:{
+                                fullname: 'Phung Nhu Y',
+                            }
                         },
                         {
                             id: '1233',
-                            imageCover: '/slider-temp/4.webp',
-                            postName: 'Sườn non hảo hạng',
+                            imageCoverLink: '/slider-temp/4.webp',
+                            name: 'Sườn non hảo hạng',
+                            description: 'Mô tả dài một dòng sông sông sông',
                             username: 'Phung Nhu Y',
                             userAvatar: null,
-                            like: 100,
-                            isLike: false,
-                            isFavotire: false,
+                            author:{
+                                fullname: 'Phung Nhu Y',
+                            }
                         },
                         {
                             id: '1235',
-                            imageCover: '/slider-temp/5.webp',
-                            postName: 'Sườn non hảo hạng',
+                            imageCoverLink: '/slider-temp/5.webp',
+                            name: 'Sườn non hảo hạng',
+                            description: 'Mô tả dài một dòng sông sông sông',
                             username: 'Phung Nhu Y',
                             userAvatar: null,
-                            like: 100,
-                            isLike: false,
-                            isFavotire: false,
+                            author:{
+                                fullname: 'Phung Nhu Y',
+                            }
                         }
                     ]" />
                 </div>

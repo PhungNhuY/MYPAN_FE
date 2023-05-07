@@ -25,21 +25,12 @@ export default async (
             query: { redirect: to.fullPath }, // Store the full path to redirect the user to after login
         });
     }
-    // if (
-    //     !refreshToken ||
-    //     !refreshTokenExpiredAt ||
-    //     refreshTokenExpiredAt <= new Date().getTime()
-    // ) {
-    //     localStorageAuthService.resetAll();
-    //     return next({
-    //         path: '/login',
-    //         query: { redirect: to.path },
-    //     });
-    // }
-    // if (loggedIn) {
-    //     const requiredPermissions = (to?.meta?.requiredPermissions as string[]) || [];
-    //     if (hasPermissionToAccessRoute(requiredPermissions)) return next();
+    if (loggedIn) {
+        const requiredPermissions = to?.meta?.requiredPermissions as string || null;
+        if (requiredPermissions == 'admin' && authStorageService.getLoginUser().role as string != 'admin'){
+            return next('/');
+        }
     //     return next({ path: '/404' });
-    // }
+    }
     return next();
 };

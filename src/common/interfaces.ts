@@ -1,13 +1,13 @@
 export interface IUser {
-    _id: string;
-    id: string;
-    email: string;
-    username: string;
-    fullname: string;
-    avatar_link: string;
-    imageCoverLink: string;
-    role: string;
-    status: string;
+    _id?: string;
+    id?: string;
+    email?: string;
+    username?: string;
+    fullname?: string;
+    avatar_link?: string;
+    imageCoverLink?: string;
+    role?: string;
+    status?: string;
 }
 
 export interface IPostCard {

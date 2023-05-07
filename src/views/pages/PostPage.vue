@@ -131,7 +131,7 @@ function report(){
                         <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="background opacity-25 not-found"/>
                         <div class="avatar-and-name d-flex align-items-end">
                             <img v-if="post?.author?.avatar_link" :src="post?.author?.avatar_link" alt="" srcset="" class="avatar">
-                            <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="avatar opacity-25">
+                            <img v-else src="@/assets/images/default-avatar.jpg" alt="" srcset="" class="avatar">
                             <div class="pl-1">
                                 <router-link class="link" :to="`/profile/${post?.author?.username}`">
                                     <p class="name">
