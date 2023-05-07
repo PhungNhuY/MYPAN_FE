@@ -8,6 +8,10 @@ import { ref } from "vue";
 
 export const usePostStore = defineStore('post', () => {
     const post = ref<IPost>();
+    const listOfPost = ref<IPost[]>([]);
+    const numOfPage = ref(1);
+    const currentPage = ref(1);
+    const isLoading = ref(false);
 
     async function getPost(id: string){
         const response = await callApi(httpService.get(`/post/${id}`));
@@ -58,10 +62,42 @@ export const usePostStore = defineStore('post', () => {
         }
     }
 
+    async function getListOfPost(id?: string, page = 1, perPage = 5){
+        let response;
+        if(!id){
+            response = await callApi(httpService.get(`/post/list?page=${page}&perPage=${perPage}`));
+        }else{
+            response = await callApi(httpService.get(`/post/list/${id}?page=${page}&perPage=${perPage}`));
+        }
+        isLoading.value = false;
+        if(response.status == 'success'){
+            listOfPost.value = listOfPost.value.concat(response.data.posts);
+            numOfPage.value = Math.ceil(response?.data.total/perPage);
+        } else if (response.status == 'error') {
+        }
+    }
+
+    async function deletePost(id: string) {
+        const response = await callApi(httpService.delete(`/post/${id}`));
+        if(response.status == 'success'){
+            showSuccessNotificationFunction('Xóa bài viết thành công');
+            router.push('/');
+        } else if (response.status == 'error') {
+            showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
+            // showErrorNotificationFunction(response.message[0]);
+        }
+    }
+
     return {
         post,
         getPost,
         createPost,
         updatePost,
+        listOfPost,
+        getListOfPost,
+        numOfPage,
+        deletePost,
+        currentPage,
+        isLoading,
     };
 })

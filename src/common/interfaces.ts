@@ -1,5 +1,13 @@
 export interface IUser {
+    _id: string;
+    id: string;
     email: string;
+    username: string;
+    fullname: string;
+    avatar_link: string;
+    imageCoverLink: string;
+    role: string;
+    status: string;
 }
 
 export interface IPostCard {
@@ -25,14 +33,16 @@ export interface IIngre{
 
 export interface IPost{
     author?: IUser;
-    _id: string;
-    name: string;
-    description: string;
-    imageCoverLink: string;
-    ration: number;
-    time: number;
-    ingredients: IIngre[],
-    steps: IStep[];
+    _id?: string;
+    name?: string;
+    description?: string;
+    imageCoverLink?: string;
+    ration?: number;
+    time?: number;
+    ingredients?: IIngre[],
+    steps?: IStep[];
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface ICreatePost{

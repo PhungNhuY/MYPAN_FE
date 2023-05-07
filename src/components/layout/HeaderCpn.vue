@@ -3,8 +3,10 @@ import { useAuthStore } from '@/stores/Auth.store';
 import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core'
 import SearchForm from '../SearchForm.vue';
+import { storeToRefs } from 'pinia';
 
 const authStore = useAuthStore();
+const {user} = storeToRefs(authStore);
 
 const isShowMenu = ref(false);
 const target = ref(null);
@@ -23,8 +25,9 @@ onClickOutside(target, () => isShowMenu.value = false);
             <img src="@/assets/icons/burger-bar.png" alt="" srcset="" class="menu-icon">
             <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'">
                 <li class="profile" v-show="authStore.user?.email">
-                    <img src="@/assets/images/default-avatar.jpg" alt="" srcset="">
-                    <router-link class="username" to="/getMe">user name</router-link>
+                    <img v-if="!user?.avatar_link" src="@/assets/images/default-avatar.jpg" alt="" srcset="">
+                    <img v-else :src="user.avatar_link" alt="" srcset="">
+                    <router-link class="username" to="/profile">{{ user?.fullname }}</router-link>
                 </li>
                 <li class="sub-li" v-show="authStore.user?.email">
                     <button @click="authStore.logout()" class="">Logout</button>
@@ -105,6 +108,7 @@ p {
                 height: 40px;
                 border-radius: 50%;
                 margin-right: 10px;
+                object-fit: cover;
             }
             .username{
                 text-decoration: none;
