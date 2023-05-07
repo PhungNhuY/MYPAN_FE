@@ -1,26 +1,24 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
+import { checkConfirm, updatePassword } from '@/services/auth.service';
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
 
-import { useAuthStore } from '@/stores/Auth.store.js';
-
 const schema = Yup.object().shape({
-    email: Yup.string().email('Email không hợp lệ').max(255).required('Vui lòng nhập email.'),
-    username: Yup.string().min(8).max(255).matches(
-        /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
-        'Tên tài khoản'
-    ).required('Vui lòng nhập tên tài khoản'),
-    fullname: Yup.string().min(3).max(50).required('Vui Lòng nhập họ tên'),
     password: Yup.string().min(8).max(255).required('Vui lòng nhập mật khẩu'),
     retypePassword: Yup.string().max(255)
         .required('Vui lòng xác nhận mật khẩu')
         .oneOf([Yup.ref('password')], 'Mật khẩu không hợp lệ'),
 });
 
-async function callRegister(values: any) {
-    const authStore = useAuthStore();
-    const { email, password, username, fullname } = values;
-    await authStore.register(email, fullname, username, password);
+// get token from route
+const route = useRoute();
+const token = route.query.token as string;
+const ans = await checkConfirm(token);
+
+async function callResetPass(values: any) {
+    const {password } = values;
+    await updatePassword(password);
 }
 </script>
 
@@ -28,30 +26,12 @@ async function callRegister(values: any) {
     <div class="container wrapper">
         <div class="row justify-content-center">
             <div class="col-12 my-col">
-                <h4 class="header">Đăng ký</h4>
+                <h4 class="header">Đặt lại mật khẩu</h4>
                 <div class="card">
                     <div class="card-body">
-                        <Form @submit="callRegister" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
-                            <div class="form-group">
-                                <label>Email</label>
-                                <Field name="email" type="text" class="form-control"
-                                    :class="{ 'is-invalid': errors.email }" />
-                                <div class="invalid-feedback">{{ errors.email }}</div>
-                            </div>
+                        <Form @submit="callResetPass" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
                             <div class="form-group py-4">
-                                <label>Họ và tên</label>
-                                <Field name="fullname" type="text" class="form-control"
-                                    :class="{ 'is-invalid': errors.fullname }" />
-                                <div class="invalid-feedback">{{ errors.fullname }}</div>
-                            </div>
-                            <div class="form-group">
-                                <label>Tên tài khoản</label>
-                                <Field name="username" type="text" class="form-control"
-                                    :class="{ 'is-invalid': errors.username }" />
-                                <div class="invalid-feedback">{{ errors.username }}</div>
-                            </div>
-                            <div class="form-group py-4">
-                                <label>Mật khẩu</label>
+                                <label>Mật khẩu mới</label>
                                 <Field name="password" type="password" class="form-control"
                                     :class="{ 'is-invalid': errors.password }" />
                                 <div class="invalid-feedback">{{ errors.password }}</div>
@@ -65,9 +45,8 @@ async function callRegister(values: any) {
                             <div class="form-group my-3 d-flex flex-column align-items-center">
                                 <button class="btn btn-register" :disabled="isSubmitting">
                                     <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-                                    Register
+                                    Cập nhật
                                 </button>
-                                <router-link to="login" class="btn btn-login">Login</router-link>
                             </div>
                         </Form>
                     </div>
@@ -78,6 +57,7 @@ async function callRegister(values: any) {
 </template>
 
 <style scoped lang="scss">
+
 .btn{
     width: 100%;
 }

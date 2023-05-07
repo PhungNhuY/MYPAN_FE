@@ -21,6 +21,10 @@ const authRouters: Array<RouteRecordRaw> = [
             {
                 path: 'confirm',
                 component: () => import('@/views/pages/ConfirmEmail.vue'),
+            },
+            {
+                path: 'forgot',
+                component: () => import('@/views/pages/ResetPass.vue'),
             }
         ],
     }

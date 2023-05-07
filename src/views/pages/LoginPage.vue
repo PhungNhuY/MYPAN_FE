@@ -2,13 +2,14 @@
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
 import { useRoute } from 'vue-router'
-
+import {sendForgotPassEmail} from '@/services/auth.service';
 import { useAuthStore } from '@/stores/Auth.store.js';
+import { ref } from 'vue';
 const route = useRoute();
 
 const schema = Yup.object().shape({
-    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-    password: Yup.string().max(255).required('Password is required')
+    email: Yup.string().email('Email không hợp lệ').max(255).required('Vui lòng nhập email.'),
+    password: Yup.string().max(255).required('Vui lòng nhập mật khẩu')
 });
 
 
@@ -23,9 +24,33 @@ async function callLogin(values: any) {
     const { email, password } = values;
     await authStore.login(email, password);
 }
+
+const fogotEmail = ref('');
+async function send(){
+    await sendForgotPassEmail(fogotEmail.value);
+}
 </script>
 
 <template>
+    <!-- Modal box - show when cofirm report post -->
+    <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="emailModalLabel">Nhập email của bạn</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <input type="email" class="form-control" placeholder="Email" v-model="fogotEmail">
+              <p class="pt-1">Chúng tôi sẽ gửi một email cập nhật mật khẩu cho bạn.</p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="send">Gửi</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container wrapper">
         <div class="row justify-content-center">
             <div class="col-12 my-col">
@@ -51,6 +76,7 @@ async function callLogin(values: any) {
                                     Đăng nhập
                                 </button>
                                 <router-link to="register" class="btn btn-register">Đăng ký</router-link>
+                                <button class="forgot" data-bs-toggle="modal" data-bs-target="#emailModal">Quên mật khẩu</button>
                             </div>
                         </Form>
                     </div>
