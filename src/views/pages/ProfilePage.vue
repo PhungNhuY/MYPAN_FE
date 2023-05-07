@@ -66,9 +66,11 @@ onMounted(() => {
             <div class="col-4 feature-col">
                 <div class="feature-box">
                     <div class="box box-1">
-                        <img :src="user?.imageCoverLink" alt="" srcset="" class="background">
+                        <img v-if="user?.imageCoverLink" :src="user?.imageCoverLink" alt="" srcset="" class="background">
+                        <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="background opacity-25 not-found"/>
                         <div class="avatar-and-name d-flex align-items-end">
-                            <img :src="user?.avatar_link" alt="" srcset="" class="avatar">
+                            <img v-if="user?.avatar_link" :src="user?.avatar_link" alt="" srcset="" class="avatar">
+                            <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="avatar opacity-25">
                             <div class="pl-1">
                                 <p class="name">
                                     {{ user?.fullname }}
@@ -164,6 +166,9 @@ p {
                 height: 150px;
                 object-fit: cover;
                 margin-bottom: 40px;
+            }
+            .not-found{
+                object-fit: contain;
             }
 
             .avatar-and-name {
