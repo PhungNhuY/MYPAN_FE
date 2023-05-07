@@ -19,7 +19,6 @@ export const usePostStore = defineStore('post', () => {
         if(response.status == 'success'){
             post.value = response.data.post;
             return post.value;
-            // console.log(response.data.post);
         } else if (response.status == 'error') {
             if(response.message == 'Not Found' || response.message == 'Bad Request'){
                 showErrorNotificationFunction('Không tìm thấy bài viết bạn yêu cầu!');
@@ -63,6 +62,7 @@ export const usePostStore = defineStore('post', () => {
     }
 
     async function getListOfPost(id?: string, page = 1, perPage = 5){
+        console.log(id);
         let response;
         if(!id){
             response = await callApi(httpService.get(`/post/list?page=${page}&perPage=${perPage}`));
@@ -71,7 +71,8 @@ export const usePostStore = defineStore('post', () => {
         }
         isLoading.value = false;
         if(response.status == 'success'){
-            listOfPost.value = listOfPost.value.concat(response.data.posts);
+            listOfPost.value = listOfPost.value.concat(response?.data.posts);
+            // console.log(listOfPost.value);
             numOfPage.value = Math.ceil(response?.data.total/perPage);
         } else if (response.status == 'error') {
         }

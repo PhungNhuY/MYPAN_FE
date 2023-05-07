@@ -1,19 +1,33 @@
 <script setup lang="ts">
+import router from '@/router';
 import { useAuthStore } from '@/stores/Auth.store';
-import { usePostStore } from '@/stores/post.store';
-import PostProfile from '@/components/PostProfile.vue';
-import MyCard from '@/components/MyCard.vue';
 import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import {getProfile} from '@/services/profile.service';
+import MyCard from '@/components/MyCard.vue';
+import PostProfile from '@/components/PostProfile.vue';
+import { usePostStore } from '@/stores/post.store';
 import { storeToRefs } from 'pinia';
-const { user } = useAuthStore();
+
+// get post id from route
+const route = useRoute();
+const username = route.params.username as string;
+const currentUser = useAuthStore().user;
+
+if(username == currentUser?.username){
+    router.push('/profile');
+}
+
 // use for switch beetween 2 tab
 const currentTab = ref(1);
+
+const user = await getProfile(username);
 
 const postStore = usePostStore();
 const {listOfPost, numOfPage, currentPage, isLoading} = storeToRefs(postStore);
 listOfPost.value = [];
 currentPage.value = 1;
-await postStore.getListOfPost(undefined, currentPage.value);
+await postStore.getListOfPost(user?.id, currentPage.value);
 
 function getNextPosts() {
     window.onscroll = async () => {
@@ -23,7 +37,7 @@ function getNextPosts() {
                 if(currentPage.value<numOfPage.value){
                     currentPage.value++;
                     isLoading.value = true;
-                    await postStore.getListOfPost(undefined, currentPage.value);
+                    await postStore.getListOfPost(user?.id, currentPage.value);
                 }
             }
         }
@@ -40,8 +54,7 @@ onMounted(() => {
             <div class="col-8 main-col">
                 <MyCard class="main-card">
                     <v-tabs class="tab-header" v-model="currentTab">
-                        <v-tab class="left" value="one">Món của tôi</v-tab>
-                        <v-tab class="right" value="two">Món đã lưu</v-tab>
+                        <v-tab class="left" value="one">Món của {{ user?.fullname }}</v-tab>
                     </v-tabs>
                     <div class="p-3">
                         <v-window v-model="currentTab" class="windows">
@@ -56,9 +69,6 @@ onMounted(() => {
                                     :data="post"
                                 />
                             </v-window-item>
-                            <v-window-item value="two" class="window-two">
-                                {{ numOfPage }}
-                            </v-window-item>
                         </v-window>
                     </div>
                 </MyCard>
@@ -66,9 +76,11 @@ onMounted(() => {
             <div class="col-4 feature-col">
                 <div class="feature-box">
                     <div class="box box-1">
-                        <img :src="user?.imageCoverLink" alt="" srcset="" class="background">
+                        <img v-if="user?.imageCoverLink" :src="user?.imageCoverLink" alt="" srcset="" class="background"/>
+                        <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="background opacity-25 not-found"/>
                         <div class="avatar-and-name d-flex align-items-end">
-                            <img :src="user?.avatar_link" alt="" srcset="" class="avatar">
+                            <img v-if="user?.avatar_link" :src="user?.avatar_link" alt="" srcset="" class="avatar">
+                            <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="avatar opacity-25">
                             <div class="pl-1">
                                 <p class="name">
                                     {{ user?.fullname }}
@@ -78,9 +90,9 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="box box-2">
-                        <router-link class="link" to="/post/create">
+                        <!-- <router-link class="link" to="/post/create">
                             <button class="button btn-active">Tạo món ăn mới</button>
-                        </router-link>
+                        </router-link> -->
                     </div>
                 </div>
             </div>
@@ -88,8 +100,7 @@ onMounted(() => {
     </div>
 </template>
 
-<style scoped lang="scss">
-p {
+<style scoped lang="scss">p {
     margin: 0px;
     padding: 0px;
 }
@@ -114,7 +125,7 @@ p {
 
     :deep(.v-slide-group__content) {
         .v-btn {
-            width: 50%;
+            width: 100%;
             background-color: #ffaa55;
             border-radius: 0px;
         }
@@ -125,10 +136,11 @@ p {
         }
 
         .v-slide-group-item--active.left{
-            box-shadow: 
-                inset -7px 0px 5px -7px rgba(0, 0, 0, 0.4),
-                inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4),
-            ;
+            // box-shadow: 
+            //     inset -7px 0px 5px -7px rgba(0, 0, 0, 0.4),
+            //     inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4),
+            //     inset 7px 0px 5px -7px rgba(0, 0, 0, 0.4),
+            // ;
         }
         .v-slide-group-item--active.right{
             box-shadow: 
@@ -164,6 +176,9 @@ p {
                 height: 150px;
                 object-fit: cover;
                 margin-bottom: 40px;
+            }
+            .not-found{
+                object-fit: contain;
             }
 
             .avatar-and-name {
@@ -226,4 +241,5 @@ p {
             }
         }
     }
-}</style>
+}
+</style>
