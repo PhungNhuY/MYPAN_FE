@@ -19,8 +19,8 @@ const schema = Yup.object().shape({
 
 async function callRegister(values: any) {
     const authStore = useAuthStore();
-    const { email, password } = values;
-    await authStore.register(email, password);
+    const { email, password, username, fullname } = values;
+    await authStore.register(email, fullname, username, password);
 }
 </script>
 
