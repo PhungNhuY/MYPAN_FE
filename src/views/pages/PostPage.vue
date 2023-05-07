@@ -109,9 +109,11 @@ const currentUser = useAuthStore().user;
                         <div class="avatar-and-name d-flex align-items-end">
                             <img :src="post?.author?.avatar_link" alt="" srcset="" class="avatar">
                             <div class="pl-1">
-                                <p class="name">
-                                    {{ post?.author?.fullname }}
-                                </p>
+                                <router-link class="link" :to="`/profile/${post?.author?.username}`">
+                                    <p class="name">
+                                        {{ post?.author?.fullname }}
+                                    </p>
+                                </router-link>
                                 <p class="username">@{{ post?.author?.username }}</p>
                             </div>
                         </div>

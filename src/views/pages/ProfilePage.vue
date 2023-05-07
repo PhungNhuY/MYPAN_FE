@@ -11,13 +11,14 @@ const currentTab = ref(1);
 
 const postStore = usePostStore();
 const {listOfPost, numOfPage, currentPage, isLoading} = storeToRefs(postStore);
-currentPage.value = 1;
-await postStore.getListOfPost(undefined, currentPage.value);
+if(listOfPost.value.length == 0){
+    await postStore.getListOfPost(undefined, currentPage.value);
+}
 function getNextPosts() {
     window.onscroll = async () => {
         window.onscroll = async () => {
-            if ( (window.scrollY + window.innerHeight+200 >= document.body.scrollHeight)  ) {
-                console.log('fired');
+            if ( (window.scrollY + window.innerHeight >= document.body.scrollHeight)  ) {
+                // console.log('fired');
                 if(currentPage.value<numOfPage.value){
                     currentPage.value++;
                     isLoading.value = true;
