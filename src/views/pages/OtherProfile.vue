@@ -1,19 +1,34 @@
 <script setup lang="ts">
+import router from '@/router';
 import { useAuthStore } from '@/stores/Auth.store';
-import { usePostStore } from '@/stores/post.store';
-import PostProfile from '@/components/PostProfile.vue';
-import MyCard from '@/components/MyCard.vue';
 import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import {getProfile} from '@/services/profile.service';
+import MyCard from '@/components/MyCard.vue';
+import PostProfile from '@/components/PostProfile.vue';
+import { usePostStore } from '@/stores/post.store';
 import { storeToRefs } from 'pinia';
-const { user } = useAuthStore();
+import { showSuccessNotificationFunction } from '@/common/helper';
+
+// get post id from route
+const route = useRoute();
+const username = route.params.username as string;
+const currentUser = useAuthStore().user;
+
+if(username == currentUser?.username){
+    router.push('/profile');
+}
+
 // use for switch beetween 2 tab
 const currentTab = ref(1);
+
+const user = await getProfile(username);
 
 const postStore = usePostStore();
 const {listOfPost, numOfPage, currentPage, isLoading} = storeToRefs(postStore);
 listOfPost.value = [];
 currentPage.value = 1;
-await postStore.getListOfPost(undefined, currentPage.value);
+await postStore.getListOfPost(user?.id, currentPage.value);
 
 function getNextPosts() {
     window.onscroll = async () => {
@@ -23,7 +38,7 @@ function getNextPosts() {
                 if(currentPage.value<numOfPage.value){
                     currentPage.value++;
                     isLoading.value = true;
-                    await postStore.getListOfPost(undefined, currentPage.value);
+                    await postStore.getListOfPost(user?.id, currentPage.value);
                 }
             }
         }
@@ -32,16 +47,37 @@ function getNextPosts() {
 onMounted(() => {
     getNextPosts();
 })
+
+function report(){
+    showSuccessNotificationFunction('Đã báo cáo tài khoản. Cảm ơn vì những đóng góp của bạn.')
+}
 </script>
 
 <template>
+    <!-- Modal box - show when cofirm report profile -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reportModalLabel">Báo cáo tài khoản</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="">Hãy báo cáo nếu bạn cho rằng tài khoản này vị phạm quy định của chúng tôi!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="report">Báo cáo</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container wrapper">
         <div class="row">
             <div class="col-8 main-col">
                 <MyCard class="main-card">
                     <v-tabs class="tab-header" v-model="currentTab">
-                        <v-tab class="left" value="one">Món của tôi</v-tab>
-                        <v-tab class="right" value="two">Món đã lưu</v-tab>
+                        <v-tab class="left" value="one">Món của {{ user?.fullname }}</v-tab>
                     </v-tabs>
                     <div class="p-3">
                         <v-window v-model="currentTab" class="windows">
@@ -56,9 +92,6 @@ onMounted(() => {
                                     :data="post"
                                 />
                             </v-window-item>
-                            <v-window-item value="two" class="window-two">
-                                {{ numOfPage }}
-                            </v-window-item>
                         </v-window>
                     </div>
                 </MyCard>
@@ -66,7 +99,7 @@ onMounted(() => {
             <div class="col-4 feature-col">
                 <div class="feature-box">
                     <div class="box box-1">
-                        <img v-if="user?.imageCoverLink" :src="user?.imageCoverLink" alt="" srcset="" class="background">
+                        <img v-if="user?.imageCoverLink" :src="user?.imageCoverLink" alt="" srcset="" class="background"/>
                         <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="background opacity-25 not-found"/>
                         <div class="avatar-and-name d-flex align-items-end">
                             <img v-if="user?.avatar_link" :src="user?.avatar_link" alt="" srcset="" class="avatar">
@@ -80,9 +113,10 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="box box-2">
-                        <router-link class="link" to="/post/create">
-                            <button class="button btn-active">Tạo món ăn mới</button>
-                        </router-link>
+                        <button class="button report" data-bs-toggle="modal" data-bs-target="#reportModal">
+                            <img src="@/assets/icons/report.png" class="icon"/>
+                            Báo cáo vi phạm
+                        </button>
                     </div>
                 </div>
             </div>
@@ -90,8 +124,7 @@ onMounted(() => {
     </div>
 </template>
 
-<style scoped lang="scss">
-p {
+<style scoped lang="scss">p {
     margin: 0px;
     padding: 0px;
 }
@@ -116,7 +149,7 @@ p {
 
     :deep(.v-slide-group__content) {
         .v-btn {
-            width: 50%;
+            width: 100%;
             background-color: #ffaa55;
             border-radius: 0px;
         }
@@ -127,10 +160,11 @@ p {
         }
 
         .v-slide-group-item--active.left{
-            box-shadow: 
-                inset -7px 0px 5px -7px rgba(0, 0, 0, 0.4),
-                inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4),
-            ;
+            // box-shadow: 
+            //     inset -7px 0px 5px -7px rgba(0, 0, 0, 0.4),
+            //     inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4),
+            //     inset 7px 0px 5px -7px rgba(0, 0, 0, 0.4),
+            // ;
         }
         .v-slide-group-item--active.right{
             box-shadow: 
@@ -231,4 +265,5 @@ p {
             }
         }
     }
-}</style>
+}
+</style>

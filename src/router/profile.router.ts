@@ -10,6 +10,10 @@ const profileRouter: Array<RouteRecordRaw> = [
                 meta: {
                     private: true,
                 },
+            },
+            {
+                path: ':username',
+                component: () => import('@/views/pages/OtherProfile.vue'),
             }
         ],
     }
