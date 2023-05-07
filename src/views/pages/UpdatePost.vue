@@ -140,7 +140,7 @@ function create() {
 
 <template>
     <div class="container wrapper">
-        <h2 class="head-title">Cập nhật bài viết</h2>
+        <h2 class="head-title">Cập nhật món ăn</h2>
         <MyCard class="base-info">
             <div class="image-cover d-flex justify-content-center my-5">
                 <div class="d-flex flex-column justify-content-center align-items-center"

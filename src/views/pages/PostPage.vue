@@ -41,11 +41,11 @@ function report(){
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="reportModalLabel">Báo cáo bài viết</h5>
+            <h5 class="modal-title" id="reportModalLabel">Báo cáo món ăn</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p class="">Hãy báo cáo nếu bạn cho rằng bài viết này vị phạm quy định của chúng tôi!</p>
+            <p class="">Hãy báo cáo nếu bạn cho rằng món ăn này vị phạm quy định của chúng tôi!</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -63,8 +63,8 @@ function report(){
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p class="">Bạn có muốn xóa vĩnh viễn bài viết này?</p>
-            <p class="">Lưu ý: Bài viết không thể khôi phục sau khi đã xóa.</p>
+            <p class="">Bạn có muốn xóa vĩnh viễn món ăn này?</p>
+            <p class="">Lưu ý: món ăn không thể khôi phục sau khi đã xóa.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -160,12 +160,12 @@ function report(){
                         <router-link class="link" :to="`/post/update/${post?._id}`">
                             <button v-if="post?.author._id == currentUser?.id" class="button share">
                                 <img src="@/assets/icons/writing-black.png" class="icon" />
-                                Cập nhật bài viết
+                                Cập nhật món ăn
                             </button>
                         </router-link>
                         <button v-if="post?.author._id == currentUser?.id" class="button delete" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <img src="@/assets/icons/delete-red.png" class="icon" />
-                            Xóa bài viết
+                            Xóa món ăn
                         </button>
                     </div>
                 </div>

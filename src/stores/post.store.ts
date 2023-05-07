@@ -21,7 +21,7 @@ export const usePostStore = defineStore('post', () => {
             return post.value;
         } else if (response.status == 'error') {
             if(response.message == 'Not Found' || response.message == 'Bad Request'){
-                showErrorNotificationFunction('Không tìm thấy bài viết bạn yêu cầu!');
+                showErrorNotificationFunction('Không tìm thấy món ăn bạn yêu cầu!');
                 router.push('/');
             }else{
                 showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
@@ -81,7 +81,7 @@ export const usePostStore = defineStore('post', () => {
     async function deletePost(id: string) {
         const response = await callApi(httpService.delete(`/post/${id}`));
         if(response.status == 'success'){
-            showSuccessNotificationFunction('Xóa bài viết thành công');
+            showSuccessNotificationFunction('Xóa món ăn thành công');
             router.push('/');
         } else if (response.status == 'error') {
             showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');

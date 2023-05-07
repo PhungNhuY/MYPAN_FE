@@ -71,7 +71,15 @@ const authStore = useAuthStore();
             </div>
             <div class="col-4 feature-col">
                 <div class="feature-box">
-                    ablsfe
+                    <div class="box box-2">
+                        <router-link class="link" to="/post/create">
+                            <button class="button btn-active">Tạo món ăn mới</button>
+                        </router-link>
+                        <button class="button share">
+                            <img src="@/assets/icons/bookmark-black.png" class="icon" />
+                            Các món ăn đã lưu
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,13 +93,46 @@ const authStore = useAuthStore();
 .main-col {
 }
 
+.link{
+    text-decoration: none;
+    color: black;
+}
+
 .feature-col {
-    .feature-box{
-        background-color: rgb(109, 109, 109);
-        height: 40vh;
-        border-radius: 10px;
+    .feature-box {
         position: sticky;
         top: 70px;
+
+        .box {
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0px 5px 5px 0px #c6c6c6;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .box-2{
+            padding: 15px 10px;
+            .button {
+                border-radius: 6px;
+                height: 35px;
+                font-size: 18px;
+                font-weight: 500;
+                border: 1px solid #c6c6c6;
+                margin-bottom: 5px;
+                width: 100%;
+
+                .icon {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+            .btn-active {
+                background-color: #ffaa55;
+                color: white;
+                border: none;
+            }
+        }
     }
 }
 </style>
