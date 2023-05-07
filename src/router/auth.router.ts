@@ -17,6 +17,10 @@ const authRouters: Array<RouteRecordRaw> = [
                 meta: {
                     onlyWhenLoggedOut: true,
                 },
+            },
+            {
+                path: 'confirm',
+                component: () => import('@/views/pages/ConfirmEmail.vue'),
             }
         ],
     }
