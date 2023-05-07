@@ -5,6 +5,7 @@ import { useAuthStore } from '@/stores/Auth.store';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { showSuccessNotificationFunction } from '@/common/helper';
 
 const numOfLike = ref(100);
 const isLike = ref(false);
@@ -29,9 +30,30 @@ await postStore.getPost(postId);
 const { post } = storeToRefs(postStore);
 
 const currentUser = useAuthStore().user;
+function report(){
+    showSuccessNotificationFunction('Đã báo cáo tài khoản. Cảm ơn vì những đóng góp của bạn.')
+}
 </script>
 
 <template>
+    <!-- Modal box - show when cofirm report post -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reportModalLabel">Báo cáo bài viết</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="">Hãy báo cáo nếu bạn cho rằng bài viết này vị phạm quy định của chúng tôi!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="report">Báo cáo</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Modal box - show when cofirm delete post -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -105,9 +127,11 @@ const currentUser = useAuthStore().user;
             <div class="col-4 feature-col">
                 <div class="feature-box">
                     <div class="box box-1">
-                        <img :src="post?.author?.imageCoverLink" alt="" srcset="" class="background">
+                        <img v-if="post?.author?.imageCoverLink" :src="post?.author?.imageCoverLink" alt="" srcset="" class="background">
+                        <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="background opacity-25 not-found"/>
                         <div class="avatar-and-name d-flex align-items-end">
-                            <img :src="post?.author?.avatar_link" alt="" srcset="" class="avatar">
+                            <img v-if="post?.author?.avatar_link" :src="post?.author?.avatar_link" alt="" srcset="" class="avatar">
+                            <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="avatar opacity-25">
                             <div class="pl-1">
                                 <router-link class="link" :to="`/profile/${post?.author?.username}`">
                                     <p class="name">
@@ -129,7 +153,7 @@ const currentUser = useAuthStore().user;
                             <img src="@/assets/icons/share.png" class="icon" />
                             Chia sẻ
                         </button>
-                        <button v-if="post?.author._id != currentUser?.id" class="button report">
+                        <button v-if="post?.author._id != currentUser?.id" class="button report" data-bs-toggle="modal" data-bs-target="#reportModal">
                             <img src="@/assets/icons/report.png" class="icon" />
                             Báo cáo món này
                         </button>
@@ -192,6 +216,9 @@ p {
                 height: 150px;
                 object-fit: cover;
                 margin-bottom: 40px;
+            }
+            .not-found{
+                object-fit: contain;
             }
 
             .avatar-and-name {

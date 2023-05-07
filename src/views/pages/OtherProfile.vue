@@ -8,6 +8,7 @@ import MyCard from '@/components/MyCard.vue';
 import PostProfile from '@/components/PostProfile.vue';
 import { usePostStore } from '@/stores/post.store';
 import { storeToRefs } from 'pinia';
+import { showSuccessNotificationFunction } from '@/common/helper';
 
 // get post id from route
 const route = useRoute();
@@ -46,9 +47,31 @@ function getNextPosts() {
 onMounted(() => {
     getNextPosts();
 })
+
+function report(){
+    showSuccessNotificationFunction('Đã báo cáo tài khoản. Cảm ơn vì những đóng góp của bạn.')
+}
 </script>
 
 <template>
+    <!-- Modal box - show when cofirm report profile -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reportModalLabel">Báo cáo tài khoản</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="">Hãy báo cáo nếu bạn cho rằng tài khoản này vị phạm quy định của chúng tôi!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="report">Báo cáo</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container wrapper">
         <div class="row">
             <div class="col-8 main-col">
@@ -90,9 +113,10 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="box box-2">
-                        <!-- <router-link class="link" to="/post/create">
-                            <button class="button btn-active">Tạo món ăn mới</button>
-                        </router-link> -->
+                        <button class="button report" data-bs-toggle="modal" data-bs-target="#reportModal">
+                            <img src="@/assets/icons/report.png" class="icon"/>
+                            Báo cáo vi phạm
+                        </button>
                     </div>
                 </div>
             </div>
