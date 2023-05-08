@@ -3,8 +3,13 @@ import { useAuthStore } from '@/stores/Auth.store';
 import { storeToRefs } from 'pinia';
 import SliderAndSearch from '@/components/SliderAndSearch.vue';
 import PostTopic from '@/components/PostTopic.vue';
+import SeasonTopic from '@/components/SeasonTopic.vue';
+import { useHomeStore } from '@/stores/home.store';
 
 const authStore = useAuthStore();
+const homeStore = useHomeStore();
+const {collections} = storeToRefs(homeStore);
+await homeStore.getAllActive();
 </script>
 
 <template>
@@ -12,65 +17,17 @@ const authStore = useAuthStore();
         <div class="row">
             <div class="col-8 main-col">
                 <SliderAndSearch />
-                <div class="a" v-for="i in 5" :key="i">
-                <PostTopic title="Xoài vào mùa siêu rẻ, thử ngay các món ngon mới lạ này."
-                    description="Xoài là trái có thể ăn từ sống tới chín. Xòa xanh trộn gỏi, xoài chín làm salsa, bánh, chè... Bạn đã thử xoài hườm xào cay chưa?"
-                    :post-cards="[
-                        {
-                            id: '1234',
-                            imageCoverLink: '/slider-temp/1.webp',
-                            name: 'Sườn non hảo hạng',
-                            description: 'Mô tả dài một dòng sông sông sông',
-                            userAvatar: null,
-                            author:{
-                                fullname: 'Phung Nhu Y',
-                            }
-                        },
-                        {
-                            id: '1231',
-                            imageCoverLink: '/slider-temp/2.webp',
-                            name: 'Sườn non hảo hạng',
-                            description: 'Mô tả dài một dòng sông sông sông',
-                            username: 'Phung Nhu Y',
-                            userAvatar: null,
-                            author:{
-                                fullname: 'Phung Nhu Y',
-                            }
-                        },
-                        {
-                            id: '1232',
-                            imageCoverLink: '/slider-temp/3.webp',
-                            name: 'Sườn non hảo hạng',
-                            description: 'Mô tả dài một dòng sông sông sông',
-                            username: 'Phung Nhu Y',
-                            userAvatar: null,
-                            author:{
-                                fullname: 'Phung Nhu Y',
-                            }
-                        },
-                        {
-                            id: '1233',
-                            imageCoverLink: '/slider-temp/4.webp',
-                            name: 'Sườn non hảo hạng',
-                            description: 'Mô tả dài một dòng sông sông sông',
-                            username: 'Phung Nhu Y',
-                            userAvatar: null,
-                            author:{
-                                fullname: 'Phung Nhu Y',
-                            }
-                        },
-                        {
-                            id: '1235',
-                            imageCoverLink: '/slider-temp/5.webp',
-                            name: 'Sườn non hảo hạng',
-                            description: 'Mô tả dài một dòng sông sông sông',
-                            username: 'Phung Nhu Y',
-                            userAvatar: null,
-                            author:{
-                                fullname: 'Phung Nhu Y',
-                            }
-                        }
-                    ]" />
+                <div class="a" v-for="collection in collections" :key="collection._id">
+                    <PostTopic v-if="collection.category == 'normal'" 
+                        :title="collection.name"
+                        :description="collection.description"
+                        :posts="collection.posts" 
+                    />
+                    <SeasonTopic v-if="collection.category == 'season'" 
+                        :title="collection.name"
+                        :image-cover-link="collection.imageCoverLink"
+                        :posts="collection.posts" 
+                    />
                 </div>
             </div>
             <div class="col-4 feature-col">

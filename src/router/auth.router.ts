@@ -25,6 +25,13 @@ const authRouters: Array<RouteRecordRaw> = [
             {
                 path: 'forgot',
                 component: () => import('@/views/pages/ResetPass.vue'),
+            },
+            {
+                path: 'changePassword',
+                component: () => import('@/views/pages/ChangePassword.vue'),
+                meta:{
+                    private: true,
+                }
             }
         ],
     }

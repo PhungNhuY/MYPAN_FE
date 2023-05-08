@@ -5,58 +5,22 @@ import SearchForm from './SearchForm.vue';
 import { ref } from 'vue';
 import router from '@/router';
 import type { IPost } from '@/common/interfaces';
+import { useHomeStore } from '@/stores/home.store';
+import { storeToRefs } from 'pinia';
 
 const link = ref('#');
 const name = ref('');
 const fullname = ref('');
 
+const homeStore = useHomeStore();
+const {banner} = storeToRefs(homeStore);
+await homeStore.getBanner();
+
 function update(splide: any){
-    link.value = `/post/${data[splide.index]._id}`;
-    name.value = data[splide.index].name as string;
-    fullname.value = data[splide.index].author?.fullname as string;
+    link.value = `/post/${banner.value.posts[splide.index]._id}`;
+    name.value = banner.value?.posts[splide.index].name as string;
+    fullname.value = banner.value?.posts[splide.index].author?.fullname as string;
 }
-const data: IPost[] = [
-    {
-        name: 'Bánh Tráng trộng',
-        author:{
-            fullname: 'Phùng Như Ý',
-        },
-        imageCoverLink: '/slider-temp/1.webp',
-        _id: '1231'
-    },
-    {
-        name: 'kem',
-        author:{
-            fullname: 'Phùng',
-        },
-        imageCoverLink: '/slider-temp/2.webp',
-        _id: '1231'
-    },
-    {
-        name: 'mixue',
-        author:{
-            fullname: 'Như',
-        },
-        imageCoverLink: '/slider-temp/3.webp',
-        _id: '1231'
-    },
-    {
-        name: 'Phương',
-        author:{
-            fullname: 'Ham ăn',
-        },
-        imageCoverLink: '/slider-temp/4.webp',
-        _id: '1231'
-    },
-    {
-        name: 'Trương Lợn',
-        author:{
-            fullname: 'Ăn Lắm',
-        },
-        imageCoverLink: '/slider-temp/5.webp',
-        _id: '1231'
-    },
-]
 </script>
 
 <template>
@@ -79,9 +43,9 @@ const data: IPost[] = [
         @splide:active="update"
     >
         <SplideSlide 
-            v-for="post in data" 
+            v-for="post in banner?.posts" 
             class="single-slide" 
-            :key="post._id"
+            :key="post?._id"
         >
             <div 
                 class="slide-content" 
@@ -89,7 +53,7 @@ const data: IPost[] = [
                     backgroundImage: `linear-gradient(
                         rgba(0, 0, 0, 0.25), 
                         rgba(0, 0, 0, 0.25)
-                    ),url(${post.imageCoverLink}` 
+                    ),url(${post?.imageCoverLink}` 
                 }"
             ></div>
         </SplideSlide>
