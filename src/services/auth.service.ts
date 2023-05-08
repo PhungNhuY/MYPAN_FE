@@ -2,6 +2,7 @@ import { showErrorNotificationFunction, showSuccessNotificationFunction } from "
 import httpService, { callApi } from "./http/http.service";
 import router from "@/router";
 import authStorageService from '@/services/local-storage/authStorage.service';
+import { useAuthStore } from "@/stores/Auth.store";
 
 export async function checkConfirm(token: string): Promise<boolean>{
     const response = await callApi(httpService.get(`/auth/confirm?token=${token}`));
@@ -35,5 +36,22 @@ export async function updatePassword(password: string){
     }else if (response?.status == 'error') {
         authStorageService.resetAll();
         showErrorNotificationFunction('Cập nhật mật khẩu không thành công');
+    }
+}
+
+export async function changePassword(password: string, newPassword: string){
+    const response = await callApi(httpService.post(
+        `/auth/updatePassword`, 
+        {
+            oldPass: password, 
+            newPass: newPassword
+        }
+    ));
+    if(response?.status == 'success'){
+        showSuccessNotificationFunction('Cập nhật mật khẩu thành công');
+        useAuthStore().logout();
+    }else if (response?.status == 'error') {
+        showErrorNotificationFunction('Cập nhật mật khẩu không thành công');
+        showErrorNotificationFunction(response.message[0]);
     }
 }

@@ -27,11 +27,11 @@ export const useAuthStore = defineStore('auth', () => {
             user.value = authStorageService.getLoginUser();
 
             router.push(returnUrl.value || '/');
-            showSuccessNotificationFunction('Hi: ' + currentUser.email);
+            showSuccessNotificationFunction('Xin chào: ' + currentUser.fullname);
             // reset return url
             returnUrl.value = '/';
         } else if (response.status == 'error') {
-            showErrorNotificationFunction('login fail: ' + response.message[0]);
+            showErrorNotificationFunction('Đăng nhập thất bại: ' + response.message[0]);
         }
     }
 
@@ -41,7 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
             router.push('/auth/login');
             showSuccessNotificationFunction('Đăng ký thành công! Hãy xác nhận email của bạn.');
         } else if (response.status == 'error') {
-            showErrorNotificationFunction('login fail: ' + response.message[0]);
+            showErrorNotificationFunction('Đăng ký thất bại: ' + response.message[0]);
         }
     }
 

@@ -28,7 +28,7 @@ export interface IToastOption {
 const defaultToastOption = {
     type: 'info',
     isAutoClose: true,
-    duration: 3,
+    duration: 5,
 };
 
 function createUUID(): string {
