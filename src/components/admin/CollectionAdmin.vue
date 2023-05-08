@@ -42,7 +42,6 @@ async function deleteColl(id: string){
         <div class="row">
             <div class="col-10">
                 <div class="collection">
-                    {{ collection._id }}
                     <p class="category" :class="collection.category?.toString()">{{ collection.category }}</p>
                     <p class="name">{{ collection.name }}</p>
                     <div class="collapse" :id="`dt_${collection._id}`">
@@ -58,7 +57,9 @@ async function deleteColl(id: string){
                 </div>
             </div>
             <div class="col-2 feature d-flex flex-column justify-content-center">
-                <button class="base-button">Sửa</button>
+                <router-link class="link" :to="`/admin/collection/update/${collection._id}`">
+                    <button class="base-button">Sửa</button>
+                </router-link>
                 <button class="base-button btn-delete" data-bs-toggle="modal" :data-bs-target="`#deleteModal_${collection._id}`">Xóa</button>
                 <button class="base-button" data-bs-toggle="collapse" :href="`#dt_${collection._id}`" role="button"
                     aria-expanded="false" :aria-controls="`dt_${collection._id}`">Chi tiết</button>
@@ -71,6 +72,10 @@ async function deleteColl(id: string){
 p {
     margin: 0px;
     padding: 0px;
+}
+.link{
+    text-decoration: none;
+    color: black;
 }
 
 .wrapper {

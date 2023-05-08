@@ -12,6 +12,22 @@ const adminRouter: Array<RouteRecordRaw> = [
                     requiredPermissions: 'admin',
                 },
             },
+            {
+                path: 'collection/create',
+                component: () => import('@/views/pages/admin/CreateCollection.vue'),
+                meta: {
+                    private: true,
+                    requiredPermissions: 'admin',
+                },
+            },
+            {
+                path: 'collection/update/:id',
+                component: () => import('@/views/pages/admin/UpdateCollection.vue'),
+                meta: {
+                    private: true,
+                    requiredPermissions: 'admin',
+                },
+            },
         ],
     }
 ];

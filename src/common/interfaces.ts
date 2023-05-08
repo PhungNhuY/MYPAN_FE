@@ -64,3 +64,12 @@ export interface ICollection{
     category?: string;
     status?: string;
 }
+
+export interface ICreateCollection{
+    name?: string;
+    description?: string;
+    imageCoverLink?: string;
+    posts?: string[];
+    category?: string;
+    status?: string;
+}

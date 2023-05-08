@@ -21,15 +21,9 @@ const collections = await getAllCollection();
                     <div class="p-3">
                         <v-window v-model="currentTab" class="windows">
                             <v-window-item value="one" class="window-one">
-                                <!-- <div v-if="listOfPost?.length == 0" class="w-100 d-flex justify-content-center">
+                                <div v-if="collections?.length == 0" class="w-100 d-flex justify-content-center">
                                     <img src="@/assets/images/not-found-1024.png" alt="" class="w-50 opacity-25">
                                 </div>
-                                <PostProfile
-                                    v-else
-                                    v-for="post in listOfPost"
-                                    :key="post._id"
-                                    :data="post"
-                                /> -->
                                 <CollectionAdmin v-for="collection in collections" :collection="collection"
                                     :key="collection._id" />
                             </v-window-item>
@@ -40,13 +34,11 @@ const collections = await getAllCollection();
             <div class="col-3 feature-col">
                 <div class="feature-box">
                     <div class="box box-2">
-                        <!-- <button class="button report" data-bs-toggle="modal" data-bs-target="#reportModal">
-                            <img src="@/assets/icons/report.png" class="icon"/>
-                            Báo cáo vi phạm
-                        </button> -->
-                        <button class="button report">
-                            Tạo bộ sưu tập mới
-                        </button>
+                        <router-link class="link" to="/admin/collection/create">
+                            <button class="button report">
+                                Tạo bộ sưu tập mới
+                            </button>
+                        </router-link>
                         <button class="button report">
                             Xem báo cáo vi phạm
                         </button>
