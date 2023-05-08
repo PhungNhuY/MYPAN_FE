@@ -65,6 +65,7 @@ p {
     height: 240px;
     border-radius: 10px;
     overflow: hidden;
+    border: 1px solid #c6c6c6;
 }
 
 .main-title {
@@ -84,6 +85,7 @@ p {
             height: 24px;
             border-radius: 99px;
             margin-top: -2px;
+            object-fit: cover;
         }
 
         .name {

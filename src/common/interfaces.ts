@@ -54,3 +54,13 @@ export interface ICreatePost{
     ingredients: IIngre[],
     steps: IStep[];
 }
+
+export interface ICollection{
+    _id?: string;
+    name?: string;
+    description?: string;
+    imageCoverLink?: string;
+    posts?: IPost[];
+    category?: string;
+    status?: string;
+}
