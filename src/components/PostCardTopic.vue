@@ -37,7 +37,7 @@ p {
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid #c6c6c6;
-    background-color: #aaaaaa;
+    background-color: #dddddd;
 }
 
 .main-content{
@@ -47,7 +47,8 @@ p {
         object-fit: cover;
     }
     .name{
-        color: #ffffff;
+        text-align: center;
+        color: black;
         margin-left: 10px;
         margin-top: 20px;
         font-size: 18px;

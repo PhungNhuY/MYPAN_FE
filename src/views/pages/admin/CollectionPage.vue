@@ -1,30 +1,16 @@
 <script setup lang="ts">
 import MyCard from '@/components/MyCard.vue';
 import { ref } from 'vue';
+import CollectionAdmin from '@/components/admin/CollectionAdmin.vue';
+import { getAllCollection } from '@/services/collection.service';
 
 // use for switch beetween 2 tab
 const currentTab = ref(1);
+
+const collections = await getAllCollection();
 </script>
 
 <template>
-    <!-- Modal box - show when cofirm report profile -->
-    <!-- <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="reportModalLabel">Báo cáo tài khoản</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p class="">Hãy báo cáo nếu bạn cho rằng tài khoản này vị phạm quy định của chúng tôi!</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="report">Báo cáo</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="container wrapper">
         <div class="row">
             <div class="col-9 main-col">
@@ -35,7 +21,7 @@ const currentTab = ref(1);
                     <div class="p-3">
                         <v-window v-model="currentTab" class="windows">
                             <v-window-item value="one" class="window-one">
-                                <div v-if="listOfPost?.length == 0" class="w-100 d-flex justify-content-center">
+                                <!-- <div v-if="listOfPost?.length == 0" class="w-100 d-flex justify-content-center">
                                     <img src="@/assets/images/not-found-1024.png" alt="" class="w-50 opacity-25">
                                 </div>
                                 <PostProfile
@@ -43,7 +29,9 @@ const currentTab = ref(1);
                                     v-for="post in listOfPost"
                                     :key="post._id"
                                     :data="post"
-                                />
+                                /> -->
+                                <CollectionAdmin v-for="collection in collections" :collection="collection"
+                                    :key="collection._id" />
                             </v-window-item>
                         </v-window>
                     </div>
@@ -69,7 +57,8 @@ const currentTab = ref(1);
     </div>
 </template>
 
-<style scoped lang="scss">p {
+<style scoped lang="scss">
+p {
     margin: 0px;
     padding: 0px;
 }
@@ -77,7 +66,8 @@ const currentTab = ref(1);
 .wrapper {
     max-width: 968px;
 }
-.link{
+
+.link {
     text-decoration: none;
     color: black;
 }
@@ -104,15 +94,16 @@ const currentTab = ref(1);
             // box-shadow: inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4);
         }
 
-        .v-slide-group-item--active.left{
+        .v-slide-group-item--active.left {
             // box-shadow: 
             //     inset -7px 0px 5px -7px rgba(0, 0, 0, 0.4),
             //     inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4),
             //     inset 7px 0px 5px -7px rgba(0, 0, 0, 0.4),
             // ;
         }
-        .v-slide-group-item--active.right{
-            box-shadow: 
+
+        .v-slide-group-item--active.right {
+            box-shadow:
                 inset 7px 0px 5px -7px rgba(0, 0, 0, 0.4),
                 inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4),
             ;
@@ -146,7 +137,8 @@ const currentTab = ref(1);
                 object-fit: cover;
                 margin-bottom: 40px;
             }
-            .not-found{
+
+            .not-found {
                 object-fit: contain;
             }
 
@@ -187,8 +179,9 @@ const currentTab = ref(1);
             }
         }
 
-        .box-2{
+        .box-2 {
             padding: 15px 10px;
+
             .button {
                 border-radius: 6px;
                 height: 35px;
@@ -203,6 +196,7 @@ const currentTab = ref(1);
                     height: 20px;
                 }
             }
+
             .btn-active {
                 background-color: #ffaa55;
                 color: white;
@@ -210,5 +204,4 @@ const currentTab = ref(1);
             }
         }
     }
-}
-</style>
+}</style>
