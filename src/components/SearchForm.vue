@@ -9,7 +9,7 @@ function searchAction() {
 
 <template>
     <form class="search-form" @submit.prevent="searchAction">
-        <input type="text" class="search-form-input" name="search" placeholder="Gõ vào tên các nguyên liệu"
+        <input type="text" class="search-form-input" name="search" placeholder="Tìm món ăn"
             v-model="searchData">
         <button type="submit" class="search-form-submit">
             <img src="@/assets/icons/search-interface-symbol.png" alt="" srcset="">
