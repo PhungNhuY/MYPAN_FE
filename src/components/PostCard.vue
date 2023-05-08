@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { IPost, IPostCard } from '@/common/interfaces';
+import type { IPost } from '@/common/interfaces';
 
 interface props {
-    postCard: IPost;
+    post: IPost;
 }
 const Props = defineProps<props>();
 
-// const numOfLike = ref(Props.postCard.like);
-// const isLike = ref(Props.postCard.isLike);
+// const numOfLike = ref(Props.post.like);
+// const isLike = ref(Props.post.isLike);
 // function toggleLike(){
 //     isLike.value = !isLike.value;
 //     numOfLike.value += isLike.value ? 1 : -1;
 // }
 
-// const isFavorite = ref(Props.postCard.isFavotire);
+// const isFavorite = ref(Props.post.isFavotire);
 // function toggleFavorite(){
 //     isFavorite.value = !isFavorite.value;
 // }
@@ -22,22 +22,25 @@ const Props = defineProps<props>();
 </script>
 
 <template>
-    <div class="wrapper">
-        <div class="main-title" :style="{
-            backgroundImage: `linear-gradient(
+    <router-link class="link" :to="`/post/${post._id}`">
+        <div class="wrapper">
+            <div class="main-title" :style="{
+                backgroundImage: `linear-gradient(
                             rgba(0, 0, 0, 0.0), 
                             rgba(0, 0, 0, 0.0)
-                        ),url(${postCard.imageCoverLink}),url(/src/assets/images/not-found-1024-opa25.png)` }">
-            <div class="info">
-                <div class="user d-flex align-items-center">
-                    <img :src="postCard.author?.avatar_link || '/src/assets/images/default-avatar.jpg'" alt="" srcset="" class="avatar">
-                    <p class="name">{{ postCard.author?.fullname }}</p>
+                        ),url(${post.imageCoverLink}),url(/src/assets/images/not-found-1024-opa25.png)`
+            }">
+                <div class="info">
+                    <div class="user d-flex align-items-center">
+                        <img :src="post.author?.avatar_link || '/src/assets/images/default-avatar.jpg'" alt="" srcset=""
+                            class="avatar">
+                        <p class="name">{{ post.author?.fullname }}</p>
+                    </div>
+                    <p class="post-name">{{ post.name }}</p>
+                    <p class="post-description">{{ post.description }}</p>
                 </div>
-                <p class="post-name">{{ postCard.name }}</p>
-                <p class="post-description">{{ postCard.description }}</p>
             </div>
-        </div>
-        <!-- <div class="function d-flex justify-content-between">
+            <!-- <div class="function d-flex justify-content-between">
             <div class="left" @click="toggleLike">
                 <div class="heart d-flex justify-content-center align-items-center" :class="{ 'active': isLike }">
                     <img src="@/assets/icons/love.png" class="icon" />
@@ -51,13 +54,18 @@ const Props = defineProps<props>();
                 </div>
             </div>
         </div> -->
-    </div>
+        </div>
+    </router-link>
 </template>
 
 <style scoped lang="scss">
 p {
     margin: 0px;
     padding: 0px;
+}
+.link{
+    text-decoration: none;
+    color: black;
 }
 
 .wrapper {
@@ -80,6 +88,7 @@ p {
     .info {
         position: absolute;
         bottom: 10px;
+
         img {
             width: 24px;
             height: 24px;
@@ -114,7 +123,8 @@ p {
             -webkit-box-orient: vertical;
             max-height: 72px;
         }
-        .post-description{
+
+        .post-description {
             color: #ffffff;
             font-size: 16px;
             font-weight: 500;
@@ -131,49 +141,54 @@ p {
         }
     }
 }
-.function{
+
+.function {
     height: 40px;
     background-color: #343434;
     padding: 6px 10px;
-    .left{
-        .heart{
+
+    .left {
+        .heart {
             padding-top: 3px;
             padding-left: 10px;
             padding-right: 10px;
             border-radius: 99px;
             color: white;
             background-color: #424242;
-            img{
+
+            img {
                 margin-top: -3px;
                 height: 20px;
                 width: auto;
             }
         }
-        .active{
+
+        .active {
             // color: rgb(190, 91, 91);
             color: #29245A;
             background-color: #ffaa55;
         }
     }
 
-    .right{
-        .save{
+    .right {
+        .save {
             padding-top: 3px;
             padding-left: 10px;
             padding-right: 10px;
             border-radius: 99px;
             color: white;
             background-color: #424242;
-            img{
+
+            img {
                 margin-top: -3px;
                 height: 15px;
                 width: auto;
             }
         }
-        .active{
+
+        .active {
             color: #29245A;
             background-color: #ffaa55
         }
     }
-}
-</style>
+}</style>

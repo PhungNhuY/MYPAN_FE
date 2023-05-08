@@ -3,6 +3,7 @@ import { useAuthStore } from '@/stores/Auth.store';
 import { storeToRefs } from 'pinia';
 import SliderAndSearch from '@/components/SliderAndSearch.vue';
 import PostTopic from '@/components/PostTopic.vue';
+import SeasonTopic from '@/components/SeasonTopic.vue';
 import { useHomeStore } from '@/stores/home.store';
 
 const authStore = useAuthStore();
@@ -17,9 +18,16 @@ await homeStore.getAllActive();
             <div class="col-8 main-col">
                 <SliderAndSearch />
                 <div class="a" v-for="collection in collections" :key="collection._id">
-                <PostTopic v-if="collection.category == 'normal'" :title="collection.name"
-                    :description="collection.description"
-                    :post-cards="collection.posts" />
+                    <PostTopic v-if="collection.category == 'normal'" 
+                        :title="collection.name"
+                        :description="collection.description"
+                        :posts="collection.posts" 
+                    />
+                    <SeasonTopic v-if="collection.category == 'season'" 
+                        :title="collection.name"
+                        :image-cover-link="collection.imageCoverLink"
+                        :posts="collection.posts" 
+                    />
                 </div>
             </div>
             <div class="col-4 feature-col">

@@ -1,21 +1,24 @@
 <script setup lang="ts">
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
-import PostCard from './PostCard.vue';
+import PostCardTopic from './PostCardTopic.vue';
 import type { IPost } from '@/common/interfaces';
 
 interface props{
     title: string;
-    description: string;
+    imageCoverLink: string;
     posts: IPost[];
 }
 const Props = defineProps<props>();
+console.log(Props.title);
 </script>
 
 <template>
     <div class="topic-wrapper">
-        <p class="title">{{ title }}</p>
-        <p class="description">{{ description }}</p>
+        <div class="cover">
+            <img :src="imageCoverLink" alt="" srcset="" class="image-cover">
+            <p class="title">{{ title }}</p>
+        </div>
         <Splide
             :options="{
                 type:'loop',
@@ -34,7 +37,7 @@ const Props = defineProps<props>();
                 class="single-slide" 
                 :key="post._id"
             >
-                <PostCard :post="post"/>
+                <PostCardTopic :post="post"/>
             </SplideSlide>
         </Splide>
     </div>
@@ -46,29 +49,51 @@ p{
     padding: 0px;
 }
 .topic-wrapper{
+    overflow: hidden;
     margin-top: 30px;
-    padding: 15px 16px;
+    padding-bottom: 15px;
     border-radius: 16px;
     width: 100%;
     border: 2px solid #d6d6d6;
-    background-color: #FFFFFF;
+    background-color: #f0f0f0;
     box-shadow: 0px 5px 5px 0px #c6c6c6;
 }
+.cover{
+    position: relative;
+    margin-bottom: 10px;
+    background-color: black;
+    height: 250px;
+    .image-cover{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 75%;
+    }
+    .title{
+        position: absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+}
 .title{
+    text-align: center;
     font-size: 25px;
-    font-weight: 500;
+    font-weight: 600;
+    color: #ffffff;
 }
 
 .carousel{
     width: 100%;
+    padding: 0px 15px;
     :deep(.splide__arrow--prev){
-        left: -1em;
+        left: 0.5em;
         width: 2.5em;
         height: 2.5em;
         // background: #ffaa55;
     }
     :deep(.splide__arrow--next){
-        right: -1em;
+        right: 0.5em;
         width: 2.5em;
         height: 2.5em;
         // background: #ffaa55;
@@ -76,6 +101,6 @@ p{
 }
 .single-slide{
     margin-right: 10px;
-    width: 230px !important;
+    width: 150px !important;
 }
 </style>
