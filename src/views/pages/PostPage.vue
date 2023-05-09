@@ -30,7 +30,7 @@ await postStore.getPost(postId);
 const { post } = storeToRefs(postStore);
 
 const currentUser = useAuthStore().user;
-function report(){
+function report() {
     showSuccessNotificationFunction('Đã báo cáo tài khoản. Cảm ơn vì những đóng góp của bạn.')
 }
 </script>
@@ -38,40 +38,41 @@ function report(){
 <template>
     <!-- Modal box - show when cofirm report post -->
     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="reportModalLabel">Báo cáo món ăn</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p class="">Hãy báo cáo nếu bạn cho rằng món ăn này vị phạm quy định của chúng tôi!</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="report">Báo cáo</button>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">Báo cáo món ăn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="">Hãy báo cáo nếu bạn cho rằng món ăn này vị phạm quy định của chúng tôi!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="report">Báo cáo</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <!-- Modal box - show when cofirm delete post -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p class="">Bạn có muốn xóa vĩnh viễn món ăn này?</p>
-            <p class="">Lưu ý: món ăn không thể khôi phục sau khi đã xóa.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="postStore.deletePost(post?._id)">Xóa</button>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="">Bạn có muốn xóa vĩnh viễn món ăn này?</p>
+                    <p class="">Lưu ý: món ăn không thể khôi phục sau khi đã xóa.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        @click="postStore.deletePost(post?._id)">Xóa</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <div class="container wrapper">
         <div class="row">
@@ -111,7 +112,7 @@ function report(){
                     <div class="single-step" v-for="(step, index) in post?.steps" :key="index">
                         <div class="d-flex">
                             <div class="left">
-                                <p class="order">{{ index }}</p>
+                                <p class="order">{{ index + 1 }}</p>
                             </div>
                             <div class="right">
                                 <p class="enable-endline">{{ step.content }}</p>
@@ -127,10 +128,13 @@ function report(){
             <div class="col-4 feature-col">
                 <div class="feature-box">
                     <div class="box box-1">
-                        <img v-if="post?.author?.imageCoverLink" :src="post?.author?.imageCoverLink" alt="" srcset="" class="background">
-                        <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="background opacity-25 not-found"/>
+                        <img v-if="post?.author?.imageCoverLink" :src="post?.author?.imageCoverLink" alt="" srcset=""
+                            class="background">
+                        <img v-else src="@/assets/images/not-found-512.png" alt="" srcset=""
+                            class="background opacity-25 not-found" />
                         <div class="avatar-and-name d-flex align-items-end">
-                            <img v-if="post?.author?.avatar_link" :src="post?.author?.avatar_link" alt="" srcset="" class="avatar">
+                            <img v-if="post?.author?.avatar_link" :src="post?.author?.avatar_link" alt="" srcset=""
+                                class="avatar">
                             <img v-else src="@/assets/images/default-avatar.jpg" alt="" srcset="" class="avatar">
                             <div class="pl-1">
                                 <router-link class="link" :to="`/profile/${post?.author?.username}`">
@@ -153,7 +157,8 @@ function report(){
                             <img src="@/assets/icons/share.png" class="icon" />
                             Chia sẻ
                         </button>
-                        <button v-if="post?.author._id != currentUser?.id" class="button report" data-bs-toggle="modal" data-bs-target="#reportModal">
+                        <button v-if="post?.author._id != currentUser?.id" class="button report" data-bs-toggle="modal"
+                            data-bs-target="#reportModal">
                             <img src="@/assets/icons/report.png" class="icon" />
                             Báo cáo món này
                         </button>
@@ -163,7 +168,8 @@ function report(){
                                 Cập nhật món ăn
                             </button>
                         </router-link>
-                        <button v-if="post?.author._id == currentUser?.id" class="button delete" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button v-if="post?.author._id == currentUser?.id" class="button delete" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
                             <img src="@/assets/icons/delete-red.png" class="icon" />
                             Xóa món ăn
                         </button>
@@ -185,7 +191,7 @@ p {
     color: black;
 }
 
-.enable-endline{
+.enable-endline {
     white-space: pre-line;
 }
 
@@ -217,7 +223,8 @@ p {
                 object-fit: cover;
                 margin-bottom: 40px;
             }
-            .not-found{
+
+            .not-found {
                 object-fit: contain;
             }
 
@@ -428,5 +435,4 @@ p {
             }
         }
     }
-}
-</style>
+}</style>
