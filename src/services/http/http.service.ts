@@ -33,7 +33,7 @@ export async function callApi(callback: Promise<AxiosResponse<any, any>>){
         console.log(error);
         if(err.code == 'ERR_NETWORK'){
             response = buildNetErrorResponse();
-            showErrorNotificationFunction('Network error, try again!');
+            showErrorNotificationFunction('Lỗi kết nối, vui lòng thử lại sau!');
         }else if(err.response?.status == 401){
             // try to refresh token
             try {

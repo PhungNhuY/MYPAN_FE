@@ -14,14 +14,14 @@ export const useAuthStore = defineStore('auth', () => {
 
     async function login(email: string, password: string) {
         const response = await callApi(httpService.post('/auth/login', { email, password }));
-        if (response.status == 'success') {
-            const currentUser = response.data?.user;
+        if (response?.status == 'success') {
+            const currentUser = response?.data?.user;
             // save user to local storage
             authStorageService.setLoginUser(currentUser as IUser);
 
             // save token
-            authStorageService.setAccessToken(response.data?.accesstoken);
-            authStorageService.setRefreshToken(response.data?.refreshtoken);
+            authStorageService.setAccessToken(response?.data?.accesstoken);
+            authStorageService.setRefreshToken(response?.data?.refreshtoken);
 
             // update pinia state
             user.value = authStorageService.getLoginUser();
@@ -30,18 +30,18 @@ export const useAuthStore = defineStore('auth', () => {
             showSuccessNotificationFunction('Xin chào: ' + currentUser.fullname);
             // reset return url
             returnUrl.value = '/';
-        } else if (response.status == 'error') {
-            showErrorNotificationFunction('Đăng nhập thất bại: ' + response.message[0]);
+        } else if (response?.status == 'error') {
+            showErrorNotificationFunction('Đăng nhập thất bại: ' + response?.message[0]);
         }
     }
 
     async function register(email: string, fullname: string, username: string, password: string){
         const response = await callApi(httpService.post('/auth/register', { email, fullname, username, password }));
-        if (response.status == 'success') {
+        if (response?.status == 'success') {
             router.push('/auth/login');
             showSuccessNotificationFunction('Đăng ký thành công! Hãy xác nhận email của bạn.');
-        } else if (response.status == 'error') {
-            showErrorNotificationFunction('Đăng ký thất bại: ' + response.message[0]);
+        } else if (response?.status == 'error') {
+            showErrorNotificationFunction('Đăng ký thất bại: ' + response?.message[0]);
         }
     }
 
