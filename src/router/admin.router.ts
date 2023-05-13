@@ -28,6 +28,14 @@ const adminRouter: Array<RouteRecordRaw> = [
                     requiredPermissions: 'admin',
                 },
             },
+            {
+                path: 'report',
+                component: () => import('@/views/pages/admin/ReportPage.vue'),
+                meta: {
+                    private: true,
+                    requiredPermissions: 'admin',
+                },
+            },
         ],
     }
 ];

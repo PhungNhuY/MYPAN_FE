@@ -1,36 +1,20 @@
 <script setup lang="ts">
-import router from '@/router';
-import { useAuthStore } from '@/stores/Auth.store';
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import {getProfile} from '@/services/profile.service';
 import MyCard from '@/components/MyCard.vue';
-import PostProfile from '@/components/PostProfile.vue';
-import { usePostStore } from '@/stores/post.store';
+import { onMounted, ref } from 'vue';
+import { useReportStore } from '@/stores/report.store';
 import { storeToRefs } from 'pinia';
-import { showSuccessNotificationFunction } from '@/common/helper';
-
-// get post id from route
-const route = useRoute();
-const username = route.params.username as string;
-const currentUser = useAuthStore().user;
-
-if(username == currentUser?.username){
-    router.push('/profile');
-}
+import PostReport from '@/components/admin/PostReport.vue';
 
 // use for switch beetween 2 tab
 const currentTab = ref(1);
 
-const user = await getProfile(username);
-
-const postStore = usePostStore();
-const {listOfPost, numOfPage, currentPage, isLoading} = storeToRefs(postStore);
-listOfPost.value = [];
+const reportStore = useReportStore()
+const {reports, numOfPage, currentPage, isLoading} = storeToRefs(reportStore);
+reports.value = [];
 currentPage.value = 1;
-await postStore.getListOfPost(user?.id, currentPage.value);
+await reportStore.getReports();
 
-function getNextPosts() {
+function getNextReports() {
     window.onscroll = async () => {
         window.onscroll = async () => {
             if ( (window.scrollY + window.innerHeight >= document.body.scrollHeight)  ) {
@@ -38,93 +22,63 @@ function getNextPosts() {
                 if(currentPage.value<numOfPage.value){
                     currentPage.value++;
                     isLoading.value = true;
-                    await postStore.getListOfPost(user?.id, currentPage.value);
+                    await reportStore.getReports(currentPage.value);
                 }
             }
         }
     }
 }
 onMounted(() => {
-    getNextPosts();
+    getNextReports();
 })
-
-function report(){
-    showSuccessNotificationFunction('Đã báo cáo tài khoản. Cảm ơn vì những đóng góp của bạn.')
-}
 </script>
 
 <template>
-    <!-- Modal box - show when cofirm report profile -->
-    <!-- <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="reportModalLabel">Báo cáo tài khoản</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p class="">Hãy báo cáo nếu bạn cho rằng tài khoản này vị phạm quy định của chúng tôi!</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="report">Báo cáo</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="container wrapper">
         <div class="row">
-            <div class="col-8 main-col">
+            <div class="col-9 main-col">
                 <MyCard class="main-card">
                     <v-tabs class="tab-header" v-model="currentTab">
-                        <v-tab class="left" value="one">Món của {{ user?.fullname }}</v-tab>
+                        <v-tab class="left" value="one">Danh sách báo cáo vi phạm</v-tab>
                     </v-tabs>
                     <div class="p-3">
                         <v-window v-model="currentTab" class="windows">
                             <v-window-item value="one" class="window-one">
-                                <div v-if="listOfPost?.length == 0" class="w-100 d-flex justify-content-center">
+                                <div v-if="reports.length == 0" class="w-100 d-flex justify-content-center">
                                     <img src="@/assets/images/not-found-1024.png" alt="" class="w-50 opacity-25">
                                 </div>
-                                <PostProfile
-                                    v-else
-                                    v-for="post in listOfPost"
-                                    :key="post._id"
-                                    :data="post"
-                                />
+                                <TransitionGroup 
+                                    v-else name="list" tag="div">
+                                    <div 
+                                        v-for="report in reports"
+                                        :key="report._id"
+                                        class="single-report"
+                                    >
+                                        <PostReport :data="report"/>
+                                    </div>
+                                </TransitionGroup>
                             </v-window-item>
                         </v-window>
                     </div>
                 </MyCard>
             </div>
-            <div class="col-4 feature-col">
+            <div class="col-3 feature-col">
                 <div class="feature-box">
-                    <div class="box box-1">
-                        <img v-if="user?.imageCoverLink" :src="user?.imageCoverLink" alt="" srcset="" class="background"/>
-                        <img v-else src="@/assets/images/not-found-512.png" alt="" srcset="" class="background opacity-25 not-found"/>
-                        <div class="avatar-and-name d-flex align-items-end">
-                            <img v-if="user?.avatar_link" :src="user?.avatar_link" alt="" srcset="" class="avatar">
-                            <img v-else src="@/assets/images/default-avatar.jpg" alt="" srcset="" class="avatar">
-                            <div class="pl-1">
-                                <p class="name">
-                                    {{ user?.fullname }}
-                                </p>
-                                <p class="username">@{{ user?.username }}</p>
-                            </div>
-                        </div>
+                    <div class="box box-2">
+                        <router-link class="link" to="/admin/collection">
+                            <button class="button report">
+                                Quản lý bộ sưu tập
+                            </button>
+                        </router-link>
                     </div>
-                    <!-- <div class="box box-2">
-                        <button class="button report" data-bs-toggle="modal" data-bs-target="#reportModal">
-                            <img src="@/assets/icons/report.png" class="icon"/>
-                            Báo cáo vi phạm
-                        </button>
-                    </div> -->
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<style scoped lang="scss">p {
+<style scoped lang="scss">
+p {
     margin: 0px;
     padding: 0px;
 }
@@ -132,9 +86,20 @@ function report(){
 .wrapper {
     max-width: 968px;
 }
-.link{
+
+.link {
     text-decoration: none;
     color: black;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 
 .main-col {}
@@ -159,15 +124,16 @@ function report(){
             // box-shadow: inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4);
         }
 
-        .v-slide-group-item--active.left{
+        .v-slide-group-item--active.left {
             // box-shadow: 
             //     inset -7px 0px 5px -7px rgba(0, 0, 0, 0.4),
             //     inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4),
             //     inset 7px 0px 5px -7px rgba(0, 0, 0, 0.4),
             // ;
         }
-        .v-slide-group-item--active.right{
-            box-shadow: 
+
+        .v-slide-group-item--active.right {
+            box-shadow:
                 inset 7px 0px 5px -7px rgba(0, 0, 0, 0.4),
                 inset 0px 7px 5px -7px rgba(0, 0, 0, 0.4),
             ;
@@ -201,7 +167,8 @@ function report(){
                 object-fit: cover;
                 margin-bottom: 40px;
             }
-            .not-found{
+
+            .not-found {
                 object-fit: contain;
             }
 
@@ -242,8 +209,9 @@ function report(){
             }
         }
 
-        .box-2{
+        .box-2 {
             padding: 15px 10px;
+
             .button {
                 border-radius: 6px;
                 height: 35px;
@@ -258,6 +226,7 @@ function report(){
                     height: 20px;
                 }
             }
+
             .btn-active {
                 background-color: #ffaa55;
                 color: white;
@@ -265,5 +234,4 @@ function report(){
             }
         }
     }
-}
-</style>
+}</style>
