@@ -73,3 +73,10 @@ export interface ICreateCollection{
     category?: string;
     status?: string;
 }
+
+export interface IReport{
+    _id?: string;
+    id?: string;
+    post?: IPost;
+    numOfReport?: number;
+}

@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { showSuccessNotificationFunction } from '@/common/helper';
+import { useReportStore } from '@/stores/report.store';
 
 const numOfLike = ref(100);
 const isLike = ref(false);
@@ -31,7 +32,7 @@ const { post } = storeToRefs(postStore);
 
 const currentUser = useAuthStore().user;
 function report() {
-    showSuccessNotificationFunction('Đã báo cáo tài khoản. Cảm ơn vì những đóng góp của bạn.')
+    useReportStore().createReport(postId);
 }
 </script>
 
@@ -69,7 +70,7 @@ function report() {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                        @click="postStore.deletePost(post?._id)">Xóa</button>
+                        @click="postStore.deletePost(post?._id as string)">Xóa</button>
                 </div>
             </div>
         </div>
@@ -147,7 +148,7 @@ function report() {
                         </div>
                     </div>
                     <div class="box box-2">
-                        <button v-if="post?.author._id != currentUser?.id" class="button save"
+                        <button v-if="post?.author?._id != currentUser?.id" class="button save"
                             :class="{ 'save-active': isFavorite }" @click="toggleFavorite">
                             <img v-if="!isFavorite" src="@/assets/icons/bookmark-orange.png" class="icon" />
                             <img v-else src="@/assets/icons/bookmark.png" class="icon" />
@@ -157,18 +158,18 @@ function report() {
                             <img src="@/assets/icons/share.png" class="icon" />
                             Chia sẻ
                         </button>
-                        <button v-if="post?.author._id != currentUser?.id" class="button report" data-bs-toggle="modal"
+                        <button v-if="post?.author?._id != currentUser?.id" class="button report" data-bs-toggle="modal"
                             data-bs-target="#reportModal">
                             <img src="@/assets/icons/report.png" class="icon" />
                             Báo cáo món này
                         </button>
                         <router-link class="link" :to="`/post/update/${post?._id}`">
-                            <button v-if="post?.author._id == currentUser?.id" class="button share">
+                            <button v-if="post?.author?._id == currentUser?.id" class="button share">
                                 <img src="@/assets/icons/writing-black.png" class="icon" />
                                 Cập nhật món ăn
                             </button>
                         </router-link>
-                        <button v-if="post?.author._id == currentUser?.id" class="button delete" data-bs-toggle="modal"
+                        <button v-if="post?.author?._id == currentUser?.id" class="button delete" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                             <img src="@/assets/icons/delete-red.png" class="icon" />
                             Xóa món ăn

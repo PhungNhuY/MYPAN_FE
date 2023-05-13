@@ -39,9 +39,11 @@ const collections = await getAllCollection();
                                 Tạo bộ sưu tập mới
                             </button>
                         </router-link>
-                        <button class="button report">
-                            Xem báo cáo vi phạm
-                        </button>
+                        <router-link class="link" to="/admin/report">
+                            <button class="button report">
+                                Xem báo cáo vi phạm
+                            </button>
+                        </router-link>
                     </div>
                 </div>
             </div>

@@ -16,11 +16,11 @@ export const usePostStore = defineStore('post', () => {
     async function getPost(id: string){
         const response = await callApi(httpService.get(`/post/${id}`));
         // console.log(response);
-        if(response.status == 'success'){
-            post.value = response.data.post;
+        if(response?.status == 'success'){
+            post.value = response?.data.post;
             return post.value;
-        } else if (response.status == 'error') {
-            if(response.message == 'Not Found' || response.message == 'Bad Request'){
+        } else if (response?.status == 'error') {
+            if(response?.message == 'Not Found' || response?.message == 'Bad Request'){
                 showErrorNotificationFunction('Không tìm thấy món ăn bạn yêu cầu!');
                 router.push('/');
             }else{
@@ -37,11 +37,11 @@ export const usePostStore = defineStore('post', () => {
             {...data},
         ));
         console.log(response);
-        if(response.status == 'success'){
-            router.push(`/post/${response.data.post._id}`)
-        } else if (response.status == 'error') {
+        if(response?.status == 'success'){
+            router.push(`/post/${response?.data.post._id}`)
+        } else if (response?.status == 'error') {
             // showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
-            showErrorNotificationFunction(response.message[0]);
+            showErrorNotificationFunction(response?.message[0]);
         }
     }
 
@@ -52,12 +52,12 @@ export const usePostStore = defineStore('post', () => {
             {...data},
         ));
         console.log(response);
-        if(response.status == 'success'){
+        if(response?.status == 'success'){
             showSuccessNotificationFunction('Cập nhật thành công');
-            router.push(`/post/${response.data.post._id}`)
-        } else if (response.status == 'error') {
+            router.push(`/post/${response?.data.post._id}`)
+        } else if (response?.status == 'error') {
             // showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
-            showErrorNotificationFunction(response.message[0]);
+            showErrorNotificationFunction(response?.message[0]);
         }
     }
 
@@ -70,22 +70,22 @@ export const usePostStore = defineStore('post', () => {
             response = await callApi(httpService.get(`/post/list/${id}?page=${page}&perPage=${perPage}`));
         }
         isLoading.value = false;
-        if(response.status == 'success'){
+        if(response?.status == 'success'){
             listOfPost.value = listOfPost.value.concat(response?.data.posts);
             // console.log(listOfPost.value);
             numOfPage.value = Math.ceil(response?.data.total/perPage);
-        } else if (response.status == 'error') {
-        }
+        } 
+        // else if (response?.status == 'error') {}
     }
 
     async function deletePost(id: string) {
         const response = await callApi(httpService.delete(`/post/${id}`));
-        if(response.status == 'success'){
+        if(response?.status == 'success'){
             showSuccessNotificationFunction('Xóa món ăn thành công');
-            router.push('/');
-        } else if (response.status == 'error') {
+            router.push('/profile');
+        } else if (response?.status == 'error') {
             showErrorNotificationFunction('Có lỗi xảy ra, vui lòng thử lại sau!');
-            // showErrorNotificationFunction(response.message[0]);
+            // showErrorNotificationFunction(response?.message[0]);
         }
     }
 
