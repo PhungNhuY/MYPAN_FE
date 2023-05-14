@@ -1,14 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { removeVietnameseTones } from '@/common/language-handle';
+import { onMounted, ref } from 'vue';
+import MyCard from './MyCard.vue';
+import { onClickOutside } from '@vueuse/core';
+import PostProfile from './PostProfile.vue';
+import { storeToRefs } from 'pinia';
+import {useSearchStore} from '@/stores/search.store';
+import router from '@/router';
+
 const searchData = ref('');
 
-function searchAction() {
-    console.log(searchData.value);
+const isShow = ref(false);
+const searchForm = ref(null);
+onClickOutside(searchForm, () => isShow.value = false);
+
+function search(){
+    if(searchData.value.trim().length > 0){
+        // router.push(`/post/search/${searchData.value}`);
+        window.location = `/post/search/${searchData.value.trim()}`;
+    }
 }
 </script>
 
 <template>
-    <form class="search-form" @submit.prevent="searchAction">
+    <form class="search-form" @click="isShow=true" @submit.prevent="search" ref="searchForm">
         <input type="text" class="search-form-input" name="search" placeholder="Tìm món ăn"
             v-model="searchData">
         <button type="submit" class="search-form-submit">

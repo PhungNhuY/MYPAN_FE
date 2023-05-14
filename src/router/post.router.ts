@@ -5,9 +5,10 @@ const postRouters: Array<RouteRecordRaw> = [
         path: 'post',
         children: [
             {
-                path: ':id',
-                component: () => import('@/views/pages/PostPage.vue'),
+                path: 'search/:textsearch',
+                component: () => import('@/views/pages/SearchPost.vue'),
                 meta: {
+                    private: true
                 },
             },
             {
@@ -22,6 +23,12 @@ const postRouters: Array<RouteRecordRaw> = [
                 component: () => import('@/views/pages/UpdatePost.vue'),
                 meta: {
                     private: true,
+                },
+            },
+            {
+                path: ':id',
+                component: () => import('@/views/pages/PostPage.vue'),
+                meta: {
                 },
             },
         ],
