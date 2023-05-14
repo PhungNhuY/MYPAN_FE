@@ -86,7 +86,9 @@ onMounted(() => {
                         <button class="button" data-bs-toggle="collapse" href="#personnal" role="button" aria-expanded="false" aria-controls="personnal">Quản lý thông tin cá nhân</button>
                         <div class="collapse" id="personnal">
                             <div class="card card-body">
-                                <button class="button">Cập nhật thông tin</button>
+                                <router-link class="link" to="/profile/update">
+                                    <button class="button">Cập nhật thông tin</button>
+                                </router-link>
                                 <router-link class="link" to="/auth/changePassword">
                                     <button class="button">Đổi mật khẩu</button>
                                 </router-link>

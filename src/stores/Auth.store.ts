@@ -45,6 +45,23 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    async function updateInfo(data: IUser){
+        const response = await callApi(httpService.patch(`/user`, {...data}));
+        if(response?.status == 'success'){
+            const currentUser = response?.data?.user;
+
+            // save user to local storage
+            authStorageService.setLoginUser(currentUser as IUser);
+
+            // update pinia state
+            user.value = authStorageService.getLoginUser();
+            router.push('/profile');
+            showSuccessNotificationFunction('Cập nhật thành công');
+        }else{
+            showErrorNotificationFunction(response?.message[0]);
+        }
+    }
+
     function logout() {
         // user.value = undefined;
         authStorageService.resetAll();
@@ -57,6 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
         returnUrl,
         login,
         register,
-        logout
+        logout,
+        updateInfo
     }
 });

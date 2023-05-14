@@ -10,7 +10,6 @@ interface props{
     posts: IPost[];
 }
 const Props = defineProps<props>();
-console.log(Props.title);
 </script>
 
 <template>

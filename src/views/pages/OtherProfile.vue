@@ -13,7 +13,8 @@ import { showSuccessNotificationFunction } from '@/common/helper';
 // get post id from route
 const route = useRoute();
 const username = route.params.username as string;
-const currentUser = useAuthStore().user;
+const authStore = useAuthStore()
+const currentUser = authStore.user;
 
 if(username == currentUser?.username){
     router.push('/profile');

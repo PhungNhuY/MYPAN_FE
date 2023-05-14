@@ -12,6 +12,10 @@ const profileRouter: Array<RouteRecordRaw> = [
                 },
             },
             {
+                path: 'update',
+                component: () => import('@/views/pages/UpdateInfo.vue'),
+            },
+            {
                 path: ':username',
                 component: () => import('@/views/pages/OtherProfile.vue'),
             }

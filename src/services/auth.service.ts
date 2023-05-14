@@ -49,7 +49,8 @@ export async function changePassword(password: string, newPassword: string){
     ));
     if(response?.status == 'success'){
         showSuccessNotificationFunction('Cập nhật mật khẩu thành công');
-        useAuthStore().logout();
+        const authStore = useAuthStore();
+        authStore.logout();
     }else if (response?.status == 'error') {
         showErrorNotificationFunction('Cập nhật mật khẩu không thành công');
         showErrorNotificationFunction(response.message[0]);
