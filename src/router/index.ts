@@ -1,6 +1,7 @@
 import MainLayoutVue from '@/views/layouts/MainLayout.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/pages/HomePage.vue';
+import RulePage from '@/views/pages/RulePage.vue';
 import authRouter from './auth.router';
 import postRouters from './post.router';
 import authMiddleware from './authMiddleware';
@@ -26,6 +27,11 @@ const router = createRouter({
         ...postRouters,
         ...profileRouter,
         ...adminRouter,
+
+        {
+          path: 'rule',
+          component: RulePage,
+        },
 
         // catch not found
         {

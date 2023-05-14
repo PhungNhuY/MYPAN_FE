@@ -62,7 +62,6 @@ export const usePostStore = defineStore('post', () => {
     }
 
     async function getListOfPost(id?: string, page = 1, perPage = 5){
-        console.log(id);
         let response;
         if(!id){
             response = await callApi(httpService.get(`/post/list?page=${page}&perPage=${perPage}`));

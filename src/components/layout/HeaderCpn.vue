@@ -24,17 +24,25 @@ onClickOutside(target, () => isShowMenu.value = false);
         <div class="menu" @click="isShowMenu = !isShowMenu" ref="target">
             <img src="@/assets/icons/burger-bar.png" alt="" srcset="" class="menu-icon">
             <ul class="toggle-list" :class="isShowMenu==true ? 'd-block' : 'd-none'">
-                <li class="profile" v-show="authStore.user?.email">
+                <li class="profile" v-if="authStore.user?.email">
                     <img v-if="!user?.avatar_link" src="@/assets/images/default-avatar.jpg" alt="" srcset="">
                     <img v-else :src="user.avatar_link" alt="" srcset="">
                     <router-link class="username" to="/profile">{{ user?.fullname }}</router-link>
                 </li>
-                <li class="sub-li" v-show="authStore.user?.email">
+                <li class="sub-li" v-if="authStore.user?.email">
                     <button @click="authStore.logout()" class="">Đăng xuất</button>
                     <p>&#8250;</p>
                 </li>
-                <li class="sub-li" v-show="!authStore.user?.email">
-                    <router-link to="/auth/login" class="">Đặng Nhập</router-link>
+                <li class="sub-li" v-if="!authStore.user?.email">
+                    <router-link to="/auth/login" class="">Đăng Nhập</router-link>
+                    <p>&#8250;</p>
+                </li>
+                <li class="sub-li" v-if="!authStore.user?.email">
+                    <router-link to="/auth/register" class="">Đăng Ký</router-link>
+                    <p>&#8250;</p>
+                </li>
+                <li class="sub-li">
+                    <router-link to="/rule" class="">Điều khoản, quy định</router-link>
                     <p>&#8250;</p>
                 </li>
             </ul>

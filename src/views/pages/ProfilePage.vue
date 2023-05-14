@@ -83,6 +83,15 @@ onMounted(() => {
                         <router-link class="link" to="/post/create">
                             <button class="button btn-active">Tạo món ăn mới</button>
                         </router-link>
+                        <button class="button" data-bs-toggle="collapse" href="#personnal" role="button" aria-expanded="false" aria-controls="personnal">Quản lý thông tin cá nhân</button>
+                        <div class="collapse" id="personnal">
+                            <div class="card card-body">
+                                <button class="button">Cập nhật thông tin</button>
+                                <router-link class="link" to="/auth/changePassword">
+                                    <button class="button">Đổi mật khẩu</button>
+                                </router-link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -212,7 +221,7 @@ p {
             padding: 15px 10px;
             .button {
                 border-radius: 6px;
-                height: 35px;
+                min-height: 35px;
                 font-size: 18px;
                 font-weight: 500;
                 border: 1px solid #c6c6c6;

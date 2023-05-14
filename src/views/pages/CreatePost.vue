@@ -105,10 +105,10 @@ function removeCurrentImage(stepIndex: number, imageIndex: number) {
 function create() {
     const data: ICreatePost = {
         name: name.value as string,
-        description: des.value,
-        imageCoverLink: imageCoverLink.value,
-        ration: ration.value,
-        time: time.value,
+        description: des.value as string,
+        imageCoverLink: imageCoverLink.value as string,
+        ration: ration.value as number,
+        time: time.value as number,
         ingredients: ingres.value as Array<IIngre>,
         steps: steps.value as Array<IStep>
     };
