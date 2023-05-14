@@ -47,10 +47,14 @@ export async function callApi(callback: Promise<AxiosResponse<any, any>>){
                 await authStorageService.setAccessToken(authResponse.data.data.accesstoken);
             } catch (error) {
                 // if error -> logout
-                useAuthStore().logout();
+                // useAuthStore().logout();
+                const authStore = useAuthStore();
+                authStore.logout();
             }
         }else if(err.response?.status == 403){
-            useAuthStore().logout();
+            // useAuthStore().logout();
+            const authStore = useAuthStore();
+            authStore.logout();
         }else{
             response = buildErrorResponse(err.response?.data)
         }

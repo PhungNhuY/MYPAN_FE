@@ -23,16 +23,17 @@ function toggleFavorite() {
 // get post id from route
 const route = useRoute();
 const postId = route.params.id as string;
-console.log(postId);
-
 
 const postStore = usePostStore();
 await postStore.getPost(postId);
 const { post } = storeToRefs(postStore);
 
-const currentUser = useAuthStore().user;
+const authStore = useAuthStore();
+const currentUser = authStore.user;
 function report() {
-    useReportStore().createReport(postId);
+    // useReportStore().createReport(postId);
+    const reportStore = useReportStore();
+    reportStore.createReport(postId);
 }
 </script>
 
