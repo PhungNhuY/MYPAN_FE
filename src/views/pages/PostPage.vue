@@ -8,13 +8,6 @@ import { useRoute } from 'vue-router';
 import { showSuccessNotificationFunction } from '@/common/helper';
 import { useReportStore } from '@/stores/report.store';
 
-const numOfLike = ref(100);
-const isLike = ref(false);
-function toggleLike() {
-    isLike.value = !isLike.value;
-    numOfLike.value += isLike.value ? 1 : -1;
-}
-
 const isFavorite = ref(false);
 function toggleFavorite() {
     isFavorite.value = !isFavorite.value;
@@ -26,7 +19,7 @@ const postId = route.params.id as string;
 
 const postStore = usePostStore();
 await postStore.getPost(postId);
-const { post } = storeToRefs(postStore);
+const { post, numOfLike, isLike } = storeToRefs(postStore);
 
 const authStore = useAuthStore();
 const currentUser = authStore.user;
@@ -34,6 +27,19 @@ function report() {
     // useReportStore().createReport(postId);
     const reportStore = useReportStore();
     reportStore.createReport(postId);
+}
+
+postStore.checkIsLike(postId);
+postStore.getNumOfLike(postId);
+function toggleLike() {
+    // isLike.value = !isLike.value;
+    // numOfLike.value += isLike.value ? 1 : -1;
+
+    if(isLike.value){
+        postStore.unlike(postId);
+    }else{
+        postStore.like(postId);
+    }
 }
 </script>
 
@@ -149,6 +155,12 @@ function report() {
                         </div>
                     </div>
                     <div class="box box-2">
+                        <button v-if="post?.author?._id != currentUser?.id" class="button like"
+                            :class="{ 'like-active': isLike }" @click="toggleLike">
+                            <img v-if="!isLike" src="@/assets/icons/heart-black.png" class="icon" />
+                            <img v-else src="@/assets/icons/heart-red.png" class="icon" />
+                            {{ numOfLike }}
+                        </button>
                         <button v-if="post?.author?._id != currentUser?.id" class="button save"
                             :class="{ 'save-active': isFavorite }" @click="toggleFavorite">
                             <img v-if="!isFavorite" src="@/assets/icons/bookmark-orange.png" class="icon" />
@@ -284,6 +296,15 @@ p {
                 }
             }
 
+            .like{
+                width: 100%;
+                color: #000000;
+                border: 1px solid #FC4F4F;
+            }
+            .like-active{
+                width: 100%;
+                color: #FC4F4F;
+            }
             .save {
                 width: 100%;
                 color: #ffaa55;

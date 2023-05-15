@@ -13,6 +13,9 @@ export const usePostStore = defineStore('post', () => {
     const currentPage = ref(1);
     const isLoading = ref(false);
 
+    const numOfLike = ref(0);
+    const isLike = ref(false);
+
     async function getPost(id: string){
         const response = await callApi(httpService.get(`/post/${id}`));
         // console.log(response);
@@ -88,6 +91,36 @@ export const usePostStore = defineStore('post', () => {
         }
     }
 
+    async function getNumOfLike(postId: string){
+        const response = await callApi(httpService.get(`/like/count/${postId}`));
+        if(response?.status == 'success'){
+            numOfLike.value = response.data.numOfLike;
+        }
+    }
+
+    async function like(postId: string){
+        const response = await callApi(httpService.post(`/like/${postId}`));
+        if(response?.status == 'success'){
+            numOfLike.value++;
+            isLike.value = true;
+        }
+    }
+
+    async function unlike(postId: string){
+        const response = await callApi(httpService.post(`/like/unlike/${postId}`));
+        if(response?.status == 'success'){
+            numOfLike.value--;
+            isLike.value = false;
+        }
+    }
+
+    async function checkIsLike(postId: string){
+        const response = await callApi(httpService.get(`/like/isliked/${postId}`));
+        if(response?.status == 'success'){
+            isLike.value = response.data.isLiked;
+        }
+    }
+    
     return {
         post,
         getPost,
@@ -99,5 +132,11 @@ export const usePostStore = defineStore('post', () => {
         deletePost,
         currentPage,
         isLoading,
+        numOfLike,
+        isLike,
+        getNumOfLike,
+        like,
+        unlike,
+        checkIsLike
     };
 })
