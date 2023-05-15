@@ -6,7 +6,7 @@ import HeaderCpn from '@/components/layout/HeaderCpn.vue';
 
 <template>
     <HeaderCpn/>
-    <div class="wrapper">
+    <div class="wrapperr">
         <Suspense>
             <RouterView />
         </Suspense>
@@ -15,7 +15,7 @@ import HeaderCpn from '@/components/layout/HeaderCpn.vue';
 </template>
 
 <style scoped lang="scss">
-.wrapper{
+.wrapperr{
     min-height: 90vh;
 }
 </style>
