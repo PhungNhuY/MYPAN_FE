@@ -29,6 +29,10 @@ onClickOutside(target, () => isShowMenu.value = false);
                     <img v-else :src="user.avatar_link" alt="" srcset="">
                     <router-link class="username" to="/profile">{{ user?.fullname }}</router-link>
                 </li>
+                <li class="sub-li" v-if="authStore.user?.role=='admin'">
+                    <router-link to="/admin/collection" class="">Trang quản trị</router-link>
+                    <p>&#8250;</p>
+                </li>
                 <li class="sub-li" v-if="authStore.user?.email">
                     <button @click="authStore.logout()" class="">Đăng xuất</button>
                     <p>&#8250;</p>

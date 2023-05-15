@@ -134,7 +134,6 @@ h2 {
     color: black;
 }
 
-
 .base-input {
     border: 1px solid #c6c6c6;
     border-radius: 8px;

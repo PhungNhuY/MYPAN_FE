@@ -242,7 +242,9 @@ function create() {
             </div>
         </MyCard>
         <div class="buttons d-flex justify-content-center">
-            <button class="base-button cancel-button">Hủy</button>
+            <router-link class="link" to="/profile">
+                <button class="base-button cancel-button">Hủy</button>
+            </router-link>
             <button class="base-button create-button" @click="create">Cập nhật</button>
         </div>
     </div>
@@ -253,6 +255,11 @@ p,
 h2 {
     margin: 0px;
     padding: 0px;
+}
+
+.link{
+    text-decoration: none;
+    color: black;
 }
 
 .form-control:focus{
