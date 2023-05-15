@@ -1,5 +1,5 @@
 import { showErrorNotificationFunction, showSuccessNotificationFunction } from "@/common/helper";
-import type { ICreatePost, IPost } from "@/common/interfaces";
+import type { ICreatePost, IPost, ISave } from "@/common/interfaces";
 import router from "@/router";
 import httpService, { callApi } from "@/services/http/http.service";
 import authStorageService from "@/services/local-storage/authStorage.service";
@@ -15,6 +15,13 @@ export const usePostStore = defineStore('post', () => {
 
     const numOfLike = ref(0);
     const isLike = ref(false);
+    const isSaved = ref(false);
+
+
+    const listOfSave = ref<ISave[]>([]);
+    const numOfPageSave = ref(1);
+    const currentPageSave = ref(1);
+    const isLoadingSave = ref(false);
 
     async function getPost(id: string){
         const response = await callApi(httpService.get(`/post/${id}`));
@@ -120,6 +127,38 @@ export const usePostStore = defineStore('post', () => {
             isLike.value = response.data.isLiked;
         }
     }
+
+    async function checkIsSaved(postId: string){
+        const response = await callApi(httpService.get(`/save/issaved/${postId}`));
+        if(response?.status == 'success'){
+            isSaved.value = response.data.isSaved;
+        }
+    }
+
+    async function save(postId: string){
+        const response = await callApi(httpService.post(`/save/${postId}`));
+        if(response?.status == 'success'){
+            isSaved.value = true;
+        }
+    }
+
+    async function unsave(postId: string){
+        const response = await callApi(httpService.post(`/save/unsave/${postId}`));
+        if(response?.status == 'success'){
+            isSaved.value = false;
+        }
+    }
+
+    async function getListOfSave(page = 1, perPage = 5){
+        const response = await callApi(httpService.get(`/save?page=${page}&perPage=${perPage}`));
+        isLoadingSave.value = false;
+        if(response?.status == 'success'){
+            listOfSave.value = listOfSave.value.concat(response?.data.savePosts);
+            // console.log(listOfSave.value);
+            numOfPageSave.value = Math.ceil(response?.data.total/perPage);
+        }
+        // else if (response?.status == 'error') {}
+    }
     
     return {
         post,
@@ -137,6 +176,15 @@ export const usePostStore = defineStore('post', () => {
         getNumOfLike,
         like,
         unlike,
-        checkIsLike
+        checkIsLike,
+        isSaved,
+        checkIsSaved,
+        save,
+        unsave,
+        getListOfSave,
+        listOfSave,
+        numOfPageSave,
+        currentPageSave,
+        isLoadingSave,
     };
 })

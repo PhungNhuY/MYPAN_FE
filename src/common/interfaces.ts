@@ -80,3 +80,10 @@ export interface IReport{
     post?: IPost;
     numOfReport?: number;
 }
+
+export interface ISave{
+    _id?: string;
+    id?: string;
+    post: IPost;
+    saveBy: string;
+}

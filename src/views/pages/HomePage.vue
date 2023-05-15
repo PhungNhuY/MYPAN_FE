@@ -36,10 +36,12 @@ await homeStore.getAllActive();
                         <router-link class="link" to="/post/create">
                             <button class="button btn-active">Tạo món ăn mới</button>
                         </router-link>
-                        <button class="button share">
-                            <img src="@/assets/icons/bookmark-black.png" class="icon" />
-                            Các món ăn đã lưu
-                        </button>
+                        <router-link class="link" to="/profile?page=two">
+                            <button class="button share">
+                                <img src="@/assets/icons/bookmark-black.png" class="icon" />
+                                Các món ăn đã lưu
+                            </button>
+                        </router-link>
                     </div>
                 </div>
             </div>

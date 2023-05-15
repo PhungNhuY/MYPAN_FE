@@ -5,13 +5,7 @@ import { useAuthStore } from '@/stores/Auth.store';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { showSuccessNotificationFunction } from '@/common/helper';
 import { useReportStore } from '@/stores/report.store';
-
-const isFavorite = ref(false);
-function toggleFavorite() {
-    isFavorite.value = !isFavorite.value;
-}
 
 // get post id from route
 const route = useRoute();
@@ -19,7 +13,7 @@ const postId = route.params.id as string;
 
 const postStore = usePostStore();
 await postStore.getPost(postId);
-const { post, numOfLike, isLike } = storeToRefs(postStore);
+const { post, numOfLike, isLike, isSaved } = storeToRefs(postStore);
 
 const authStore = useAuthStore();
 const currentUser = authStore.user;
@@ -39,6 +33,16 @@ function toggleLike() {
         postStore.unlike(postId);
     }else{
         postStore.like(postId);
+    }
+}
+
+postStore.checkIsSaved(postId);
+function toggleFavorite() {
+    // isSaved.value = !isSaved.value;
+    if(isSaved.value){
+        postStore.unsave(postId);
+    }else{
+        postStore.save(postId);
     }
 }
 </script>
@@ -162,10 +166,10 @@ function toggleLike() {
                             {{ numOfLike }}
                         </button>
                         <button v-if="post?.author?._id != currentUser?.id" class="button save"
-                            :class="{ 'save-active': isFavorite }" @click="toggleFavorite">
-                            <img v-if="!isFavorite" src="@/assets/icons/bookmark-orange.png" class="icon" />
+                            :class="{ 'save-active': isSaved }" @click="toggleFavorite">
+                            <img v-if="!isSaved" src="@/assets/icons/bookmark-orange.png" class="icon" />
                             <img v-else src="@/assets/icons/bookmark.png" class="icon" />
-                            {{ isFavorite ? 'Đã lưu' : 'Lưu' }}
+                            {{ isSaved ? 'Đã lưu' : 'Lưu' }}
                         </button>
                         <button class="button share">
                             <img src="@/assets/icons/share.png" class="icon" />

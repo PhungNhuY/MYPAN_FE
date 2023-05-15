@@ -5,32 +5,60 @@ import PostProfile from '@/components/PostProfile.vue';
 import MyCard from '@/components/MyCard.vue';
 import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 const { user } = useAuthStore();
+
+// get activePage from route
+const route = useRoute();
+const page = route.query.page || 'one';
 // use for switch beetween 2 tab
-const currentTab = ref(1);
+const currentTab = ref(page);
 
 const postStore = usePostStore();
-const {listOfPost, numOfPage, currentPage, isLoading} = storeToRefs(postStore);
+const {
+    listOfPost,
+    numOfPage,
+    currentPage,
+    isLoading,
+    listOfSave,
+    numOfPageSave,
+    currentPageSave,
+    isLoadingSave
+} = storeToRefs(postStore);
+
 listOfPost.value = [];
 currentPage.value = 1;
 await postStore.getListOfPost(undefined, currentPage.value);
 
-function getNextPosts() {
+listOfSave.value = [];
+currentPageSave.value = 1;
+await postStore.getListOfSave(currentPageSave.value);
+
+function getNextPage() {
     window.onscroll = async () => {
         window.onscroll = async () => {
-            if ( (window.scrollY + window.innerHeight >= document.body.scrollHeight)  ) {
+            if ( (window.scrollY + window.innerHeight >= document.body.scrollHeight)) {
                 // console.log('fired');
-                if(currentPage.value<numOfPage.value){
-                    currentPage.value++;
-                    isLoading.value = true;
-                    await postStore.getListOfPost(undefined, currentPage.value);
+                if(currentTab.value == 'one'){
+                    if(currentPage.value<numOfPage.value){
+                        currentPage.value++;
+                        isLoading.value = true;
+                        await postStore.getListOfPost(undefined, currentPage.value);
+                    }
+                }else if(currentTab.value == 'two'){
+                    if(currentPageSave.value<numOfPageSave.value){
+                        currentPageSave.value++;
+                        isLoadingSave.value = true;
+                        await postStore.getListOfSave(currentPageSave.value);
+                    }
                 }
             }
         }
     }
 }
+
 onMounted(() => {
-    getNextPosts();
+    getNextPage();
 })
 </script>
 
@@ -57,7 +85,15 @@ onMounted(() => {
                                 />
                             </v-window-item>
                             <v-window-item value="two" class="window-two">
-                                {{ numOfPage }}
+                                <div v-if="listOfSave?.length == 0" class="w-100 d-flex justify-content-center">
+                                    <img src="@/assets/images/not-found-1024.png" alt="" class="w-50 opacity-25">
+                                </div>
+                                <PostProfile
+                                    v-else
+                                    v-for="save in listOfSave"
+                                    :key="save.post._id"
+                                    :data="save.post"
+                                />
                             </v-window-item>
                         </v-window>
                     </div>
