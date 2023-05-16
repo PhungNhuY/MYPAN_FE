@@ -23,25 +23,29 @@ function report() {
     reportStore.createReport(postId);
 }
 
-postStore.checkIsLike(postId);
+if (authStore.user?.email) {
+    postStore.checkIsLike(postId);
+}
 postStore.getNumOfLike(postId);
 function toggleLike() {
     // isLike.value = !isLike.value;
     // numOfLike.value += isLike.value ? 1 : -1;
 
-    if(isLike.value){
+    if (isLike.value) {
         postStore.unlike(postId);
-    }else{
+    } else {
         postStore.like(postId);
     }
 }
 
-postStore.checkIsSaved(postId);
+if (authStore.user?.email) {
+    postStore.checkIsSaved(postId);
+}
 function toggleFavorite() {
     // isSaved.value = !isSaved.value;
-    if(isSaved.value){
+    if (isSaved.value) {
         postStore.unsave(postId);
-    }else{
+    } else {
         postStore.save(postId);
     }
 }
@@ -300,15 +304,17 @@ p {
                 }
             }
 
-            .like{
+            .like {
                 width: 100%;
                 color: #000000;
                 border: 1px solid #FC4F4F;
             }
-            .like-active{
+
+            .like-active {
                 width: 100%;
                 color: #FC4F4F;
             }
+
             .save {
                 width: 100%;
                 color: #ffaa55;
@@ -462,4 +468,5 @@ p {
             }
         }
     }
-}</style>
+}
+</style>
